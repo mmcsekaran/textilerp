@@ -22,6 +22,7 @@ import RoleView from "../../Modules/User/Authorization/Roles/RoleView";
 import PermissionView from "../../Modules/User/Authorization/Permission/PermissionView";
 import MasterMenuPage from "../../Modules/Master";
 import ComingSoon from "../ErrorPage/ComingSoon";
+import UserMenu from "../../component/Menu";
 class HomePage extends Component {
   render() {
     console.log(this.props);
@@ -30,8 +31,7 @@ class HomePage extends Component {
         <Layout.Header className="home-header">
           <Typography.Title level={3}>Company Name</Typography.Title>
           <Menu mode='horizontal' style={{width:"80%"}}>
-          <Menu.Item ><Link to='/'>Home</Link></Menu.Item>
-      
+          <Menu.Item ><Link to='/'>Home</Link></Menu.Item>     
       <Menu.Item ><Link to = '/users'>User Accounts</Link></Menu.Item>
       <Menu.Item><Link to = '/master'>Master</Link></Menu.Item>
       <Menu.Item><Link to = '/garment'>Garment</Link></Menu.Item>
@@ -41,12 +41,14 @@ class HomePage extends Component {
           </Button>
         </Layout.Header>
         <Layout.Content>
+         
           <Layout>
-            {/* { <Layout.Sider   className="home-sidebar">
-              {getUserMenu(this.props.apiInfo.userInfo)}
-            </Layout.Sider> } */}
+             <Layout.Sider   className="home-sidebar">
+              <UserMenu></UserMenu>
+            </Layout.Sider> 
             <Layout.Content>
               <Routes>
+               
                 <Route path ="/master"  element ={<Outlet></Outlet>}>
                   
                   <Route path="/master" element={<MasterMenuPage></MasterMenuPage>}></Route>
@@ -54,7 +56,7 @@ class HomePage extends Component {
                   <Route path="department" element={<ComingSoon></ComingSoon>}></Route>
                 </Route>
               <Route exact path='/garment' element = {<ProtectedRoute roles={[ADMIN]}><Outlet></Outlet></ProtectedRoute>}>
-                <Route path="/garment" element ={<ComingSoon></ComingSoon>} />
+                <Route path="/garment" element ={<UserMenu></UserMenu>} />
               </Route>
               <Route exact path='/company' element = {<ProtectedRoute roles={[ADMIN]}><CompanyView></CompanyView></ProtectedRoute>}></Route>
               <Route exact path='/users' element = {<ProtectedRoute roles={[ADMIN]}><UserView></UserView></ProtectedRoute>}></Route>
