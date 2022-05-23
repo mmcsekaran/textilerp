@@ -8,7 +8,7 @@ import UserRegistrationForm from "./User/UserRegistrationForm";
 import AdminPanel from "./Admin/AdminPanel";
 import { Menu } from "antd";
 import UserList from "./User/UserList";
-import  Authorize  from "./Security/AuthorizeRoute";
+import { ProtectedRoute } from "./Security/ProtectedRoute";
 export default class AppLayout extends Component
 {
 
@@ -28,7 +28,7 @@ export default class AppLayout extends Component
               
             
                    <Routes>
-                       <Route  exact path="/users" element = { <Authorize><UserList></UserList></Authorize> } >
+                       <Route  exact path="/users" element = { <ProtectedRoute><UserList></UserList></ProtectedRoute> } >
                       
                         </Route>
                        <Route exact path="/login"    element= {<UserLoginForm></UserLoginForm>}></Route>

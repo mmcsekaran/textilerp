@@ -1,0 +1,12 @@
+
+
+
+    
+
+export const PAGE_COMPANY = "PAGE.MASTER.COMPANY"
+export const PAGE_USER = "PAGE.MASTER.USERS"
+export const PAGE_USERROLE = "PAGE.MASTER.USERROLES"
+export const PAGE_USERPAGES = "PAGE.MASTER.USERPAGES"
+
+
+

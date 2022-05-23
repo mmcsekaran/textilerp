@@ -12,7 +12,7 @@ import API from "../Security/ConnectServer";
 
  class UserLoginForm extends Component
 {
-    
+    static contextType = UserContext;
   formref = React.createRef();
     constructor(props)
     {
@@ -27,7 +27,7 @@ import API from "../Security/ConnectServer";
     {
      const  values = this.formref.current.getFieldsValue(true);
 
-        this.context.userLogin(values.userName,values.password).then
+        this.context.signIn(values.userName,values.password).then
         (result =>
             {
                 console.log(result);
@@ -110,4 +110,4 @@ import API from "../Security/ConnectServer";
 }
 
 
-export default API(UserLoginForm)
+export default UserLoginForm

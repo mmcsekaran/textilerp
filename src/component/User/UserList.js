@@ -5,6 +5,7 @@ import { PageHeader } from "antd";
 import axios from "axios";
 import ConnectServer from "../Security/ConnectServer";
 import { UserContext, WeatherContext } from "../Security/AuthoticationContext";
+import API from "../Security/ConnectServer";
  class UserList extends Component
 {
     constructor(props)
@@ -19,12 +20,11 @@ this.state = {
     }
     componentDidMount()
     {
-         console.log(this.context)
-         this.context.weather.getWeather().then(
-             success => this.setState({data:success})
-         );
-       
-    //    this.setState({data: res})
+          this.props.apiInfo.test.getWeather().then(
+              res => this.setState({data: res})
+          )
+              
+    //    
     }
     render()
     {
@@ -43,21 +43,21 @@ this.state = {
                 dataSource={this.state.data}
                 columns={[
                     {
-                        dataIndex:"date",
+                        dataIndex:"id",
                         key : "date",
-                        title : "Name"
+                        title : "Id"
 
                     },
                     {
-                        dataIndex:"temperatureC",
+                        dataIndex:"email",
                         key : "temperatureC",
                         title : "Email"
 
                     },
                     {
-                        dataIndex:"temperatureF",
+                        dataIndex:"phone",
                         key : "temperatureF",
-                        title : "Status"
+                        title : "Phone"
 
                     }
                 ]}
@@ -75,4 +75,4 @@ const fetchWeatherCoast = () =>
 }
 UserList.contextType = UserContext
 
-export default UserList;
+export default  API(UserList);

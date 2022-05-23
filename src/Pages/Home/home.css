@@ -1,0 +1,35 @@
+.home-layout
+{
+    min-width: 100vw;
+    min-height: 100vh;
+}
+.home-header
+{
+    height: 50px;
+    background-color: white;
+    line-height: 50px;
+    display: flex;
+    align-items: center; 
+    flex-direction: row;
+    /* border: 1px solid red; */
+    
+}
+.header-logout
+{
+   
+   margin-left: auto;
+}
+.header-title
+{
+  align-self: baseline;
+}
+.home-sidebar
+{
+  min-height: 100vh;
+  width: 100%;
+
+}
+.home-menubar
+{
+  width: 100%;
+}

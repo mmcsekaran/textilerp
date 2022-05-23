@@ -5,14 +5,14 @@ import { UserContext, ApiProvider } from './AuthoticationContext'
 
 const apiServer = axios.create(
     {
-        baseURL:'https://localhost:44393',
+        baseURL:'https://fakestoreapi.com',
         headers:{
             "Access-Control-Allow-Origin": "*"
          }
     }
 )
 
-export default function API(WrappedComponent) {
+export default function ConnectAPI(WrappedComponent) {
 
    
     
@@ -24,22 +24,25 @@ export default function API(WrappedComponent) {
           
       
 
-      fetchWeatherCast = () =>
+      fetchWeatherCast = async () =>
       {
-          let data ;
-         apiServer.get("/api/WeatherForecast/list",
-         {
-             headers:
-             {
-                "Access-Control-Allow-Origin": "*",
-                "Authorization":`Bearer ${this.context.token}`
-             }
-         }).then(
-             res => { data = res.data} ,
-             rej => { data = rej }
-         )
-
-         return data ;
+          try{
+            const data = await apiServer.get("/users",
+            {
+                headers:
+                {
+                   "Access-Control-Allow-Origin": "*",
+                   "Authorization":`Bearer ${this.context.token}`
+                }
+            });
+   
+            return data.data ;
+          }
+          catch(ex)
+          {
+              return null;
+          }
+              
       }
 
       constructor(props)
