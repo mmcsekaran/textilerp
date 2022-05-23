@@ -30,7 +30,7 @@ export class APIProvider extends Component
     }
     render()
     {
-      console.log(this.context)
+     
         return  <APIContext.Provider value ={{userInfo:this.context.userInfo,baseURL :this.props.baseURL}}>
          
           {this.props.children}

@@ -23,6 +23,7 @@ import PermissionView from "../../Modules/User/Authorization/Permission/Permissi
 import MasterMenuPage from "../../Modules/Master";
 import ComingSoon from "../ErrorPage/ComingSoon";
 import UserMenu from "../../component/Menu";
+import Modules from "../../Modules";
 class HomePage extends Component {
   render() {
     console.log(this.props);
@@ -31,10 +32,7 @@ class HomePage extends Component {
         <Layout.Header className="home-header">
           <Typography.Title level={3}>Company Name</Typography.Title>
           <Menu mode='horizontal' style={{width:"80%"}}>
-          <Menu.Item ><Link to='/'>Home</Link></Menu.Item>     
-      <Menu.Item ><Link to = '/users'>User Accounts</Link></Menu.Item>
-      <Menu.Item><Link to = '/master'>Master</Link></Menu.Item>
-      <Menu.Item><Link to = '/garment'>Garment</Link></Menu.Item>
+              {Modules.map(module =>(<Menu.Item><Link to={module.routerProps.path}>{module.name}</Link></Menu.Item>))}
           </Menu>
           <Button className="header-logout" type="primary">
             App
@@ -49,39 +47,7 @@ class HomePage extends Component {
             <Layout.Content>
               <Routes>
                
-                <Route path ="/master"  element ={<Outlet></Outlet>}>
-                  
-                  <Route path="/master" element={<MasterMenuPage></MasterMenuPage>}></Route>
-                  <Route path="/master/company" element={<CompanyView></CompanyView>}></Route>
-                  <Route path="department" element={<ComingSoon></ComingSoon>}></Route>
-                </Route>
-              <Route exact path='/garment' element = {<ProtectedRoute roles={[ADMIN]}><Outlet></Outlet></ProtectedRoute>}>
-                <Route path="/garment" element ={<UserMenu></UserMenu>} />
-              </Route>
-              <Route exact path='/company' element = {<ProtectedRoute roles={[ADMIN]}><CompanyView></CompanyView></ProtectedRoute>}></Route>
-              <Route exact path='/users' element = {<ProtectedRoute roles={[ADMIN]}><UserView></UserView></ProtectedRoute>}></Route>
-              <Route exact path='/users/roles' element = {<ProtectedRoute roles={[ADMIN]}><RoleView></RoleView></ProtectedRoute>}></Route>
-              <Route exact path='/users/pages' element = {<ProtectedRoute roles={[ADMIN]}><PermissionView></PermissionView></ProtectedRoute>}></Route>
-                <Route
-                exact
-                  path="/"
-                  element={
-                    <ProtectedRoute
-                      roles={[ADMIN, EMPLOYEE]}
-                      callBack={(role) => {
-                        switch (role) {
-                          case ADMIN:
-                            return <AdminDashboard></AdminDashboard>;
-                          case EMPLOYEE:
-                            return <EmployeeDashboard></EmployeeDashboard>;
-
-                          default:
-                            break;
-                        }
-                      }}
-                    ></ProtectedRoute>
-                  }
-                ></Route>
+               {Modules.map(module => (<Route {...module.routerProps} key={module.name}></Route>))}
                 
               </Routes>
             </Layout.Content>

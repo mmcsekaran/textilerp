@@ -85,4 +85,12 @@ export class MasterMenuPage extends Component {
   }
 }
 
-export default MasterMenuPage;
+export default 
+{
+  routerProps:
+  {
+    path:'/master',
+    element:<MasterMenuPage></MasterMenuPage>
+  },
+  name:'Master'
+};

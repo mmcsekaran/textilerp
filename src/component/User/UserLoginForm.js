@@ -30,7 +30,7 @@ import API from "../Security/ConnectServer";
         this.context.signIn(values.userName,values.password).then
         (result =>
             {
-                console.log(result);
+              
             if(result.status === 200)
             {
                 message.success(result.message,1,() =>
@@ -39,7 +39,7 @@ import API from "../Security/ConnectServer";
             }
             );
 
-            console.log(result)
+          
              }
              else
              {
@@ -56,7 +56,7 @@ import API from "../Security/ConnectServer";
 
     componentDidMount()
     {
-        console.log(this.props)
+      
     }
 
     render()

@@ -9,7 +9,7 @@ export const ProtectedRoute =({children,roles,callBack}) =>
 {
     const user = useContext(UserContext)
     const userHasRequiredRole = user && roles.includes(user.userInfo.role)  ?true:false
-    console.log(user , userHasRequiredRole);
+  
     if(user.userInfo.isLogin && userHasRequiredRole)
     {
         if(callBack ) return callBack(user.userInfo.role)
