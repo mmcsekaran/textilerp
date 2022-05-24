@@ -1,0 +1,29 @@
+{
+    "username":"chandru",
+    "secretKey":"UIWQ78EQWE67EQ",
+    "profile":{
+        "avatar":"",
+        "name":""
+    },
+    "islogin":true,
+    "developer":false,
+    "roles":[
+        {
+            "role":"ADMIN",
+            "permissions":[
+                {
+                    "pId":"GARMENT.MASTER.COMPANY",
+                     "isCreate":true,
+                     "isView":true,
+                     "isEdit":true,
+                     "isDelete":true,
+                     "viewList":true                  
+                }
+
+            ]
+        }
+        
+    ],
+    "userType":1
+   
+}

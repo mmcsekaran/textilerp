@@ -1,0 +1,17 @@
+[
+    {
+        "responseName":"default",
+        "modules":[
+            {
+                "moduleName":"User",
+                "pages":[
+                    {
+                        "pageName":"UserView"
+                    }
+                ]
+                
+
+            }
+        ]
+    }
+]

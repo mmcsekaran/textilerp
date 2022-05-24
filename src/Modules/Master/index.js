@@ -5,8 +5,12 @@ import MenuGroup from "../Component/MenuGroup";
 import logo from "../../logo.svg";
 import companyimg from "../../assets/img/company.png";
 import { Link } from "react-router-dom";
+import D2DApi from "../D2DApi";
 export class MasterMenuPage extends Component {
   render() {
+    D2DApi.user.singIn({username:null,password:null}).then(
+      suc => console.log(suc)
+    )
     return (
       <Layout style={{ borderRadius: "10px" }}>
         <Layout.Sider>
