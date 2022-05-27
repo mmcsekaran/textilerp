@@ -18,6 +18,8 @@ export default class UserMenu extends Component {
 
     static contextType = UserContext
 
+ 
+
 getMenu = (menu) =>
 {
     console.log(this.context.userInfo.isLogin)

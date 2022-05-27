@@ -22,8 +22,29 @@
 
             ]
         }
+             
+    ], 
+     "pagePermissions":[
         
-    ],
+            {
+                "pId":"MASTER.COMPANY",
+                 "isCreate":true,
+                 "isView":true,
+                 "isEdit":true,
+                 "isDelete":true,
+                 "viewList":true                  
+            },
+            {
+                "pId":"MASTER",
+                 "isCreate":true,
+                 "isView":true,
+                 "isEdit":true,
+                 "isDelete":true,
+                 "viewList":true                  
+            }
+           
+        
+     ],
     "userType":1
    
 }

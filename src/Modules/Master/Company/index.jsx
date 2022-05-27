@@ -10,13 +10,14 @@ import api from '../Data'
 import './company.css'
 import Unautherize from '../../../Pages/ErrorPage/Unautherize'
 import Permission from '../../../component/Security/Permission'
+import Document from '../../Component/Document'
 const COMPANY_CREATE = "MASTER.COMPANY.CREATE"
 const COMPANY_DELETE = "MASTER.COMPANY.DELETE"
 const COMPANY_UPDATE = "MASTER.COMPANY.UPATE"
 const COMPANY_VIEW = "MASTER.COMPANY.VIEW"
 
 
- class CompanyView extends Component {
+export class CompanyView extends Component {
     
     static contextType = UserContext
 
@@ -36,6 +37,8 @@ const COMPANY_VIEW = "MASTER.COMPANY.VIEW"
 
     componentDidMount()
     {
+       console.log(this)
+
         this.setState({data:api.company.getCompany()})
     }
 
@@ -80,7 +83,7 @@ const COMPANY_VIEW = "MASTER.COMPANY.VIEW"
     )
   }
 }
-export default CompanyView
+
 
 const fetchCompany = () =>
 {
@@ -90,3 +93,12 @@ const fetchCompany = () =>
     
   }]
 }
+export default 
+{
+  routerProps:
+  {
+    path:'/master/compnay',
+    element:<CompanyView isLocked = {true} ></CompanyView>
+  },
+  name:'Company'
+};

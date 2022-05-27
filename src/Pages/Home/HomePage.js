@@ -25,6 +25,61 @@ import ComingSoon from "../ErrorPage/ComingSoon";
 import UserMenu from "../../component/Menu";
 import Modules from "../../Modules";
 class HomePage extends Component {
+
+  generateModuleMenu = (module) =>
+  {
+    
+        <Menu.ItemGroup title ={module.name} key ={module.name}>
+            { 
+              this.generateMenu(module.children)
+            }
+        </Menu.ItemGroup>
+    
+  }
+
+  generateMenu = menu =>
+  {
+    if(menu !== undefined)
+    {
+      console.log(menu)
+      
+          if(menu.type === 1)
+          {
+          return  <Menu.ItemGroup title ={menu.name} key ={module.name}>
+            { 
+              menu.children.map(mn => this.generateMenu(mn))
+            }
+              </Menu.ItemGroup>
+          }
+          if(menu.type === 2)
+          {
+           return  <Menu.SubMenu title ={menu.title}>
+              {
+                 menu.children.map(mn => this.generateMenu(mn))
+              }
+            </Menu.SubMenu>
+          }
+          if(menu.type === 3)
+          {
+            console.log(menu)
+           return  <Menu.Item  >
+           
+              
+         <Link to ={menu.path} > {  menu.title}</Link>
+
+              
+            </Menu.Item>
+          }
+          if(menu.type === 4)
+          {
+           
+      return  <Menu.Divider></Menu.Divider>
+          }
+        
+    }
+  }
+
+
   render() {
     console.log(this.props);
     return (
@@ -32,7 +87,7 @@ class HomePage extends Component {
         <Layout.Header className="home-header">
           <Typography.Title level={3}>Company Name</Typography.Title>
           <Menu mode='horizontal' style={{width:"80%"}}>
-              {Modules.map(module =>(<Menu.Item><Link to={module.routerProps.path}>{module.name}</Link></Menu.Item>))}
+           
           </Menu>
           <Button className="header-logout" type="primary">
             App
@@ -42,13 +97,15 @@ class HomePage extends Component {
          
           <Layout>
              <Layout.Sider   className="home-sidebar">
-              <UserMenu></UserMenu>
+             <Menu className="home-menubar" mode='vertical' >
+             {Modules.map(module => this.generateMenu(module))}
+          </Menu>
             </Layout.Sider> 
             <Layout.Content>
-              <Routes>
+              <Routes>              
+               {Modules.map(module => (<Route {...module.routerProps} key={module.name}>
                
-               {Modules.map(module => (<Route {...module.routerProps} key={module.name}></Route>))}
-                
+               </Route>))}               
               </Routes>
             </Layout.Content>
           </Layout>
