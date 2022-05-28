@@ -1,6 +1,8 @@
-import React, { Children, Component, PureComponent } from 'react'
+import React, {  Component } from 'react';
+import { withRouter } from '../../Core/withRouter';
 
-export default class Document extends Component {
+
+ class Document extends Component {
 
   constructor(props)
   {
@@ -20,7 +22,7 @@ export default class Document extends Component {
   childWithProps = React.Children.map(this.props.children,child => 
     {
       if(React.isValidElement(child))
-        return React.cloneElement(child,{title:"sfiou"});
+        return React.cloneElement(child,{...this.props});
 
         return child;
     }
@@ -28,8 +30,11 @@ export default class Document extends Component {
     )
 
   render() {
+
      return <div>
         {this.childWithProps}
       </div>
   } 
 }
+
+export default withRouter(Document);

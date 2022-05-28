@@ -11,6 +11,8 @@ import './company.css'
 import Unautherize from '../../../Pages/ErrorPage/Unautherize'
 import Permission from '../../../component/Security/Permission'
 import Document from '../../Component/Document'
+import withDocument from '../../../Core/withDocument'
+import {UserService} from '../../../Core/Services/UserService'
 const COMPANY_CREATE = "MASTER.COMPANY.CREATE"
 const COMPANY_DELETE = "MASTER.COMPANY.DELETE"
 const COMPANY_UPDATE = "MASTER.COMPANY.UPATE"
@@ -20,7 +22,7 @@ const COMPANY_VIEW = "MASTER.COMPANY.VIEW"
 export class CompanyView extends Component {
     
     static contextType = UserContext
-
+    #userservice ;
     constructor(props)
     {
       super(props)
@@ -32,6 +34,7 @@ export class CompanyView extends Component {
         data:[]
       }
      
+      this.#userservice  = new UserService();
 
     }
 
@@ -51,7 +54,15 @@ export class CompanyView extends Component {
        title ="Company"
        extra ={
          [
-           <ProtectComponent required requiredPage = {PAGE_COMPANY} requiredPermission = {Permission.CREATE}> <Button type='primary'>Add Company</Button></ProtectComponent>
+           <ProtectComponent required requiredPage = {PAGE_COMPANY} requiredPermission = {Permission.CREATE}> <Button type='primary'
+           onClick={(e) =>
+          {
+           this.#userservice.login("chandru1","password").then(
+             res => console.log(res)
+           )
+           console.log("User logged",this.#userservice.ticket)
+          }}
+           >Add Company</Button></ProtectComponent>
          ]
        }
        >
@@ -84,7 +95,7 @@ export class CompanyView extends Component {
   }
 }
 
-
+export default withDocument(CompanyView,"fhfh")
 const fetchCompany = () =>
 {
   return [{
@@ -93,12 +104,3 @@ const fetchCompany = () =>
     
   }]
 }
-export default 
-{
-  routerProps:
-  {
-    path:'/master/compnay',
-    element:<CompanyView isLocked = {true} ></CompanyView>
-  },
-  name:'Company'
-};

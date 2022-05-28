@@ -18,7 +18,7 @@ export class MasterMenuPage extends Component {
        
         <Layout.Content style={{padding:'3%',background:'lightgreen'}}>
           <Routes>
-             <Route path="/setup/company" element = {<Document  ><CompanyView></CompanyView></Document>}></Route>
+             <Route path="/setup/company" element = {<Document><CompanyView></CompanyView></Document>}></Route>
           </Routes>
         
          
