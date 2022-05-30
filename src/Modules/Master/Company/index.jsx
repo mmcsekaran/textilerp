@@ -42,7 +42,7 @@ export class CompanyView extends Component {
     {
        console.log(this)
 
-        this.setState({data:api.company.getCompany()})
+      
     }
 
   render() {
@@ -57,7 +57,7 @@ export class CompanyView extends Component {
            <ProtectComponent required requiredPage = {PAGE_COMPANY} requiredPermission = {Permission.CREATE}> <Button type='primary'
            onClick={(e) =>
           {
-           this.#userservice.login("chandru1","password").then(
+           this.#userservice.login({username:"chandru1",password:"password"}).then(
              res => console.log(res)
            )
            console.log("User logged",this.#userservice.ticket)

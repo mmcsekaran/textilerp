@@ -8,6 +8,7 @@ import { Link, Outlet, Route, Routes } from "react-router-dom";
 import D2DApi from "../D2DApi";
 import Company, { CompanyView } from "./Company";
 import Document from "../Component/Document";
+import CompanyViewer from "./Company/CompanyViewer";
 export class MasterMenuPage extends Component {
   render() {
     D2DApi.user.singIn({username:null,password:null}).then(
@@ -16,9 +17,9 @@ export class MasterMenuPage extends Component {
     return (
       <Layout style={{ borderRadius: "10px" }}>
        
-        <Layout.Content style={{padding:'3%',background:'lightgreen'}}>
+        <Layout.Content style={{padding:'3%',background:'ghostwhite'}}>
           <Routes>
-             <Route path="/setup/company" element = {<Document><CompanyView></CompanyView></Document>}></Route>
+             <Route path="/setup/company" element = {<Document><CompanyViewer></CompanyViewer></Document>}></Route>
           </Routes>
         
          

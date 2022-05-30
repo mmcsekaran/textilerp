@@ -17,6 +17,7 @@ import React, { Component } from "react";
 import logo from "../logo.svg";
 import { UserContext } from "../component/Security/AuthoticationContext";
 import { WithRouter } from "../component/WithRouter";
+import { Alert} from 'react-bootstrap'
 // import 'bootstrap/dist/css/bootstrap.min.css'
 
 class LoginPage extends Component {
@@ -53,6 +54,7 @@ class LoginPage extends Component {
       <Layout
         style={{ width: "100%", height: "100vh", background: "lightgrey" }}
       >
+       
         <Layout.Content>
           <Row justify="center" align="middle" style={{ height: "100%" }}>
             <div

@@ -4,13 +4,18 @@ import Data from "../../Modules/Master/Data";
 import user from "../../Modules/User/user";
 import Dataservice from "./Dataservice";
 import { UserLogin } from "./Modal/userLogin";
+import { UserRegister } from "./Modal/userRegister";
+import { Role, User } from "./Modal/Users";
 
 export class UserService 
 {
     private service = Dataservice.axiosInstance
 
+    private currentUser:User | undefined = undefined  ;
+
+    
    public isLogged  = false;
-   public ticket = null
+   public ticket:any = null
    public constructor()
     {
         this.loadSession();
@@ -52,6 +57,12 @@ export class UserService
        
    }
 
+    public async  signUp(register:UserRegister):Promise<boolean> 
+    {
+
+        return true;
+        
+    }
   
     setSession(data:any):void
    {
@@ -75,4 +86,25 @@ export class UserService
         this.isLogged = false;
 
    }
+
+   hasPermission = (permission:string):boolean =>
+   {
+    return true;
+   }
+
+   public addRole = (role:Role):boolean =>
+   {
+    return true;
+   }
+
+   public removeRole = (role:Role | string | number):boolean =>
+   {
+        return true;
+   }
+
+   public getRoles():Array<Role>|undefined
+   {
+       return undefined;
+   }
+
 }

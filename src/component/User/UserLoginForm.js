@@ -4,6 +4,7 @@ import { Form } from "antd";
 import { useForm } from "antd/lib/form/Form";
 import Modal from "antd/lib/modal/Modal";
 import React, { Component }  from "react";
+import { Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { UserContext } from "../Security/AuthoticationContext";
 import API from "../Security/ConnectServer";
@@ -64,7 +65,7 @@ import API from "../Security/ConnectServer";
         
 
     return   <div>
-        
+           <Alert dismissible >gjagjg</Alert>
           <Modal
         
           visible = {this.state.showLogin}

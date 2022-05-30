@@ -1,5 +1,5 @@
 export interface UserLogin
 {
-    username;
-    password;
+    username:any;
+    password:any;
 }

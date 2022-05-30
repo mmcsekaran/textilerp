@@ -13,7 +13,7 @@ import HomePage from './Pages/Home/HomePage';
 import UserRegistration from './Pages/UserAccount/UserRegistration';
 import { ProtectedRoute } from './component/Security/ProtectedRoute';
 import {registerLicense} from '@syncfusion/ej2-base'
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 registerLicense("ORg4AjUWIQA/Gnt2VVhhQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkFjX39XcXxQQmJcVUc=")
 
 export class App extends Component {
