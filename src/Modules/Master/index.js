@@ -1,13 +1,13 @@
 import { Card, Col, Layout, Menu, PageHeader, Row, Typography } from "antd";
 import React, { Component } from "react";
-import MenuCard from "../Component/MenuCard";
-import MenuGroup from "../Component/MenuGroup";
+import MenuCard from "../Common/MenuCard";
+import MenuGroup from "../Common/MenuGroup";
 import logo from "../../logo.svg";
 import companyimg from "../../assets/img/company.png";
 import { Link, Outlet, Route, Routes } from "react-router-dom";
 import D2DApi from "../D2DApi";
 import Company, { CompanyView } from "./Company";
-import Document from "../Component/Document";
+import Document from "../Common/Document";
 import CompanyViewer from "./Company/CompanyViewer";
 export class MasterMenuPage extends Component {
   render() {

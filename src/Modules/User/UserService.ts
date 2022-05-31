@@ -1,17 +1,27 @@
 import { RetweetOutlined } from "@ant-design/icons";
 import axios from "axios";
-import Data from "../../Modules/Master/Data";
-import user from "../../Modules/User/user";
-import Dataservice from "./Dataservice";
-import { UserLogin } from "./Modal/userLogin";
-import { UserRegister } from "./Modal/userRegister";
-import { Role, User } from "./Modal/Users";
+import Data from "../Master/Data";
+
+import Dataservice from "../../Core/Services/Dataservice";
+
+
+
+import {  Role, UserLogin, UserProfile } from './Users.Modal';
+
+
+
+
+export interface UserRegister
+{
+    username:string
+}
+
 
 export class UserService 
 {
     private service = Dataservice.axiosInstance
 
-    private currentUser:User | undefined = undefined  ;
+    private currentUser:UserProfile | undefined = undefined  ;
 
     
    public isLogged  = false;
@@ -29,7 +39,7 @@ export class UserService
        
     
 
-        if((userLog.username === null ||userLog. username === '' || userLog.username === undefined) && (userLog.password === null || userLog.password === '' || userLog.password === undefined)) throw new Error("UserName and password is Required");
+        if((userLog.username === null ||userLog. username === '' || userLog.username === undefined) && (userLog.passHash === null || userLog.passHash === '' || userLog.passHash === undefined)) throw new Error("UserName and password is Required");
 
         
       
@@ -37,7 +47,8 @@ export class UserService
         {
             params:{
                 username:userLog.username,
-                password:userLog.password
+                password:userLog.passHash,
+                userType:userLog.userType
             }
         }).then(
             res =>
@@ -56,6 +67,8 @@ export class UserService
         return data.data[0].ticket;   
        
    }
+
+ 
 
     public async  signUp(register:UserRegister):Promise<boolean> 
     {
@@ -77,6 +90,10 @@ export class UserService
     loadSession():void
    {
         this.ticket = sessionStorage.getItem("ticket");
+        if(typeof this.ticket !== undefined)
+        {
+            this.isLogged = true
+        }
    }
 
    #clearSession()
@@ -104,6 +121,9 @@ export class UserService
 
    public getRoles():Array<Role>|undefined
    {
+       var roles = new Array<Role>();
+       
+       
        return undefined;
    }
 

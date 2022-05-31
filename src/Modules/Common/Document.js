@@ -1,5 +1,6 @@
 import React, {  Component } from 'react';
-import { withRouter } from '../../Core/withRouter';
+import { withRouter } from './withRouter';
+
 
 
  class Document extends Component {
@@ -37,4 +38,4 @@ import { withRouter } from '../../Core/withRouter';
   } 
 }
 
-export default withRouter(Document);
+export default withRouter(Document)

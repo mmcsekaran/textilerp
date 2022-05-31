@@ -24,6 +24,7 @@ import MasterMenuPage from "../../Modules/Master";
 import ComingSoon from "../ErrorPage/ComingSoon";
 import UserMenu from "../../component/Menu";
 import Modules from "../../Modules";
+import ResetPassword from './../../Modules/User/ResetPassword';
 class HomePage extends Component {
 
   generateModuleMenu = (module) =>
@@ -104,8 +105,10 @@ class HomePage extends Component {
             <Layout.Content>
               <Routes>              
                {Modules.map(module => (<Route {...module.routerProps} key={module.name}>
+               <Route exact path="*" element={<ComingSoon></ComingSoon>}/>
                
-               </Route>))}               
+               </Route>))}  
+                 
               </Routes>
             </Layout.Content>
           </Layout>

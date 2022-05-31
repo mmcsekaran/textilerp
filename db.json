@@ -27,14 +27,43 @@
         "isUser":true,
         "isManagement":true,
         "isHOD":true,
-        "isDeveloper":true,
-        "headId":"",
-        "roles":[
-          "SUPERADMIN"
-        ]
-      
+        "isDeveloper":true
     }
   ],
+  "userrole":[
+    {
+      "id":1,
+      "userId":1,
+      "roleId" :1,
+      "roleName":"SUPERADMIN"
+    }
+  ],
+  "useraccess":
+  [
+    {
+      "id":1,
+      "roleId":1,
+      "pageId":1,
+      "create":true,
+      "read":true,
+      "write":true,
+      "delete":true,
+      "list":true
+    }
+
+  ],
+  "pages":
+  [
+    {
+      "id":1,
+      "pageName":"USER.ACCOUNT.LOGIN",
+      "group":"Users"
+
+    }
+  ]
+  ,
+   
+  
   "usercompany":[
     {
       "id":1,

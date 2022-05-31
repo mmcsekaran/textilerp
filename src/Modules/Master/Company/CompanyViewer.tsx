@@ -1,6 +1,6 @@
 import { Table } from 'antd'
 import React, { Component } from 'react'
-import '../../Component/Table.css'
+import '../../Common/Table.css'
 
 export default class CompanyViewer extends React.Component {
   render() {

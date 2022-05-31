@@ -14,6 +14,11 @@ import UserRegistration from './Pages/UserAccount/UserRegistration';
 import { ProtectedRoute } from './component/Security/ProtectedRoute';
 import {registerLicense} from '@syncfusion/ej2-base'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Login from './Modules/User/User.Login';
+import Register from './Modules/User/User.Register';
+import Unautherize from './Pages/ErrorPage/Unautherize';
+import ResetPassword from './Modules/User/ResetPassword';
+import SetupPassword from './Modules/User/SetupPassword';
 registerLicense("ORg4AjUWIQA/Gnt2VVhhQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkFjX39XcXxQQmJcVUc=")
 
 export class App extends Component {
@@ -40,7 +45,7 @@ export class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className='fullview'>
         <BrowserRouter>
           <UserProvider> 
             <APIProvider baseURL ="usrl">  
@@ -51,9 +56,9 @@ export class App extends Component {
             </ProtectedRoute>} >
             <Route path='/*' element = {<HomePage></HomePage>}></Route>
               </Route> 
-             <Route exact path='/login' element ={<LoginPage></LoginPage>} />
-             <Route exact path='/register' element ={<UserRegistration></UserRegistration>} />
-             
+             <Route exact path='/login' element ={<Login></Login>} />
+             <Route exact path='/register' element ={<Register></Register>} />
+             <Route exact path ="/resetpassword" element ={<SetupPassword></SetupPassword>}></Route>       
            </Routes>
            
            </APIProvider>

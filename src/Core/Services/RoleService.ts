@@ -1,4 +1,5 @@
-import { Role } from "./Modal/Users";
+
+import { Role } from './../../Modules/User/Users.Modal';
 
 export class UserRoleService
 {

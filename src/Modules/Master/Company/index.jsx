@@ -2,7 +2,7 @@ import { Button, Checkbox, Layout, Menu, PageHeader,Table, Tag, Tree } from 'ant
 import React, { Component } from 'react'
 import { ADMIN, USER, UserContext } from '../../../component/Security/AuthoticationContext'
 import { PageProtection, ProtectComponent } from '../../../component/Security/ProtectPage'
-import MSButton from '../../Component/Button'
+import MSButton from '../../Common/Button'
 import { COMPANYVIEW, COMPANY_PERMISSION, PAGE_COMPANY, PAGE_USERROLE } from '../../Constant'
 import {GridComponent,ColumnDirective,ColumnsDirective} from '@syncfusion/ej2-react-grids'
 import masterAPI from '../Data'
@@ -10,9 +10,9 @@ import api from '../Data'
 import './company.css'
 import Unautherize from '../../../Pages/ErrorPage/Unautherize'
 import Permission from '../../../component/Security/Permission'
-import Document from '../../Component/Document'
+import Document from '../../Common/Document'
 import withDocument from '../../../Core/withDocument'
-import {UserService} from '../../../Core/Services/UserService'
+import { UserService } from '../../User/UserService'
 const COMPANY_CREATE = "MASTER.COMPANY.CREATE"
 const COMPANY_DELETE = "MASTER.COMPANY.DELETE"
 const COMPANY_UPDATE = "MASTER.COMPANY.UPATE"

@@ -40,10 +40,31 @@ export interface UserRole {
 
 }
 
-export interface User
-{
-    userId :string|number
-    username:string
-    roles:Array<Role>
 
+
+export interface UserLogin
+{
+  userType:"employee"|"vendor" | 1|2
+  username:string|number
+  passHash:string
+}
+
+export interface UserProfile
+{
+  userId:number|string
+  username : number | string
+  email : null | undefined | string
+  employeeId : null | undefined | number | string
+  profileName : null | undefined| string,
+  designation : null | undefined | string | number
+  department : null | undefined | string | number
+  role : number | null | undefined | string
+  islogged:boolean 
+  isDeveloper:boolean
+  isEmpoloyee:boolean
+  avatar:string,
+  isHead:boolean
+  reportTo:string | number,
+  status:'active' | 'inactive'
+  signOut():void
 }
