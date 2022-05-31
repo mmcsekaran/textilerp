@@ -1,0 +1,92 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "username": "chandru1",
+      "password": "password",
+      "ticket": "9WOIHY8S9Y8H9ASY98QYHP09"
+    },
+    {
+      "id": 2,
+      "username": "chandru",
+      "password": "password",
+      "ticket": "9WOIHY8S9Y8H9ASY98QYHP09"
+    }
+  ],
+  "userprofiles": [
+    {
+      "id": 1,
+      "userId": 1,
+      "name": "M.S.CHANDRASEKAR",
+      "doj": "12/12/2301",
+      "email": "",
+      "designation": "",
+      "department": "",
+      "isEmployee": true,
+      "isUser": true,
+      "isManagement": true,
+      "isHOD": true,
+      "isDeveloper": true
+    }
+  ],
+  "userrole": [
+    {
+      "id": 1,
+      "userId": 1,
+      "roleId": 1,
+      "roleName": "SUPERADMIN"
+    }
+  ],
+  "useraccess": [
+    {
+      "id": 1,
+      "roleId": 1,
+      "pageId": 1,
+      "create": true,
+      "read": true,
+      "write": true,
+      "delete": true,
+      "list": true
+    }
+  ],
+  "pages": [
+    {
+      "id": 1,
+      "pageName": "USER.ACCOUNT.LOGIN",
+      "group": "Users"
+    }
+  ],
+  "usercompany": [
+    {
+      "id": 1,
+      "userId": 1,
+      "companyId": 1
+    }
+  ],
+  "company": [
+    {
+      "id": 1,
+      "companyName": "D2D INTERNATIONAL",
+      "parentCompany": null,
+      "isUnit": false,
+      "contacts": {}
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
+}

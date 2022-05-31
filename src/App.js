@@ -18,7 +18,7 @@ import Login from './Modules/User/User.Login';
 import Register from './Modules/User/User.Register';
 import Unautherize from './Pages/ErrorPage/Unautherize';
 import ResetPassword from './Modules/User/ResetPassword';
-import SetupPassword from './Modules/User/SetupPassword';
+import ChangePassword from './Modules/User/SetupPassword';
 registerLicense("ORg4AjUWIQA/Gnt2VVhhQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkFjX39XcXxQQmJcVUc=")
 
 export class App extends Component {
@@ -58,7 +58,7 @@ export class App extends Component {
               </Route> 
              <Route exact path='/login' element ={<Login></Login>} />
              <Route exact path='/register' element ={<Register></Register>} />
-             <Route exact path ="/resetpassword" element ={<SetupPassword></SetupPassword>}></Route>       
+             <Route exact path ="/resetpassword" element ={<ChangePassword></ChangePassword>}></Route>       
            </Routes>
            
            </APIProvider>

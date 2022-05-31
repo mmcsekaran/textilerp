@@ -6,5 +6,5 @@
 .h-min-100
 {
     min-height: 100vh;
-    background-color: teal;
+    background:linear-gradient(90deg,#56ab2f ,#a8e063)
 }

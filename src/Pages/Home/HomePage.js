@@ -1,4 +1,4 @@
-import { Layout, Button, Typography, Menu } from "antd";
+import { Layout, Button, Typography, Menu, Dropdown, Avatar ,Image} from "antd";
 
 import React, { Component } from "react";
 import { Link, Outlet, Route, Routes } from "react-router-dom";
@@ -25,6 +25,8 @@ import ComingSoon from "../ErrorPage/ComingSoon";
 import UserMenu from "../../component/Menu";
 import Modules from "../../Modules";
 import ResetPassword from './../../Modules/User/ResetPassword';
+import { LogoutOutlined } from "@ant-design/icons";
+import logo from '../../assets/img/d2d.png'
 class HomePage extends Component {
 
   generateModuleMenu = (module) =>
@@ -85,14 +87,16 @@ class HomePage extends Component {
     console.log(this.props);
     return (
       <Layout className="home-layout">
-        <Layout.Header className="home-header">
-          <Typography.Title level={3}>Company Name</Typography.Title>
-          <Menu mode='horizontal' style={{width:"80%"}}>
-           
-          </Menu>
-          <Button className="header-logout" type="primary">
-            App
-          </Button>
+        <Layout.Header style={{background:'linear-gradient(45deg,#6BB64A ,#6BB64A)'}} className="home-header">
+         <Image src={logo} width ={80}height ={40}></Image>
+         
+         <Dropdown trigger={['click']} overlay={<Menu>
+           <Menu.Item>
+            <LogoutOutlined></LogoutOutlined> Logout
+           </Menu.Item>
+         </Menu>}>
+           <Avatar style={{background:'#F8CD24'}} className="header-logout">C</Avatar>
+         </Dropdown>
         </Layout.Header>
         <Layout.Content>
          

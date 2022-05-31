@@ -28,7 +28,7 @@ export default class Register extends Component {
        <div> 
          
          <Row  className='h-min-100' justify='center' align='middle'>
-             <Col xs={24} sm ={16} md={10} xl = {5} xxl={5} >
+             <Col xs={24} sm ={16} md={8} xl = {6} xxl={5} >
             <Card  style={{background:'rgb(255,255,255)',borderColor:'rgb(255,255,255)'}} title={
                 <div >
                 <Image style={{width:'100px',height:'50px'}} src={logo}></Image>
@@ -39,7 +39,7 @@ export default class Register extends Component {
                     <Form
                     
                     title='Login'
-                    style={{margin:'10%'}}
+                    style={{margin:'5%'}}
                     >
                       <Form.Item >
                          <Radio.Group defaultValue={1} onChange ={(e) =>

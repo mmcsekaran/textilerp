@@ -1,13 +1,30 @@
 import React, { Component } from 'react'
-import {Row,Col,Form,Card,Radio,Input,Button} from 'antd'
-export default class SetupPassword extends Component {
+import {Row,Col,Form,Card,Radio,Input,Button, notification} from 'antd'
+import { withRouter } from '../Common/withRouter'
+class ChangePassword extends Component {
+
+    handleFormSubmit = (e) =>
+    {
+        notification.open(
+            {
+                message:"Password change successfully",
+                placement:'top',
+                duration:1,
+                onClose:() =>
+                {
+                    this.props.navigate("/login")
+                }
+            }
+        )
+    }
+
   render() {
     return (
         <div style ={{width:'100%',height:'100%',background:'whitesmoke'}} >
         
         
           <Row style ={{width:'100%',height:'100%',background:'whitesmoke'}} justify='center' align='middle' >
-          <Col  xs={24} sm ={16} md={10} xl = {5} xxl={5}>
+          <Col  xs={24} sm ={16} md={10} xl = {6} xxl={5}>
               <Card  title={"Set New Password"}>
                   <Form    
                   onFinish={(e) => this.handleFormSubmit(e)}  
@@ -79,3 +96,5 @@ export default class SetupPassword extends Component {
     )
   }
 }
+
+export default withRouter(ChangePassword)
