@@ -18,7 +18,6 @@ import Register from './Modules/User/User.Register';
 import Unautherize from './Pages/ErrorPage/Unautherize';
 import ResetPassword from './Modules/User/ResetPassword';
 import ChangePassword from './Modules/User/SetupPassword';
-import * as api from 'garmentapi'
 registerLicense("ORg4AjUWIQA/Gnt2VVhhQlFaclhJXGFWfVJpTGpQdk5xdV9DaVZUTWY/P1ZhSXxRdkFjX39XcXxQQmJcVUc=")
 
 export class App extends Component {
@@ -40,7 +39,7 @@ export class App extends Component {
  }
 
   componentDidMount() {
-    console.log(api)
+   
   }
 
   render() {
