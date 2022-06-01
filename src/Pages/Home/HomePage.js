@@ -28,6 +28,7 @@ import ResetPassword from './../../Modules/User/ResetPassword';
 import { LogoutOutlined } from "@ant-design/icons";
 import logo from '../../assets/img/d2d.png'
 import UserMenu from "../../Modules/Common/UserMenu";
+import AppRouters from "../../Modules/Common/Routes";
 class HomePage extends Component {
 
   generateModuleMenu = (module) =>
@@ -112,13 +113,14 @@ class HomePage extends Component {
          <UserMenu/>  
             </Layout.Sider> 
             <Layout.Content>
-              <Routes>              
+              {/* <Routes>              
                {Modules.map(module => (<Route {...module.routerProps} key={module.name}>
                <Route exact path="*" element={<ComingSoon></ComingSoon>}/>
                
                </Route>))}  
                  
-              </Routes>
+              </Routes> */}
+              <AppRouters></AppRouters>
             </Layout.Content>
           </Layout>
         </Layout.Content>
