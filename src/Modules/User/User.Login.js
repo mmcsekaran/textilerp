@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
 import {  Container } from 'react-bootstrap'
 import {Card, Row, Typography ,Form, Input, Button, Avatar,Image, Col, Alert,notification, message,Radio} from 'antd'
 import './index.css'

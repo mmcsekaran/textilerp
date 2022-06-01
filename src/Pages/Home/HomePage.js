@@ -22,11 +22,12 @@ import RoleView from "../../Modules/User/Authorization/Roles/RoleView";
 import PermissionView from "../../Modules/User/Authorization/Permission/PermissionView";
 import MasterMenuPage from "../../Modules/Master";
 import ComingSoon from "../ErrorPage/ComingSoon";
-import UserMenu from "../../component/Menu";
+
 import Modules from "../../Modules";
 import ResetPassword from './../../Modules/User/ResetPassword';
 import { LogoutOutlined } from "@ant-design/icons";
 import logo from '../../assets/img/d2d.png'
+import UserMenu from "../../Modules/Common/UserMenu";
 class HomePage extends Component {
 
   generateModuleMenu = (module) =>
@@ -102,9 +103,10 @@ class HomePage extends Component {
          
           <Layout>
              <Layout.Sider   className="home-sidebar">
-             <Menu className="home-menubar" mode='vertical' >
+             {/* <Menu className="home-menubar" mode='vertical' >
              {Modules.map(module => this.generateMenu(module))}
-          </Menu>
+          </Menu> */}
+         <UserMenu/>  
             </Layout.Sider> 
             <Layout.Content>
               <Routes>              
