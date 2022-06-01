@@ -5,7 +5,7 @@ import { Component } from 'react';
 
 export default function UserMenu() {
     return (
-        <Menu mode='inline'>
+        <Menu style={{height:'100%'}} mode='inline'>
 
             {/* User Groups and roles and their permission Menus */}
 

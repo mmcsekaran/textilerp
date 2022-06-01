@@ -88,9 +88,12 @@ class HomePage extends Component {
     console.log(this.props);
     return (
       <Layout className="home-layout">
-        <Layout.Header style={{background:'linear-gradient(45deg,#6BB64A ,#6BB64A)'}} className="home-header">
-         <Image src={logo} width ={80}height ={40}></Image>
-         
+        <Layout.Header style={{background:'linear-gradient(45deg,#6BB64A ,#6BB64A)',paddingLeft:'0'}} className="home-header">
+          <div style={{height:'100%',width:'200px',background:'white',paddingLeft:'10px',textAlign:'center'}}>
+             <Image style={{background:'white'}} src={logo} width ={80}height ={40}></Image>
+          </div>
+        {/*  */}
+         {/* <Typography.Text strong style={{color:'white',fontSize:'2.4em',fontFamily:'mono',paddingLeft:'10px'}}>D2D International</Typography.Text> */}
          <Dropdown trigger={['click']} overlay={<Menu>
            <Menu.Item>
             <LogoutOutlined></LogoutOutlined> Logout
