@@ -12,13 +12,11 @@ import { Layout, message } from 'antd';
 import HomePage from './Pages/Home/HomePage';
 import UserRegistration from './Pages/UserAccount/UserRegistration';
 import { ProtectedRoute } from './component/Security/ProtectedRoute';
-
 import Login from './Modules/User/User.Login';
 import Register from './Modules/User/User.Register';
 import Unautherize from './Pages/ErrorPage/Unautherize';
 import ResetPassword from './Modules/User/ResetPassword';
 import ChangePassword from './Modules/User/SetupPassword';
-
 
 export class App extends Component {
 
