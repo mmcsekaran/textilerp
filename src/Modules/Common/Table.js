@@ -1,15 +1,15 @@
 
 import React, { Component } from 'react'
+import './Table.css'
+
+
+
 export default class DataTable extends Component {
   render() {
     return (
-     
-    <table className='ui table celled' >
-        <thead>
-            <th>hfh</th>
-        </thead>
-    </table>
-       
+    <div style={{height:'100%'}}>
+    
+    </div>
     )
   }
 }
