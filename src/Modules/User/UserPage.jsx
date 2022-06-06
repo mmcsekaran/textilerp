@@ -6,6 +6,7 @@ import { withRouter } from '../Common/withRouter'
 
 import './index.css'
 import Designnation, { desingationSelector } from './../Common/Designnation';
+import EmployeeSelector from '../Common/EmployeeSelector'
 class UserPage extends Component {
   constructor(props) {
     super(props);
@@ -14,7 +15,8 @@ class UserPage extends Component {
     {
       isEdit: false,
       isNew: true,
-      showEditor: false
+      showEditor: false,
+      currentData:undefined
     }
 
   }
@@ -76,43 +78,53 @@ class UserPage extends Component {
                       },
                       {
                         sno: 7,
-                        name: 'Chandru',
+                        name: 'Chandrasekar',
                         title: 'Erp Incharge',
                         email: 'erp@d2dinternational.com',
                         role: "Super Admin"
                       },
                     ]}
                   >
-                    <Table.Column render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"sno"} title="#" />
-                    <Table.Column render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"name"} title="Name" />
-                    <Table.Column render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"title"} title="Title" />
-                    <Table.Column render={value => { return <a>{value}</a> }} dataIndex={"email"} title="Email" />
-                    <Table.Column render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"role"} title="Roles" />
-                    <Table.Column render={(record) => <><Tag color={'#56ab2f'} icon={<CheckOutlined />} >Enabled</Tag> </>} dataIndex={"role"} title="Status" />
-                    <Table.Column render={prop => {
-                      return <a onClick={(e) =>
-                        this.setState({ showEditor: true, isEdit: true, isNew: false })
+                    <Table.Column key={"sno"} render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"sno"} title="#" />
+                    <Table.Column  key={"name"} render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"name"} title="Name" />
+                    <Table.Column  key={"title"} render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"title"} title="Title" />
+                    <Table.Column  key={"email"} render={value => { return <a>{value}</a> }} dataIndex={"email"} title="Email" />
+                    <Table.Column  key={"role"} render={(record) => <Typography.Text strong>{record}</Typography.Text>} dataIndex={"role"} title="Roles" />
+                    <Table.Column  key={"status"} render={(record) => <><Tag color={'#56ab2f'} icon={<CheckOutlined />} >Enabled</Tag> </>} dataIndex={"role"} title="Status" />
+                    <Table.Column  key={"edit"} render={(_,prop,index) => {
+
+                    
+
+                      return <a onClick={(e) =>{
+
+                        this.setState({ showEditor: true, isEdit: true, isNew: false,currentData:prop })
+                        
+                      }
                       }>Edit</a>
-                    }} title=" " />
+                    }} title=" " dataIndex={"action"} />
                   </Table>
                 </div>
               </div>
             </div> :
+            this.state.currentData ?
             // User Editor
             <div >
               <div style={{ paddingLeft: '10px' }} >
-                <Row justify='center' align='middle'>
+                <Row >
                   <Col xs={24} sm={16} md={16} xl={16}>
-                    <Card>
+                   
                       <Form
                         layout='vertical'
                       >
+                        
                         <Form.Item
                           name={"username"}
                           label="User Name"
+                          initialValue={this.state.currentData.name}
                         >
-                          {<Input disabled={this.state.isEdit} placeholder='' type={'text'} value="Chandru" />}
+                          {<Input disabled={this.state.isEdit} placeholder='' type={'text'}  />}
                         </Form.Item>
+                        <EmployeeSelector></EmployeeSelector>
                         <Form.Item
                           name={"Title"}
                         >
@@ -120,12 +132,13 @@ class UserPage extends Component {
                         </Form.Item>
                         <Designnation></Designnation>
                       </Form>
-                    </Card>
+               
                   </Col>
                 </Row>
 
               </div>
             </div>
+            :""
           }
         </div>
 

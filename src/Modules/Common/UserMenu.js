@@ -79,6 +79,15 @@ export default function UserMenu() {
                     
                 </Menu.SubMenu>
             </Menu.ItemGroup>
+            <Menu.ItemGroup title="Garment" >
+                <Menu.SubMenu title="Master">
+                    <Menu.Item><Link to = '/garment/master/color'>Color</Link></Menu.Item>
+                    <Menu.Item><Link to = '/garment/master/yarn'>Yarn</Link></Menu.Item>
+                </Menu.SubMenu>
+                <Menu.SubMenu title = {"Sample"}>
+                <Menu.Item><Link to = '/garment/sample/techpack'>Tech Sheet</Link></Menu.Item>
+                </Menu.SubMenu>
+            </Menu.ItemGroup>
         </Menu>
     )
 }

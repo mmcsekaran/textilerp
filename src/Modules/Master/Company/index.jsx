@@ -4,7 +4,7 @@ import { ADMIN, USER, UserContext } from '../../../component/Security/Authoticat
 import { PageProtection, ProtectComponent } from '../../../component/Security/ProtectPage'
 import MSButton from '../../Common/Button'
 import { COMPANYVIEW, COMPANY_PERMISSION, PAGE_COMPANY, PAGE_USERROLE } from '../../Constant'
-import {GridComponent,ColumnDirective,ColumnsDirective} from '@syncfusion/ej2-react-grids'
+
 import masterAPI from '../Data'
 import api from '../Data'
 import './company.css'
