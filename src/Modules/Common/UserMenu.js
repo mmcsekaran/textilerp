@@ -5,7 +5,7 @@ import { Component } from 'react';
 
 export default function UserMenu() {
     return (
-        <Menu style={{height:'100%'}} mode='inline'>
+        <Menu style={{height:'100%'}} theme='dark' mode='inline'>
 
             {/* User Groups and roles and their permission Menus */}
 
@@ -22,22 +22,48 @@ export default function UserMenu() {
             </Menu.ItemGroup>
             {/* Garment related masters and page setups all things. */}
             <Menu.ItemGroup title={"Master"}>
+                
                 <Menu.SubMenu title={"Setup"}>
+                   
+                    <Menu.Item>
+                    <Link to='/master/setup/adminsetup'>Adminsetup</Link>
+                    </Menu.Item>
 
                 </Menu.SubMenu>
+                
                 <Menu.SubMenu title={"Material"}>
-
-
-                    <Menu.Item>
-                        <Link to="/master/yarn">Yarn</Link>
-                    </Menu.Item>
-
-
+                
+                <Menu.SubMenu title={"Yarn"}>
 
                     <Menu.Item>
-                        <Link to="/master/fabric/">Fabric</Link>
-
+                        <Link to="/master/yarncount">Yarn Count Master</Link>
                     </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/countmaster">Count Master</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/yarntype">Yarn Type</Link>
+                    </Menu.Item>
+
+                </Menu.SubMenu>
+
+                <Menu.SubMenu title={"Fabric"}>
+
+                    <Menu.Item>
+                        <Link to="/master/fabric/">Fabric Type</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/fabmaster/">Fabric Master</Link>
+                    </Menu.Item>
+
+                   <Menu.Item>
+                       <Link to ="/master/fabricname">Fabri Name Master</Link>
+                   </Menu.Item>
+
+                </Menu.SubMenu>
 
                     <Menu.Item>
                         <Link to="/master/accessories/">Accessories</Link>
