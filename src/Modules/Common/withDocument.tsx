@@ -2,15 +2,39 @@
 import { DocumentProps } from "./Document"
 import  React  from 'react';
 import { render } from '@testing-library/react';
+import { Button, message, PageHeader } from "antd";
 
-export function withDocument<t extends object>(WrapperComponent:React.ComponentType<t>,props:DocumentProps)
+export interface DocumentState
+{
+    onSave?(Data:any):void
+}
+
+export function withDocument<T extends DocumentProps>(WrapperComponent:React.ComponentType<T>,props:DocumentProps)
 {
     
-    return class Doc extends React.Component<t & DocumentProps>
+    return  class  extends React.Component<DocumentProps,DocumentState>
     {
+
+        state: Readonly<DocumentState> =
+        {
+            onSave : this.onSave
+        }
+
+         onSave(data:any):void {
+            message.success(data)
+        }
+
         render()
         {
-           return  (<WrapperComponent {...this.props as t}></WrapperComponent>)
+           
+           return  (
+           <PageHeader
+          title ={props.documentTitle}
+          
+           >
+                 <WrapperComponent {...this.state} {...this.props as T}></WrapperComponent>
+           </PageHeader>
+           )
         }
     }
 }

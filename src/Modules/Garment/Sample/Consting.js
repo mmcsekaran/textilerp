@@ -1,4 +1,4 @@
-import { Button, Input, message, PageHeader, Tag } from 'antd'
+import { Button, Col, Input, message, PageHeader, Row, Space, Table, Tag } from 'antd'
 import React, { Component } from 'react'
 import Document, { DocumentProps } from './../../Common/Document';
 import { Form } from 'antd';
@@ -12,13 +12,13 @@ import { withDocument } from './../../Common/withDocument';
     onSave = (data) =>
     {
         
-       console.log(this.formRef)
+      this.props.onSave("hi")
     }
 
      formRef = React.createRef();
 
   render() {
-    
+    console.log(this.prop)
     return (
       <div>
           <Document
@@ -29,7 +29,7 @@ import { withDocument } from './../../Common/withDocument';
              users:['CHANDRU']
            }
           }
-          documentTitle = "Consting"
+          documentTitle = "Consting Enquiry"
           status={"Unsaved"}
           toolBar =
           {
@@ -42,10 +42,66 @@ import { withDocument } from './../../Common/withDocument';
           onSave = {this.onSave}
           >
             <Form
+            labelCol={{span:9}}
+            labelAlign ='left'
             name='myform'
             ref={this.formRef}
+            layout='horizontal'
             >
-              <Input></Input>
+            <Row justify='space-between'>
+              <Space>
+                <Col>
+                <Form.Item>
+                  <Input placeholder='Style No' />
+                </Form.Item>
+                <Form.Item>
+                  <Input placeholder='Buyer Name' />
+                </Form.Item>
+                </Col>
+              </Space>
+              <Space>
+                <Col>
+                <Form.Item>
+                  <Input placeholder='Category' />
+                </Form.Item>
+                <Form.Item>
+                  <Input placeholder='Style Description' />
+                </Form.Item>
+                </Col>
+              </Space>
+              <Space>
+                <Col>
+                <Form.Item>
+                  <Input placeholder='Country' />
+                </Form.Item>
+                <Form.Item>
+                  <Input placeholder='Fabric' />
+                </Form.Item>
+                </Col>
+              </Space>
+              <Space>
+                <Col>
+                <Form.Item>
+                  <Input placeholder='GSM/Width' />
+                </Form.Item>
+                <Form.Item>
+                  <Input placeholder='Fabric' />
+                </Form.Item>
+                </Col>
+              </Space>
+            </Row>
+           
+          <Form.Item>
+            <Table
+            title={() =>
+              {return <>
+              Details
+             <div style={{float:'right'}}><Button >Add Item</Button></div> 
+              </>}}
+            >
+              
+            </Table>
+          </Form.Item>
             </Form>
           </Document>
 
@@ -55,6 +111,4 @@ import { withDocument } from './../../Common/withDocument';
   }
 }
 
-export default withDocument(SampleConsting,{
-  documentTitle:'Costing Page'
-})
+export default withDocument(SampleConsting,{})

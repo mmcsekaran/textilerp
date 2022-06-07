@@ -2,7 +2,7 @@ import React from 'react'
 import { Outlet, Route, Routes } from 'react-router-dom'
 import ComingSoon from '../../Pages/ErrorPage/ComingSoon'
 import Unautherize from '../../Pages/ErrorPage/Unautherize'
-import UserPage from '../User/UserPage'
+
 import UserRole from '../User/UserRole'
 import AdminSetup from'../Master/AdminSetup'
 import Yarncount from '../Master/Yarncount'
@@ -50,7 +50,7 @@ export default function AppRouters() {
                     <Route path = '/garment/master/yarn' element = {<Yarn></Yarn>} />
               </Route>
                 <Route path='sample/' element= {<Outlet></Outlet>}>
-                    <Route path = '/garment/sample/techpack' element = {<SampleConsting></SampleConsting>} />
+                    <Route path = '/garment/sample/techpack' element = {<SampleConsting ></SampleConsting>} />
                     
               </Route>
             </Route>

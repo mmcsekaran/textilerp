@@ -13,11 +13,16 @@ import { withRouter } from './withRouter';
 
 }
 
+export interface ToolBarType{
+  label?:string
+  onClick():void
+}
+
 export interface DocumentProps 
 {
   documentTitle?:ReactNode
   status?:any,
-  toolBar:ReactElement,
+  toolBar:ToolBarType,
   onSave(data:any):void,
   children :  ReactElement[],
   onNew():void
@@ -25,7 +30,8 @@ export interface DocumentProps
   documentName?:string,
   protection?:boolean,
   AuthorizeTo?:DocumentPermission,
-  form:FormInstance
+  form:FormInstance,
+
 }
 
 
@@ -43,7 +49,7 @@ export interface DocumentProps
             switch(tool)
             {
               case 'New':
-               return <Button onClick={this.props.onSave}>{tool}</Button>
+               return <Button onClick={ this.props.onSave}>{tool}</Button>
                default:
                  return <Button>{tool}</Button>
             }
@@ -56,6 +62,12 @@ export interface DocumentProps
   
     }
   
+    onSave =():void =>
+    {
+      
+      console.log(this.props.form)
+    }
+
     passPropToChild = ():ReactNode[] =>
     {
         return React.Children.map(this.props.children,p => 
