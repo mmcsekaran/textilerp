@@ -4,6 +4,7 @@ import Color from '../Garment/Master/Color'
 import UserPage from '../User/UserPage'
 import Yarn from './../Garment/Master/Yarn';
 import TechPack from './../Garment/Sample/TechPack';
+import SampleConsting from './../Garment/Sample/Consting';
 export default function AppRouters() {
   return (
     <Routes>
@@ -22,7 +23,7 @@ export default function AppRouters() {
                     <Route path = '/garment/master/yarn' element = {<Yarn></Yarn>} />
               </Route>
                 <Route path='sample/' element= {<Outlet></Outlet>}>
-                    <Route path = '/garment/sample/techpack' element = {<TechPack></TechPack>} />
+                    <Route path = '/garment/sample/techpack' element = {<SampleConsting></SampleConsting>} />
                     
               </Route>
             </Route>
