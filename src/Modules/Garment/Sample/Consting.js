@@ -12,7 +12,7 @@ import {
   Tag,
   Typography,
 } from "antd";
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import Document, { DocumentProps } from "./../../Common/Document";
 import { Form, DatePicker, Select } from "antd";
 import { withDocument } from "./../../Common/withDocument";
@@ -30,6 +30,7 @@ import moment from "moment";
 import logo from "../../../assets/img/d2d.png";
 import { CloseCircleOutlined } from "@ant-design/icons";
 import CadCalculation from './../../Common/CadCalculation';
+import { useForm } from "antd/lib/form/Form";
 class SampleConsting extends Component {
   constructor(props) {
     super(props);
@@ -153,8 +154,7 @@ class SampleConsting extends Component {
                           ></Button>,
                         ]}
                       >
-                        <Row>
-                          <Col span={8}>
+                      
                             <Form.Item
                               {...restField}
                               name={[name, "componentName"]}
@@ -164,13 +164,12 @@ class SampleConsting extends Component {
                               </Select>
 
                               {console.log(restField)}
-                            </Form.Item>{" "}
-                          </Col>
-                          <Col></Col>
-                        </Row>
+                            </Form.Item>
+                         
+                        
 
 
-                        <Row>
+                      
                           <Form.Item name={[name, "name1"]}>
                             <Switch
                               unCheckedChildren={"CAD Input"}
@@ -182,20 +181,18 @@ class SampleConsting extends Component {
                               Cad Calculation
                             </Switch>
                           </Form.Item>
-                          <Col span={8}>
+                          
                             <Form.Item>
                               <Input readOnly={this.state.isFabricCal} />
                             </Form.Item>
-                          </Col>
-
-                          <Col>
+                         
                             <Form.Item
                              >
 
-                            
+                            <FabToCadInput/>
                                     <Space>
                                       <Row>
-                                        <Col span={8}>
+                                        <Col span={6}>
                                           <Select
                                             placeholder="Dimension"
                                             onChange={() => {
@@ -206,14 +203,102 @@ class SampleConsting extends Component {
                                             disabled={!this.state.isFabricCal}
                                           ></Select>
                                         </Col >
-                                        <Col span={8}>
+                                        <Col span={6}>
                                           <Input
                                             placeholder="CMS"
                                             type={"number"}
                                             disabled={!this.state.isFabricCal}
                                           />
                                         </Col>
-                                        <Col span={8}>
+                                        <Col span={6}>
+                                          <Input
+                                            placeholder="Inc. Allw"
+                                            type={"number"}
+                                            readOnly
+                                            disabled={!this.state.isFabricCal}
+                                          />
+                                        </Col>
+                                        <Col span={6}>
+                                          <Input
+                                            placeholder="Inc. Allw"
+                                            type={"number"}
+                                            readOnly
+                                            disabled={!this.state.isFabricCal}
+                                          />
+                                        </Col>
+                                      </Row>
+
+
+                                    </Space>
+                                    <Space>
+                                      <Row>
+                                        <Col span={6}>
+                                          <Select
+                                            placeholder="Dimension"
+                                            onChange={() => {
+
+                                            }}
+                                            type={"number"}
+
+                                            disabled={!this.state.isFabricCal}
+                                          ></Select>
+                                        </Col >
+                                        <Col span={6}>
+                                          <Input
+                                            placeholder="CMS"
+                                            type={"number"}
+                                            disabled={!this.state.isFabricCal}
+                                          />
+                                        </Col>
+                                        <Col span={6}>
+                                          <Input
+                                            placeholder="Inc. Allw"
+                                            type={"number"}
+                                            readOnly
+                                            disabled={!this.state.isFabricCal}
+                                          />
+                                        </Col>
+                                        <Col span={6}>
+                                          <Input
+                                            placeholder="Inc. Allw"
+                                            type={"number"}
+                                            readOnly
+                                            disabled={!this.state.isFabricCal}
+                                          />
+                                        </Col>
+                                      </Row>
+
+
+                                    </Space>
+                                    <Space>
+                                      <Row>
+                                        <Col span={6}>
+                                          <Select
+                                            placeholder="Dimension"
+                                            onChange={() => {
+
+                                            }}
+                                            type={"number"}
+
+                                            disabled={!this.state.isFabricCal}
+                                          ></Select>
+                                        </Col >
+                                        <Col span={6}>
+                                          <Input
+                                            placeholder="CMS"
+                                            type={"number"}
+                                            disabled={!this.state.isFabricCal}
+                                          />
+                                        </Col>
+                                        <Col span={6}>
+                                          <Input
+                                            placeholder="Inc. Allw"
+                                            type={"number"}
+                                            readOnly
+                                            disabled={!this.state.isFabricCal}
+                                          />
+                                        </Col>
+                                        <Col span={6}>
                                           <Input
                                             placeholder="Inc. Allw"
                                             type={"number"}
@@ -227,17 +312,8 @@ class SampleConsting extends Component {
                                     </Space>
                              
                             </Form.Item>
-                            <Form.Item name={"shdj"}>
-                              <Input />
-                            </Form.Item>
-                            <Form.Item>
-                              <Input />
-                            </Form.Item>
-                            <Form.Item>
-                              <Input />
-                            </Form.Item>
-                          </Col>
-                        </Row>
+                        
+                        
                       </Card>
                     ))}
                   </Card>
@@ -255,3 +331,111 @@ class SampleConsting extends Component {
 }
 
 export default withDocument(SampleConsting, {});
+
+
+const FabToCadInput =({value ={},onChange}) => {
+
+  const [form] = Form.useForm();
+
+  const [cad,setCad] = useState(0);
+  const [comp1,setComb1] = useState(
+    {
+      name:'',
+      cms:0,
+      allow:0,
+      includeAllow:0,
+    })
+  const [comp2,setComb2] = useState(
+    {
+      name:'',
+      cms:0,
+      allow:0,
+      includeAllow:0,
+    })
+  const [comp3,setComb3] = useState(
+    {
+      name:'',
+      cms:0,
+      allow:0,
+      includeAllow:0,
+    }
+  )
+  const [comp4,setComb4] = useState(
+    {
+      name:'',
+      cms:0,
+      allow:0,
+      includeAllow:0,
+    }
+  )
+
+  const handleFieldChange = (_,values) =>
+  {
+    console.log("received field change",values)
+    const  rowcopy = [...values.cad]
+    console.log(rowcopy)
+    let cadweight = 0 ;
+    values.cad.forEach((mcad,index) => {
+      if(mcad && mcad.cms && mcad.allow)
+      {
+        mcad.incallow = parseFloat(mcad.cms) + parseFloat(mcad.allow);
+        rowcopy.slice(index,1,mcad)
+        cadweight = cadweight+mcad.incallow
+        form.setFieldsValue({cad:rowcopy})
+      }
+form.setFieldsValue({cadWt:cadweight})
+    });
+  
+  }
+
+  return <span>
+    <Form
+  
+    onValuesChange ={handleFieldChange}
+    form = {form}
+    >
+      <Form.Item
+      name={'cadWt'}
+      >
+        <Input  type={'number'} />
+      </Form.Item>
+      <Form.List name={"cad"}>
+        {(fields,{add,remove}) =>
+        
+       (
+         <>
+         <Button onClick={()=>add()}>Add</Button>
+          {fields.map(({key,name,...restField}) =>
+          (
+            <Space key={key}>
+            <Form.Item
+            {...restField}
+            name={[name,'cms']}
+            >
+              <Input type={'text'}></Input>
+            </Form.Item>
+            <Form.Item
+            {...restField}
+            name={[name,'allow']}
+            >
+              <Input type={'text'}></Input>
+            </Form.Item>
+            <Form.Item
+            {...restField}
+            name={[name,'incallow']}
+            
+            >
+              <Input name="incallow" type={'text'}></Input>
+            </Form.Item>
+           
+            </Space>
+          ))
+          }
+         </>
+       )}
+      </Form.List>
+  
+    </Form>
+   
+  </span>
+}
