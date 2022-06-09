@@ -69,3 +69,9 @@
 padding-left: 10px;
 color: rgb(146, 31, 11) !important;
 }
+
+.disabled-input
+{
+    background-color: green !important;
+    color: #fff !important;
+}
