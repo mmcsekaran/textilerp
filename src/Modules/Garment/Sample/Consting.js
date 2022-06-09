@@ -29,7 +29,7 @@ import FabricCompositionComponent from "../../Common/FabricComposition";
 import moment from "moment";
 import logo from "../../../assets/img/d2d.png";
 import { CloseCircleOutlined } from "@ant-design/icons";
-import CadCalculation from './../../Common/CadCalculation';
+import CadCalculation from "./../../Common/CadCalculation";
 import { useForm } from "antd/lib/form/Form";
 class SampleConsting extends Component {
   constructor(props) {
@@ -41,11 +41,11 @@ class SampleConsting extends Component {
   }
 
   handleFieldChange = (data) => {
-    console.log(data)
-  }
+    console.log(data);
+  };
   handleValueChange = (_, values) => {
-    console.log(values)
-  }
+    console.log(values);
+  };
   onSave = (data) => {
     this.props.onSave("hi");
   };
@@ -154,166 +154,37 @@ class SampleConsting extends Component {
                           ></Button>,
                         ]}
                       >
-                      
-                            <Form.Item
-                              {...restField}
-                              name={[name, "componentName"]}
-                            >
-                              <Select placeholder="Select Component">
-                                <Select.Option key={1}>Top</Select.Option>
-                              </Select>
+                        <Form.Item
+                          {...restField}
+                          name={[name, "componentName"]}
+                        >
+                          <Select placeholder="Select Component">
+                            <Select.Option key={1}>Top</Select.Option>
+                          </Select>
 
-                              {console.log(restField)}
-                            </Form.Item>
-                         
+                          {console.log(restField)}
+                        </Form.Item>
+
+                        <Form.Item name={[name, "name1"]}>
+                          <Switch
+                            unCheckedChildren={"CAD Input"}
+                            checkedChildren={"Fabric Input"}
+                            onChange={(e) => {
+                              this.setState({ isFabricCal: e });
+                            }}
+                          >
+                            Cad Calculation
+                          </Switch>
+                        </Form.Item>
+
+                        <Form.Item>
+                          <Input readOnly={this.state.isFabricCal} />
+                        </Form.Item>
+
+                        <Form.Item>
+                          <FabToCadInput />
                         
-
-
-                      
-                          <Form.Item name={[name, "name1"]}>
-                            <Switch
-                              unCheckedChildren={"CAD Input"}
-                              checkedChildren={"Fabric Input"}
-                              onChange={(e) => {
-                                this.setState({ isFabricCal: e });
-                              }}
-                            >
-                              Cad Calculation
-                            </Switch>
-                          </Form.Item>
-                          
-                            <Form.Item>
-                              <Input readOnly={this.state.isFabricCal} />
-                            </Form.Item>
-                         
-                            <Form.Item
-                             >
-
-                            <FabToCadInput/>
-                                    <Space>
-                                      <Row>
-                                        <Col span={6}>
-                                          <Select
-                                            placeholder="Dimension"
-                                            onChange={() => {
-
-                                            }}
-                                            type={"number"}
-
-                                            disabled={!this.state.isFabricCal}
-                                          ></Select>
-                                        </Col >
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="CMS"
-                                            type={"number"}
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="Inc. Allw"
-                                            type={"number"}
-                                            readOnly
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="Inc. Allw"
-                                            type={"number"}
-                                            readOnly
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                      </Row>
-
-
-                                    </Space>
-                                    <Space>
-                                      <Row>
-                                        <Col span={6}>
-                                          <Select
-                                            placeholder="Dimension"
-                                            onChange={() => {
-
-                                            }}
-                                            type={"number"}
-
-                                            disabled={!this.state.isFabricCal}
-                                          ></Select>
-                                        </Col >
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="CMS"
-                                            type={"number"}
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="Inc. Allw"
-                                            type={"number"}
-                                            readOnly
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="Inc. Allw"
-                                            type={"number"}
-                                            readOnly
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                      </Row>
-
-
-                                    </Space>
-                                    <Space>
-                                      <Row>
-                                        <Col span={6}>
-                                          <Select
-                                            placeholder="Dimension"
-                                            onChange={() => {
-
-                                            }}
-                                            type={"number"}
-
-                                            disabled={!this.state.isFabricCal}
-                                          ></Select>
-                                        </Col >
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="CMS"
-                                            type={"number"}
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="Inc. Allw"
-                                            type={"number"}
-                                            readOnly
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                        <Col span={6}>
-                                          <Input
-                                            placeholder="Inc. Allw"
-                                            type={"number"}
-                                            readOnly
-                                            disabled={!this.state.isFabricCal}
-                                          />
-                                        </Col>
-                                      </Row>
-
-
-                                    </Space>
-                             
-                            </Form.Item>
-                        
-                        
+                        </Form.Item>
                       </Card>
                     ))}
                   </Card>
@@ -332,110 +203,245 @@ class SampleConsting extends Component {
 
 export default withDocument(SampleConsting, {});
 
-
-const FabToCadInput =({value ={},onChange}) => {
-
+const FabToCadInput = ({ value = {}, onChange }) => {
   const [form] = Form.useForm();
 
-  const [cad,setCad] = useState(0);
-  const [comp1,setComb1] = useState(
-    {
-      name:'',
-      cms:0,
-      allow:0,
-      includeAllow:0,
-    })
-  const [comp2,setComb2] = useState(
-    {
-      name:'',
-      cms:0,
-      allow:0,
-      includeAllow:0,
-    })
-  const [comp3,setComb3] = useState(
-    {
-      name:'',
-      cms:0,
-      allow:0,
-      includeAllow:0,
-    }
-  )
-  const [comp4,setComb4] = useState(
-    {
-      name:'',
-      cms:0,
-      allow:0,
-      includeAllow:0,
-    }
-  )
+  const [calc, setCalc] = useState(false);
+  const [comp1, setComb1] = useState({
+    name: "",
+    cms: 0,
+    allow: 0,
+    includeAllow: 0,
+  });
+  const [comp2, setComb2] = useState({
+    name: "",
+    cms: 0,
+    allow: 0,
+    includeAllow: 0,
+  });
+  const [comp3, setComb3] = useState({
+    name: "",
+    cms: 0,
+    allow: 0,
+    includeAllow: 0,
+  });
+  const [comp4, setComb4] = useState({
+    name: "",
+    cms: 0,
+    allow: 0,
+    includeAllow: 0,
+  });
 
-  const handleFieldChange = (_,values) =>
-  {
-    console.log("received field change",values)
-    const  rowcopy = [...values.cad]
-    console.log(rowcopy)
-    let cadweight = 0 ;
-    values.cad.forEach((mcad,index) => {
-      if(mcad && mcad.cms && mcad.allow)
-      {
-        mcad.incallow = parseFloat(mcad.cms) + parseFloat(mcad.allow);
-        rowcopy.slice(index,1,mcad)
-        cadweight = cadweight+mcad.incallow
-        form.setFieldsValue({cad:rowcopy})
-      }
-form.setFieldsValue({cadWt:cadweight})
-    });
-  
-  }
+  const handleFieldChange = (_, values) => {
+    console.log("received field change", values);
+    // const rowcopy = [...values.cad];
+    // console.log(values);
+    // let cadweight = 0;
+    // values.cad.forEach((mcad, index) => {
+    //   if (mcad && mcad.cms && mcad.allow) {
+    //     mcad.incallow = parseFloat(mcad.cms) + parseFloat(mcad.allow);
+    //     rowcopy.slice(index, 1, mcad);
+    //     cadweight = cadweight + mcad.incallow;
 
-  return <span>
-    <Form
+    //     form.setFieldsValue({ cad: rowcopy });
+    //   }
+    //   form.setFieldsValue({ cadWt: cadweight });
+    // });
+
+    
+
+  };
+
+
   
-    onValuesChange ={handleFieldChange}
-    form = {form}
+
+  return (
+    <Form layout="horizontal" onValuesChange={handleFieldChange} form={form}
+    
     >
-      <Form.Item
-      name={'cadWt'}
-      >
-        <Input  type={'number'} />
+      <Row>
+        <Col span={3}>
+          <Typography.Text strong >Cad Weight</Typography.Text>
+        </Col>
+        <Col>
+             <Form.Item name={"cadWt"} noStyle
+           
+             >
+      
+        <Input disabled = {calc} name="cadWt" />
       </Form.Item>
-      <Form.List name={"cad"}>
+        </Col>
+     <Col span={3} >
+     </Col>
+     <Col>
+     <Switch unCheckedChildren ={"Calculation"} checkedChildren={"Cad Weight"} onChange ={(e) =>
+    {
+setCalc(e)
+    }} ></Switch>
+     </Col>
+      </Row>
+    
+
+      <Row>
+        <Col>
+          <Form.Item noStyle
+          name={"length"}
+          >
+            <Input disabled placeholder="LENGTH" type={"text"} />
+          </Form.Item>
+        </Col>
+        <Col>  
+          <Form.Item noStyle
+          name={"len_cms"}
+          >
+            <Input disabled = {!calc} placeholder="CMS" type={"number"} />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name={"len_allow"}>
+            <Input disabled = {!calc} placeholder="Allowance" type={"number"}  />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name={"len_incl_allow"}>
+            <Input disabled placeholder="Inc. Allw" type={"number"}  />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Item noStyle name={"sl_length"}>
+            <Input disabled placeholder="SLV. LENGTH" type={"text"} />
+          </Form.Item>
+        </Col>
+        <Col>  
+          <Form.Item noStyle name={"slen_cms"} >
+            <Input disabled = {!calc} placeholder="CMS" type={"number"} />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name={"slen_allow"}>
+            <Input disabled = {!calc} placeholder="Allowance" type={"number"}  />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name={"slen_incl_allow"}>
+            <Input disabled placeholder="Inc. Allw" type={"number"} readOnly />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Item noStyle name={"width"}>
+            <Input disabled placeholder="WIDTH" type={"text"} />
+          </Form.Item>
+        </Col>
+        <Col>  
+          <Form.Item noStyle name={"wid_cms"}>
+            <Input disabled = {!calc} placeholder="CMS" type={"number"} />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name={"wid_allow"}>
+            <Input disabled = {!calc} placeholder="Allow" type={"number"}  />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name={"wid_incl_allow"}>
+            <Input disabled  placeholder="Inc. Allw" type={"number"}  />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Form.Item noStyle>
+            <Input disabled placeholder="GSM" type={"text"} />
+          </Form.Item>
+        </Col>
+        <Col>  
+          <Form.Item noStyle name={"gsm"} >
+            <Input disabled = {!calc} placeholder="GSM" type={"number"} />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name >
+            <Input  placeholder="LOSS %" type={"number"} disabled />
+          </Form.Item>
+        </Col>
+        <Col>
+          <Form.Item noStyle name={"loss"} >
+            <Input disabled = {!calc} placeholder="loss" type={"number"}  />
+          </Form.Item>
+        </Col>
+      </Row>
+    
+
+    
+
+      {/* <Form.List name={"cad"}>
         {(fields,{add,remove}) =>
         
        (
-         <>
-         <Button onClick={()=>add()}>Add</Button>
+         <> 
+         <Row>
+        <Col>
+        <Form.Item
+      
+        >
+          <Input />
+        </Form.Item>
+        </Col>
+        <Col>
+        <Form.Item  name={'cadWt'}>
+          <Input name="cadWt" />
+        </Form.Item>
+        </Col>
+        <Col> <Button onClick={()=>add()}>Add</Button>
+        </Col>
+      </Row>
+        
+         <Row>
+           <Col span={3}>Dimension</Col>
+           <Col span={3}>CMS</Col>
+           <Col span={3}>Allowance</Col>
+           <Col span={3}>Incl Allow</Col>
+         </Row>
           {fields.map(({key,name,...restField}) =>
           (
-            <Space key={key}>
+            
+          <Row>
+            <Col>
             <Form.Item
             {...restField}
             name={[name,'cms']}
+            noStyle
             >
-              <Input type={'text'}></Input>
-            </Form.Item>
+              <Input name="cms" type={'text'}></Input>
+            </Form.Item></Col>
+            <Col >
             <Form.Item
+            noStyle
             {...restField}
             name={[name,'allow']}
             >
-              <Input type={'text'}></Input>
-            </Form.Item>
-            <Form.Item
+              <Input name="allow" type={'text'}></Input>
+            </Form.Item></Col>
+           <Col> <Form.Item
+            noStyle
             {...restField}
             name={[name,'incallow']}
             
             >
-              <Input name="incallow" type={'text'}></Input>
-            </Form.Item>
+              <Input disabled style={{background:'green',color:'white'}} color="white" name="incallow" type={'text'}></Input>
+            </Form.Item> </Col>
+            </Row>
            
-            </Space>
+        
           ))
           }
          </>
        )}
-      </Form.List>
-  
+      </Form.List> */}
     </Form>
-   
-  </span>
-}
+  );
+};
