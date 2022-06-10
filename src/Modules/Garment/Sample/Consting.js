@@ -28,7 +28,7 @@ import FabricTypeComponent from "./../../Common/FabricTypeComponent";
 import FabricCompositionComponent from "../../Common/FabricComposition";
 import moment from "moment";
 import logo from "../../../assets/img/d2d.png";
-import { CloseCircleOutlined } from "@ant-design/icons";
+import { CloseCircleOutlined, MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import CadCalculation from "./../../Common/CadCalculation";
 import { useForm } from "antd/lib/form/Form";
 import '../../Common/Component.css'
@@ -131,31 +131,21 @@ class SampleConsting extends Component {
               </Row>
               <Form.List name="components">
                 {(fields, { add, remove }) => (
-                  <Card
-                    extra={[
-                      <Button onClick={() => add()}>Add Component</Button>,
-                      <Select
-                        onSelect={(value) => {
-                          add(value);
-                          console.log(value);
-                        }}
-                        style={{ width: "400px" }}
-                        mode="multiple"
-                      ></Select>,
-                    ]}
-                  >
+                  <>
+                    <><Button onClick={()=>add()}>Add Panel</Button></>
                     {fields.map(({ key, name, ...restField }) => (
-                      <Card
-                        key={key}
-                        extra={[
-                          <Button
-                            onClick={() => remove(name)}
-                            block
-                            icon={<CloseCircleOutlined />}
-                          ></Button>,
-                        ]}
-                      >
+                     
+                        <Row>
+<Space>
+                     
+                     <Row>
+                       <Col>
+                        <Form.Item noStyle>
+
+                        </Form.Item></Col>
+                        <Col>
                         <Form.Item
+                        noStyle
                           {...restField}
                           name={[name, "componentName"]}
                         >
@@ -166,16 +156,21 @@ class SampleConsting extends Component {
                           {console.log(restField)}
                         </Form.Item>
 
-                     
+                     </Col>
 
-                      
-                        <Form.Item>
-                          <FabToCadInput />
+                      <Col>
+                        <Form.Item
+                        noStyle
+                        >
                         
-                        </Form.Item>
-                      </Card>
+                        <Input/>
+                        </Form.Item></Col>
+                        </Row>
+</Space>
+           </Row>            
+                      
                     ))}
-                  </Card>
+                  </>
                 )}
               </Form.List>
               <Form.Item>
@@ -235,12 +230,16 @@ const FabToCadInput = ({ value = {}, onChange }) => {
     //   }
     //   form.setFieldsValue({ cadWt: cadweight });
     // });
-
+      if(calc)
+      {
       const len_incl_allow = parseFloat(values.len_cms) + parseFloat(values.len_allow);
       const slen_incl_allow= parseFloat(values.slen_cms) + parseFloat(values.slen_allow);
       const wid_incl_allow = parseFloat(values.wid_cms) + parseFloat(values.wid_allow)
-      form.setFieldsValue({len_incl_allow:len_incl_allow,slen_incl_allow:slen_incl_allow,wid_incl_allow:wid_incl_allow})
+      const tot_incl_allow = ((((len_incl_allow+slen_incl_allow)*wid_incl_allow)*2)*parseFloat(values.gsm))/10000
+      const cadweight = ((tot_incl_allow*parseFloat(values.loss))/100+tot_incl_allow)/1000
+      form.setFieldsValue({len_incl_allow:len_incl_allow,slen_incl_allow:slen_incl_allow,wid_incl_allow:wid_incl_allow,cadWt:cadweight.toFixed(3)})
       console.log("received field change", form.getFieldsValue(true));
+      }
   };
 
 
@@ -264,7 +263,7 @@ const FabToCadInput = ({ value = {}, onChange }) => {
           <Form.Item noStyle
           name={"cadWt"}
           >
-            <Input disabled = {!calc} placeholder="Cad" type={"number"} />
+            <Input className= {calc ? 'disabled-input':''} disabled = {calc} placeholder="Cad" type={"number"} />
           </Form.Item>
         </Col>
         <Col span={4}>
@@ -280,26 +279,26 @@ setCalc(e)
       { calc ?
       <>
       <Row>
-        <Col>
+        <Col xs={24} sm ={24} lg = {6}>
           <Form.Item noStyle
          
           >
             <Input className="disabled-input" disabled value={"LENGTH"} type={"text"} />
           </Form.Item>
         </Col>
-        <Col span={4}>  
+        <Col xs={24} sm = {12} lg={6} >  
           <Form.Item noStyle
           name={"len_cms"}
           >
             <Input disabled = {!calc} placeholder="CMS" type={"number"} />
           </Form.Item>
         </Col>
-        <Col span={4}>
+        <Col xs={24} sm={12} lg = {6}>
           <Form.Item noStyle name={"len_allow"}>
             <Input disabled = {!calc} placeholder="Allowance" type={"number"}  />
           </Form.Item>
         </Col>
-        <Col span={4}>
+        <Col xs={24} sm={24} lg={6} >
           <Form.Item noStyle name={"len_incl_allow"}>
             <Input className="disabled-input" disabled placeholder="Inc. Allw" type={"number"}  />
           </Form.Item>
@@ -372,13 +371,93 @@ setCalc(e)
         </Col>
       </Row></>
       :''}</Col>
-<Col span={12}>
-<Form.Item>
-  <Input/>
-</Form.Item>
-</Col>
-    
 </Row>
+<Row>
+<Form.List name={'process'}>
+  {(fields,{add,remove}) =>
+ (
+   <>
+   <Card
+   extra ={[<Button onClick={()=> add()} icon ={<PlusCircleOutlined></PlusCircleOutlined>}></Button>]}
+   actions =
+   {
+[
+  <Typography.Text>100</Typography.Text>
+]
+   }
+   >
+     {fields.map(({key,name,...restField}) =>
+     (
+       <>
+       <Row>
+       <Space>
+         <Row>
+
+       <Col xs ={24} lg ={6}>
+      
+          <Form.Item
+          noStyle
+       name={[name,'processName']}
+       >
+         <Select placeholder = "Select Process" >
+           <Select.Option value = {1}>
+            Yarn
+           </Select.Option>
+         </Select>
+       </Form.Item >
+       </Col>
+       <Col xs ={24} lg ={6}>
+          <Form.Item
+          noStyle
+       name={[name,'rate']}
+       
+       >
+         <Input defaultValue={0}/>
+       </Form.Item >
+       </Col >
+       <Col xs ={24} lg ={6}>
+          <Form.Item
+          noStyle
+       name={[name,'processloss']}
+       >
+         <Input defaultValue={0}/>
+       </Form.Item >
+       </Col>
+       <Col >
+       <Form.Item
+       noStyle
+       >
+            <Button onClick={()=> remove(name)} icon ={<MinusCircleOutlined></MinusCircleOutlined>}></Button>
+       </Form.Item>
+       </Col>
+       <Col>
+     
+       <Form.Item
+       noStyle
+       >
+            <Button onClick={()=> add()} icon ={<PlusCircleOutlined></PlusCircleOutlined>}></Button>
+       </Form.Item>
+       </Col>
+       </Row>
+       </Space>
+      </Row>
+
+       </>
+     ))}
+     <Card.Meta>
+       <>
+    
+       </>
+     </Card.Meta>
+   </Card>
+   </>
+ )
+
+  }
+</Form.List>
+</Row>
+    
+
     
 
       {/* <Form.List name={"cad"}>
