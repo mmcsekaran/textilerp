@@ -28,10 +28,14 @@ import FabricTypeComponent from "./../../Common/FabricTypeComponent";
 import FabricCompositionComponent from "../../Common/FabricComposition";
 import moment from "moment";
 import logo from "../../../assets/img/d2d.png";
-import { CloseCircleOutlined, MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import {
+  CloseCircleOutlined,
+  MinusCircleOutlined,
+  PlusCircleOutlined,
+} from "@ant-design/icons";
 import CadCalculation from "./../../Common/CadCalculation";
 import { useForm } from "antd/lib/form/Form";
-import '../../Common/Component.css'
+import "../../Common/Component.css";
 class SampleConsting extends Component {
   constructor(props) {
     super(props);
@@ -132,43 +136,119 @@ class SampleConsting extends Component {
               <Form.List name="components">
                 {(fields, { add, remove }) => (
                   <>
-                    <><Button onClick={()=>add()}>Add Panel</Button></>
-                    {fields.map(({ key, name, ...restField }) => (
+                    <>
+                      <Button onClick={() => add()}>Add Panel</Button>
+                    </>
+                  
                      
-                        <Row>
-<Space>
-                     
-                     <Row>
-                       <Col>
-                        <Form.Item noStyle>
-
-                        </Form.Item></Col>
-                        <Col>
-                        <Form.Item
-                        noStyle
-                          {...restField}
-                          name={[name, "componentName"]}
-                        >
-                          <Select placeholder="Select Component">
-                            <Select.Option key={1}>Top</Select.Option>
-                          </Select>
-
-                          {console.log(restField)}
-                        </Form.Item>
-
-                     </Col>
-
-                      <Col>
-                        <Form.Item
-                        noStyle
-                        >
+                          <Row>
+                          <Col  lg = {1}>
+                             <Input className="disabled-input" value={'S.No'} />
+                            </Col>
+                            <Col  lg={5}>
+                            <Input className="disabled-input" value={"Panel Name"} />
+                            </Col>
+                            <Col  lg = {1}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                            <Col  lg = {2}>
+                            <Input className="disabled-input" value={"GSM"} />
+                            </Col>
+                           
                         
-                        <Input/>
-                        </Form.Item></Col>
-                        </Row>
-</Space>
-           </Row>            
-                      
+                      </Row>
+                    {fields.map(({ key, name, ...restField }) => (
+                      <Row>
+                        <Space>
+                          <Row>
+                          <Col lg = {1}>
+                              <Form.Item noStyle>
+                                <Input value={key+1} />
+                              </Form.Item>
+                            </Col>
+                            <Col lg={5}>
+                              <Form.Item
+                                noStyle
+                                {...restField}
+                                name={[name, "componentName"]}
+                              >
+                                <Select style={{width:'100%'}} placeholder="Select Component">
+                                  <Select.Option key={1}>Top</Select.Option>
+                                </Select>
+
+                                {console.log(restField)}
+                              </Form.Item>
+                            </Col>
+
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                            <Col lg = {2}>
+                              <Form.Item noStyle>
+                                <Input />
+                              </Form.Item>
+                            </Col>
+                          </Row>
+                        </Space>
+                      </Row>
                     ))}
                   </>
                 )}
@@ -230,235 +310,288 @@ const FabToCadInput = ({ value = {}, onChange }) => {
     //   }
     //   form.setFieldsValue({ cadWt: cadweight });
     // });
-      if(calc)
-      {
-      const len_incl_allow = parseFloat(values.len_cms) + parseFloat(values.len_allow);
-      const slen_incl_allow= parseFloat(values.slen_cms) + parseFloat(values.slen_allow);
-      const wid_incl_allow = parseFloat(values.wid_cms) + parseFloat(values.wid_allow)
-      const tot_incl_allow = ((((len_incl_allow+slen_incl_allow)*wid_incl_allow)*2)*parseFloat(values.gsm))/10000
-      const cadweight = ((tot_incl_allow*parseFloat(values.loss))/100+tot_incl_allow)/1000
-      form.setFieldsValue({len_incl_allow:len_incl_allow,slen_incl_allow:slen_incl_allow,wid_incl_allow:wid_incl_allow,cadWt:cadweight.toFixed(3)})
+    if (calc) {
+      const len_incl_allow =
+        parseFloat(values.len_cms) + parseFloat(values.len_allow);
+      const slen_incl_allow =
+        parseFloat(values.slen_cms) + parseFloat(values.slen_allow);
+      const wid_incl_allow =
+        parseFloat(values.wid_cms) + parseFloat(values.wid_allow);
+      const tot_incl_allow =
+        ((len_incl_allow + slen_incl_allow) *
+          wid_incl_allow *
+          2 *
+          parseFloat(values.gsm)) /
+        10000;
+      const cadweight =
+        ((tot_incl_allow * parseFloat(values.loss)) / 100 + tot_incl_allow) /
+        1000;
+      form.setFieldsValue({
+        len_incl_allow: len_incl_allow,
+        slen_incl_allow: slen_incl_allow,
+        wid_incl_allow: wid_incl_allow,
+        cadWt: cadweight.toFixed(3),
+      });
       console.log("received field change", form.getFieldsValue(true));
-      }
+    }
   };
 
-
-  
-
   return (
-    <Form layout="horizontal" onValuesChange={handleFieldChange} form={form}
-    
-    >
+    <Form layout="horizontal" onValuesChange={handleFieldChange} form={form}>
       <Row>
-    <Col xs={24} sm={24} md={24} lg={12}>
-      <Row>
-        <Col>
-          <Form.Item noStyle
-         
-          >
-            <Input disabled className="disabled-input"  value={"Cad Weight"} placeholder="Cad Weight" type={"text"} />
-          </Form.Item>
-        </Col>
-        <Col span={4}>  
-          <Form.Item noStyle
-          name={"cadWt"}
-          >
-            <Input className= {calc ? 'disabled-input':''} disabled = {calc} placeholder="Cad" type={"number"} />
-          </Form.Item>
-        </Col>
-        <Col span={4}>
-       
-        </Col>
-        <Col span={4}>
-        <Switch unCheckedChildren ={"Calculation"} checkedChildren={"Cad Weight"} onChange ={(e) =>
-    {
-setCalc(e)
-    }} ></Switch>
+        <Col xs={24} sm={24} md={24} lg={12}>
+          <Row>
+            <Col>
+              <Form.Item noStyle>
+                <Input
+                  disabled
+                  className="disabled-input"
+                  value={"Cad Weight"}
+                  placeholder="Cad Weight"
+                  type={"text"}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={4}>
+              <Form.Item noStyle name={"cadWt"}>
+                <Input
+                  className={calc ? "disabled-input" : ""}
+                  disabled={calc}
+                  placeholder="Cad"
+                  type={"number"}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={4}></Col>
+            <Col span={4}>
+              <Switch
+                unCheckedChildren={"Calculation"}
+                checkedChildren={"Cad Weight"}
+                onChange={(e) => {
+                  setCalc(e);
+                }}
+              ></Switch>
+            </Col>
+          </Row>
+          {calc ? (
+            <>
+              <Row>
+                <Col xs={24} sm={24} lg={6}>
+                  <Form.Item noStyle>
+                    <Input
+                      className="disabled-input"
+                      disabled
+                      value={"LENGTH"}
+                      type={"text"}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} lg={6}>
+                  <Form.Item noStyle name={"len_cms"}>
+                    <Input disabled={!calc} placeholder="CMS" type={"number"} />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={12} lg={6}>
+                  <Form.Item noStyle name={"len_allow"}>
+                    <Input
+                      disabled={!calc}
+                      placeholder="Allowance"
+                      type={"number"}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col xs={24} sm={24} lg={6}>
+                  <Form.Item noStyle name={"len_incl_allow"}>
+                    <Input
+                      className="disabled-input"
+                      disabled
+                      placeholder="Inc. Allw"
+                      type={"number"}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Item noStyle>
+                    <Input
+                      className="disabled-input"
+                      disabled
+                      value="SLV. LENGTH"
+                      type={"text"}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"slen_cms"}>
+                    <Input disabled={!calc} placeholder="CMS" type={"number"} />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"slen_allow"}>
+                    <Input
+                      disabled={!calc}
+                      placeholder="Allowance"
+                      type={"number"}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"slen_incl_allow"}>
+                    <Input
+                      className="disabled-input"
+                      disabled
+                      placeholder="Inc. Allw"
+                      type={"number"}
+                      readOnly
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Item noStyle>
+                    <Input
+                      className="disabled-input"
+                      disabled
+                      value="WIDTH"
+                      type={"text"}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"wid_cms"}>
+                    <Input disabled={!calc} placeholder="CMS" type={"number"} />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"wid_allow"}>
+                    <Input
+                      disabled={!calc}
+                      placeholder="Allow"
+                      type={"number"}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"wid_incl_allow"}>
+                    <Input
+                      className="disabled-input"
+                      disabled
+                      placeholder="Inc. Allw"
+                      type={"number"}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Form.Item noStyle>
+                    <Input
+                      className="disabled-input"
+                      disabled
+                      value="GSM"
+                      type={"text"}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"gsm"}>
+                    <Input disabled={!calc} placeholder="GSM" type={"number"} />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle>
+                    <Input
+                      className="disabled-input"
+                      value="LOSS %"
+                      type={"text"}
+                      disabled
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={4}>
+                  <Form.Item noStyle name={"loss"}>
+                    <Input
+                      disabled={!calc}
+                      placeholder="loss"
+                      type={"number"}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+            </>
+          ) : (
+            ""
+          )}
         </Col>
       </Row>
-      { calc ?
-      <>
       <Row>
-        <Col xs={24} sm ={24} lg = {6}>
-          <Form.Item noStyle
-         
-          >
-            <Input className="disabled-input" disabled value={"LENGTH"} type={"text"} />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm = {12} lg={6} >  
-          <Form.Item noStyle
-          name={"len_cms"}
-          >
-            <Input disabled = {!calc} placeholder="CMS" type={"number"} />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={12} lg = {6}>
-          <Form.Item noStyle name={"len_allow"}>
-            <Input disabled = {!calc} placeholder="Allowance" type={"number"}  />
-          </Form.Item>
-        </Col>
-        <Col xs={24} sm={24} lg={6} >
-          <Form.Item noStyle name={"len_incl_allow"}>
-            <Input className="disabled-input" disabled placeholder="Inc. Allw" type={"number"}  />
-          </Form.Item>
-        </Col>
+        <Form.List name={"process"}>
+          {(fields, { add, remove }) => (
+            <>
+              <Card
+                extra={[
+                  <Button
+                    onClick={() => add()}
+                    icon={<PlusCircleOutlined></PlusCircleOutlined>}
+                  ></Button>,
+                ]}
+                actions={[<Typography.Text>100</Typography.Text>]}
+              >
+                {fields.map(({ key, name, ...restField }) => (
+                  <>
+                    <Row>
+                      <Space>
+                        <Row>
+                          <Col xs={24} lg={6}>
+                            <Form.Item noStyle name={[name, "processName"]}>
+                              <Select placeholder="Select Process">
+                                <Select.Option value={1}>Yarn</Select.Option>
+                              </Select>
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} lg={6}>
+                            <Form.Item noStyle name={[name, "rate"]}>
+                              <Input defaultValue={0} />
+                            </Form.Item>
+                          </Col>
+                          <Col xs={24} lg={6}>
+                            <Form.Item noStyle name={[name, "processloss"]}>
+                              <Input defaultValue={0} />
+                            </Form.Item>
+                          </Col>
+                          <Col>
+                            <Form.Item noStyle>
+                              <Button
+                                onClick={() => remove(name)}
+                                icon={
+                                  <MinusCircleOutlined></MinusCircleOutlined>
+                                }
+                              ></Button>
+                            </Form.Item>
+                          </Col>
+                          <Col>
+                            <Form.Item noStyle>
+                              <Button
+                                onClick={() => add()}
+                                icon={<PlusCircleOutlined></PlusCircleOutlined>}
+                              ></Button>
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                      </Space>
+                    </Row>
+                  </>
+                ))}
+                <Card.Meta>
+                  <></>
+                </Card.Meta>
+              </Card>
+            </>
+          )}
+        </Form.List>
       </Row>
-      <Row>
-        <Col>
-          <Form.Item noStyle >
-            <Input className="disabled-input" disabled value="SLV. LENGTH" type={"text"} />
-          </Form.Item>
-        </Col>
-        <Col span={4}>  
-          <Form.Item noStyle name={"slen_cms"} >
-            <Input disabled = {!calc} placeholder="CMS" type={"number"} />
-          </Form.Item>
-        </Col>
-        <Col  span={4} >
-          <Form.Item noStyle name={"slen_allow"}>
-            <Input disabled = {!calc} placeholder="Allowance" type={"number"}  />
-          </Form.Item>
-        </Col>
-        <Col  span={4}>
-          <Form.Item noStyle name={"slen_incl_allow"}>
-            <Input className="disabled-input" disabled placeholder="Inc. Allw" type={"number"} readOnly />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Item noStyle >
-            <Input className="disabled-input" disabled value="WIDTH" type={"text"} />
-          </Form.Item>
-        </Col>
-        <Col  span={4}>  
-          <Form.Item noStyle name={"wid_cms"}>
-            <Input disabled = {!calc} placeholder="CMS" type={"number"} />
-          </Form.Item>
-        </Col>
-        <Col  span={4}>
-          <Form.Item noStyle name={"wid_allow"}>
-            <Input disabled = {!calc} placeholder="Allow" type={"number"}  />
-          </Form.Item>
-        </Col>
-        <Col  span={4}>
-          <Form.Item noStyle name={'wid_incl_allow'} >
-            <Input className="disabled-input" disabled  placeholder="Inc. Allw" type={"number"}  />
-          </Form.Item>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Item noStyle>
-            <Input className="disabled-input" disabled value="GSM" type={"text"} />
-          </Form.Item>
-        </Col>
-        <Col  span={4}>  
-          <Form.Item noStyle name={"gsm"} >
-            <Input disabled = {!calc} placeholder="GSM" type={"number"} />
-          </Form.Item>
-        </Col>
-        <Col  span={4}>
-          <Form.Item noStyle>
-            <Input className="disabled-input"  value="LOSS %" type={"text"} disabled />
-          </Form.Item>
-        </Col>
-        <Col  span={4}>
-          <Form.Item noStyle name={"loss"} >
-            <Input  disabled = {!calc} placeholder="loss" type={"number"}  />
-          </Form.Item>
-        </Col>
-      </Row></>
-      :''}</Col>
-</Row>
-<Row>
-<Form.List name={'process'}>
-  {(fields,{add,remove}) =>
- (
-   <>
-   <Card
-   extra ={[<Button onClick={()=> add()} icon ={<PlusCircleOutlined></PlusCircleOutlined>}></Button>]}
-   actions =
-   {
-[
-  <Typography.Text>100</Typography.Text>
-]
-   }
-   >
-     {fields.map(({key,name,...restField}) =>
-     (
-       <>
-       <Row>
-       <Space>
-         <Row>
-
-       <Col xs ={24} lg ={6}>
-      
-          <Form.Item
-          noStyle
-       name={[name,'processName']}
-       >
-         <Select placeholder = "Select Process" >
-           <Select.Option value = {1}>
-            Yarn
-           </Select.Option>
-         </Select>
-       </Form.Item >
-       </Col>
-       <Col xs ={24} lg ={6}>
-          <Form.Item
-          noStyle
-       name={[name,'rate']}
-       
-       >
-         <Input defaultValue={0}/>
-       </Form.Item >
-       </Col >
-       <Col xs ={24} lg ={6}>
-          <Form.Item
-          noStyle
-       name={[name,'processloss']}
-       >
-         <Input defaultValue={0}/>
-       </Form.Item >
-       </Col>
-       <Col >
-       <Form.Item
-       noStyle
-       >
-            <Button onClick={()=> remove(name)} icon ={<MinusCircleOutlined></MinusCircleOutlined>}></Button>
-       </Form.Item>
-       </Col>
-       <Col>
-     
-       <Form.Item
-       noStyle
-       >
-            <Button onClick={()=> add()} icon ={<PlusCircleOutlined></PlusCircleOutlined>}></Button>
-       </Form.Item>
-       </Col>
-       </Row>
-       </Space>
-      </Row>
-
-       </>
-     ))}
-     <Card.Meta>
-       <>
-    
-       </>
-     </Card.Meta>
-   </Card>
-   </>
- )
-
-  }
-</Form.List>
-</Row>
-    
-
-    
 
       {/* <Form.List name={"cad"}>
         {(fields,{add,remove}) =>
