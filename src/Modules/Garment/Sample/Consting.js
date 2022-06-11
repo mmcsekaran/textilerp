@@ -36,6 +36,8 @@ import {
 import CadCalculation from "./../../Common/CadCalculation";
 import { useForm } from "antd/lib/form/Form";
 import "../../Common/Component.css";
+import PortionComponent from "../../Common/PortionComponent";
+import FabricToCad from './FabricToCad';
 class SampleConsting extends Component {
   constructor(props) {
     super(props);
@@ -65,9 +67,7 @@ class SampleConsting extends Component {
     console.log(this.prop);
     return (
       <div>
-        <Card
-        style={{background:'lightgreen'}}
-        >
+        <Card style={{ background: "lightgreen" }}>
           <Document
             AuthorizeTo={{
               PagePermission: "COSTING_ENQUIRY1",
@@ -91,38 +91,64 @@ class SampleConsting extends Component {
               onValuesChange={this.handleValueChange}
             >
               <Row>
-                <Col span={8}>
-                  <Form.Item name={"costno"} label="Costing No">
-                    <Input readOnly disabled type={"text"} />
-                  </Form.Item>
-                  <Form.Item label="Date">
-                    <DatePicker defaultValue={moment()} format="DD/MM/YYYY" />
-                  </Form.Item>
-                  <Form.Item label={"Buyer"}>
-                    <BuyerComponent />
-                  </Form.Item>
-                  <Form.Item label="Division">
-                    <DivisionComponent />
-                  </Form.Item>
-
-                  <Form.Item label="Style Description">
-                    <StyleDescriptionComponent />
-                  </Form.Item>
-                  <Form.Item label="Color">
-                    <ColorComponent />
-                  </Form.Item>
-                  <Form.Item label="Size Range">
-                    <SizeTemplateComponent />
-                  </Form.Item>
-                  <Form.Item label="Fabric">
-                    <FabricTypeComponent />
-                  </Form.Item>
-                  <Form.Item label="GSM" name={"gsm"}>
-                    <Input type={"number"} />
-                  </Form.Item>
-                  <Form.Item label="Fabric Composition">
-                    <FabricCompositionComponent />
-                  </Form.Item>
+                <Col span={18}>
+                  <Row>
+                    <Col>
+                      <Form.Item name={"costno"} label="Costing No">
+                        <Input readOnly disabled type={"text"} />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Form.Item label="Date">
+                        <DatePicker
+                          defaultValue={moment()}
+                          format="DD/MM/YYYY"
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Form.Item label={"Buyer"}>
+                        <BuyerComponent />
+                      </Form.Item>
+                    </Col>
+                    <Row>
+                      <Col>
+                        <Form.Item label="Division">
+                          <DivisionComponent />
+                        </Form.Item>
+                      </Col>
+                      <Col>
+                        <Form.Item label="Style Description">
+                          <StyleDescriptionComponent />
+                        </Form.Item>
+                      </Col>
+                      <Col>
+                        <Form.Item label="Color">
+                          <ColorComponent />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Col>
+                      <Form.Item label="Size Range">
+                        <SizeTemplateComponent />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Form.Item label="Fabric">
+                        <FabricTypeComponent />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Form.Item label="GSM" name={"gsm"}>
+                        <Input type={"number"} />
+                      </Form.Item>
+                    </Col>
+                    <Col>
+                      <Form.Item label="Fabric Composition">
+                        <FabricCompositionComponent />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                 </Col>
                 <Col style={{ paddingLeft: "20px" }} span={6}>
                   <Form.Item>
@@ -141,124 +167,38 @@ class SampleConsting extends Component {
                     <>
                       <Button onClick={() => add()}>Add Panel</Button>
                     </>
+
                   
-                     
-                          <Row>
-                          <Col  lg = {1}>
-                             <Input className="disabled-input" value={'S.No'} />
-                            </Col>
-                            <Col  lg={4} xxl={3}>
-                            <Input className="disabled-input" value={"Panel Name"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                            <Col  lg = {2}>
-                            <Input className="disabled-input" value={"GSM"} />
-                            </Col>
-                           
-                        
-                      </Row>
-                    {fields.map(({ key, name, ...restField }) => (
-                      <Row>
-                        <Space>
-                          <Row>
-                          <Col lg = {1}>
-                              <Form.Item noStyle>
-                                <Input value={key+1} />
-                              </Form.Item>
-                            </Col>
-                            <Col lg={4}>
-                              <Form.Item
-                                noStyle
-                                {...restField}
-                                name={[name, "componentName"]}
-                              >
-                                <Select style={{width:'100%'}} placeholder="Select Component">
-                                  <Select.Option key={1}>Top</Select.Option>
-                                  <Select.Option key={1}>Top & Bottom</Select.Option>
-                                </Select>
+                          <Form.List name={'process'}>
+                            {(fieldsPro,{add,remove}) =>
+                           (
+                             <>
+                             <><Button onClick={() => add()} >Add</Button></>
+                             {fieldsPro.map(process =>
+                              (
+                                    <>
+                             <Form.Item name={[process.name,"processname"]}>
+                               <Input/>
+                             </Form.Item>
+                             </>
+                              ))}
+                         
+                             </>
+                           )
+                            }
 
-                                {console.log(restField)}
-                              </Form.Item>
-                            </Col>
-
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col lg = {2}>
-                              <Form.Item noStyle>
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                          </Row>
-                        </Space>
-                      </Row>
+                          </Form.List>
+                       
+                   
                     ))}
                   </>
                 )}
               </Form.List>
+
               <Form.Item>
                 <Button htmlType="submit">Save</Button>
               </Form.Item>
+              <FabricToCad/>
             </Form>
           </Document>
         </Card>
