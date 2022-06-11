@@ -65,7 +65,9 @@ class SampleConsting extends Component {
     console.log(this.prop);
     return (
       <div>
-        <Card>
+        <Card
+        style={{background:'lightgreen'}}
+        >
           <Document
             AuthorizeTo={{
               PagePermission: "COSTING_ENQUIRY1",
@@ -145,10 +147,10 @@ class SampleConsting extends Component {
                           <Col  lg = {1}>
                              <Input className="disabled-input" value={'S.No'} />
                             </Col>
-                            <Col  lg={5}>
+                            <Col  lg={4} xxl={3}>
                             <Input className="disabled-input" value={"Panel Name"} />
                             </Col>
-                            <Col  lg = {1}>
+                            <Col  lg = {2}>
                             <Input className="disabled-input" value={"GSM"} />
                             </Col>
                             <Col  lg = {2}>
@@ -187,7 +189,7 @@ class SampleConsting extends Component {
                                 <Input value={key+1} />
                               </Form.Item>
                             </Col>
-                            <Col lg={5}>
+                            <Col lg={4}>
                               <Form.Item
                                 noStyle
                                 {...restField}
@@ -195,6 +197,7 @@ class SampleConsting extends Component {
                               >
                                 <Select style={{width:'100%'}} placeholder="Select Component">
                                   <Select.Option key={1}>Top</Select.Option>
+                                  <Select.Option key={1}>Top & Bottom</Select.Option>
                                 </Select>
 
                                 {console.log(restField)}
