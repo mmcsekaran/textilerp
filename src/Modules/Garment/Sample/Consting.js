@@ -1,4 +1,4 @@
-import { MinusCircleFilled, MinusCircleOutlined, MinusSquareOutlined, PlusCircleFilled } from '@ant-design/icons'
+import { MinusCircleFilled, MinusCircleOutlined, MinusSquareOutlined, PlusCircleFilled, RestFilled } from '@ant-design/icons'
 import { Form, Input, Space, Switch, Typography ,Row, Col, Select, Button,Image} from 'antd'
 import React, { Component, useState } from 'react'
 
@@ -116,6 +116,7 @@ export  function MeasureToCad({value = {},onChange}) {
   const [form] = Form.useForm()
   const handleFieldChange = (_,fields) =>
   {
+    console.log(fields)
     var cadweight = parseFloat(fields.cadWt);
     if(calcMode)
     {
@@ -139,33 +140,37 @@ export  function MeasureToCad({value = {},onChange}) {
     }
     var cost = 0;
 
-      const rowCopy = [...fields.processes]
+  
+      const rowCopy = [...fields.process]
       var total_cost =0 ;
-      fields.processes.forEach((element,index) => {
+
+       var proloss = 0;
+
+      fields.process.forEach((element,index) => {
         
-        if(element && element.processRate && element.processCost && element.processLoss )
+        console.log(element,index)
+
+        if(element)
         {
        
-        var proloss = 0;
-        if(element.processLoss ) proloss = parseFloat(element.processLoss)
+      
+        if(element.processLoss ) proloss += parseFloat(element.processLoss)
         if(element.processRate )
-        { total_cost = total_cost + ((parseFloat(cadweight) +((parseFloat(cadweight) * proloss)/100)) * parseFloat(element.processRate));
+        { total_cost = total_cost + ((parseFloat(cadweight) +((parseFloat(cadweight) * parseFloat(element.processLoss))/100)) * parseFloat(element.processRate));
       
         element.processCost = total_cost
-
-        
-      }
-      rowCopy.splice(index,1,element)
-      form.setFieldsValue({processes:rowCopy})
-    }
+        }
        
         
-
+     rowCopy.splice(index,1,element)
+     form.setFieldsValue({process:rowCopy,total_process_cost:total_cost,total_process_loss:proloss})
         //  rowCopy.slice(index,1,element);
         //  form.setFieldsValue({processes:rowCopy})
-      });
+      }
+      
+    });
 
-    
+   // form.setFieldsValue(fields)
     
   }
 const caltotal = data =>
@@ -177,7 +182,7 @@ const caltotal = data =>
       <Form style={{padding:'20px',background:'skyblue'}}
       onValuesChange = {handleFieldChange}
       form = {form}
-     
+      name="ajdk"
       >
 
        
@@ -225,11 +230,11 @@ const caltotal = data =>
         <Col span={5}><Form.Item noStyle name={"loss"}><Input></Input></Form.Item></Col>  
         </Row></>
 :''}
-        <Form.List name="processes"
-        
+        <Form.List name="process"
+
         >
 
-        {(processes,{add,remove}) =>
+        {(fields,{add,remove}) =>
         
         <div>
         <Row>
@@ -239,27 +244,45 @@ const caltotal = data =>
         <Col span={5} ><Typography.Title level={5}>Cost</Typography.Title></Col> 
         <Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button></Form.Item></Col>  
         </Row>
-          {processes.map( field =>
+          {fields.map( ({name,key,...restField}) =>
+            (
+            <Row key={key}>       
+            <Col span={6}><Form.Item initialValue={null} {...restField}  name={[name,"processName"]} noStyle><Select notFoundContent={<><Button type='link'  >Create Process</Button></>} style={{width:'100%'}}></Select  ></Form.Item></Col>
+            <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processLoss"]}><Input></Input></Form.Item></Col>
+            <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processRate"]} ><Input></Input></Form.Item></Col>  
+            <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle  name={[name,"processCost"]} ><Input></Input></Form.Item></Col> 
+           
+            <Col span={3}>
+              
+              <Button  type='text' onClick={()=>
+              {
+              remove(name)
+              }
+              
+              } style={{color:'red'}} icon={<MinusCircleFilled color='red' ></MinusCircleFilled>}></Button>
+            <Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button>
+            </Col>  
+          </Row>
             
-            <Row key={field.key}>       
-            <Col span={6}><Form.Item name={[field.name,"processName"]} noStyle><Select></Select></Form.Item></Col>
-            <Col span={5}><Form.Item noStyle name={[field.name,"processLoss"]}><Input></Input></Form.Item></Col>
-            <Col span={5}><Form.Item noStyle name={[field.name,"processRate"]} ><Input></Input></Form.Item></Col>  
-            <Col span={5}><Form.Item noStyle  name={[field.name,"processCost"]} ><Input></Input></Form.Item></Col>  
-            <Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> remove(field.name)} style={{color:'red'}} icon={<MinusCircleFilled color='red' ></MinusCircleFilled>}></Button>
-            <Button type='text' onClick={()=> add({processRate:100},field.key+1)}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button>
-            </Form.Item></Col>  
-            </Row>
-            
-            )
-}
+            ))
+  }
+ 
+ 
         </div>   
+
         }
         {/* Process Calculation Row */}
         
        
         
         </Form.List>
+        <Row>
+        <Col span={6}><Form.Item ><Input disabled className='disabled-input' value={"Total"}></Input></Form.Item></Col>
+        <Col span={5}><Form.Item name={"total_process_loss"} ><Input disabled className='disabled-input' defaultValue={0 }></Input></Form.Item></Col>
+        <Col span={5} ><Form.Item name={"total_process_rate"} ><Input  disabled className='disabled-input' ></Input></Form.Item></Col> 
+        <Col span={5} ><Form.Item name ={"total_process_cost"} ><Input disabled className='disabled-input' defaultValue={0 }></Input></Form.Item></Col> 
+        {/* <Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button></Form.Item></Col>   */}
+        </Row>
       </Form>
     </div>
   )

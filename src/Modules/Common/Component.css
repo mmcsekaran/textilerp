@@ -74,4 +74,5 @@ color: rgb(146, 31, 11) !important;
 {
     background-color: green !important;
     color: #fff !important;
+    cursor: pointer;
 }
