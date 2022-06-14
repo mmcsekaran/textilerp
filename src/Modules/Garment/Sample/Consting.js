@@ -1,11 +1,13 @@
 import { MinusCircleFilled, MinusCircleOutlined, MinusSquareOutlined, PlusCircleFilled, RestFilled } from '@ant-design/icons'
 import { Form, Input, Space, Switch, Typography ,Row, Col, Select, Button,Image} from 'antd'
 import React, { Component, useState } from 'react'
+import StyleEditor from './StyleEditor'
 
 export default class Costing extends Component {
   render() {
     return (
       <div>
+        <StyleEditor></StyleEditor>
         <Form>
           <div>
             <Row>
