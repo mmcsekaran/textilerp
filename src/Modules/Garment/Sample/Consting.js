@@ -6,14 +6,17 @@ export default class Costing extends Component {
   render() {
     return (
       <div>
-        <Form>
+        <Form
+        
+        onValuesChange={(data)=> console.log(data) }
+        >
           <div>
             <Row>
               <Col>
               <Row>
                 <Col><Typography.Title level={5}>Buyer</Typography.Title></Col>
                 <Col><Form.Item><Input></Input></Form.Item></Col>
-                <Col><Typography.Title level={5}>Buyer</Typography.Title></Col>
+                <Col><Typography.Title level={5}>Division</Typography.Title></Col>
                 <Col><Form.Item><Input></Input></Form.Item></Col>
                 <Col><Typography.Title level={5}>Buyer</Typography.Title></Col>
                 <Col><Form.Item><Input></Input></Form.Item></Col>
@@ -80,18 +83,24 @@ export default class Costing extends Component {
                   (
                     <div>
                        <div><Button onClick={()=> add()} >Add</Button></div>
+                     
                         <Row>
                         {
                           (fields.map(field =>
-                            (
-                              <Col xs={24} sm = {24} md={12} lg ={12} xl ={12} >
+                            {
+                              console.log(field)
+                          return  ( 
+                              <Col xs={24} sm = {24} md={12} lg ={12} xl ={12} > <div><Button onClick={()=> 
+                              {
+                                add(field)}
+                              } >Add</Button></div>
                                <Form.Item noStyle >
                                 <MeasureToCad/>
                               </Form.Item>
                               </Col>
                              
                               
-                            )))
+                            )}))
                         }
                         </Row>
                     </div>
@@ -101,8 +110,106 @@ export default class Costing extends Component {
               }
             
             </Form.List>
-          
-         
+            <Row>
+
+    <Col  >      
+  <Form.List name="cmt"
+
+>
+
+{(fields,{add,remove}) =>
+
+<div>
+<Row>
+<Col span={6}><Typography.Title level={5}>Name</Typography.Title></Col>
+<Col span={5}><Typography.Title level={5}>Rate</Typography.Title></Col>
+{/* <Col span={5} ><Typography.Title level={5}>Rate (Kgs)</Typography.Title></Col> 
+<Col span={5} ><Typography.Title level={5}>Cost</Typography.Title></Col>  */}
+<Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button></Form.Item></Col>  
+</Row>
+  {fields.map( ({name,key,...restField}) =>
+    (
+    <Row key={key}>       
+    <Col span={6}><Form.Item initialValue={null} {...restField} fieldKey = {[key,"cmdName"]}  name={[name,"cmName"]} noStyle><Select notFoundContent={<><Button type='link'  >Create Process</Button></>} style={{width:'100%'}}></Select  ></Form.Item></Col>
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processLoss"]}><Input></Input></Form.Item></Col>
+    {/* <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processRate"]} ><Input></Input></Form.Item></Col>  
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle  name={[name,"processCost"]} ><Input></Input></Form.Item></Col>  */}
+   
+    <Col span={3}>
+      
+      <Button  type='text' onClick={()=>
+      {
+      remove(name)
+      }
+      
+      } style={{color:'red'}} icon={<MinusCircleFilled color='red' ></MinusCircleFilled>}></Button>
+    <Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button>
+    </Col>  
+  </Row>
+    
+    ))
+}
+
+
+</div>   
+
+}
+{/* Process Calculation Row */}
+
+
+
+</Form.List>
+</Col>
+<Col>      
+  <Form.List name="trims"
+
+>
+
+{(fields,{add,remove}) =>
+
+<div>
+<Row>
+<Col span={6}><Typography.Title level={5}>Accessories Name</Typography.Title></Col>
+<Col span={5}><Typography.Title level={5}>UOM</Typography.Title></Col>
+<Col span={5} ><Typography.Title level={5}>Price</Typography.Title></Col> 
+<Col span={5} ><Typography.Title level={5}>CNT/Garment</Typography.Title></Col> 
+<Col span={5} ><Typography.Title level={5}>Cost</Typography.Title></Col> 
+<Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button></Form.Item></Col>  
+</Row>
+  {fields.map( ({name,key,...restField}) =>
+    (
+    <Row key={key}>       
+    <Col span={6}><Form.Item initialValue={null} {...restField}  name={[name,"accName"]} noStyle><Select notFoundContent={<><Button type='link'  >Create Process</Button></>} style={{width:'100%'}}></Select  ></Form.Item></Col>
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processLoss"]}><Input></Input></Form.Item></Col>
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processRate"]} ><Input></Input></Form.Item></Col>  
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle  name={[name,"processCost"]} ><Input></Input></Form.Item></Col> 
+   
+    <Col span={3}>
+      
+      <Button  type='text' onClick={()=>
+      {
+      remove(name)
+      }
+      
+      } style={{color:'red'}} icon={<MinusCircleFilled color='red' ></MinusCircleFilled>}></Button>
+    <Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button>
+    </Col>  
+  </Row>
+    
+    ))
+}
+
+
+</div>   
+
+}
+{/* Process Calculation Row */}
+
+
+
+</Form.List>
+</Col>
+</Row>     
         </Form>
       </div>
     )
@@ -170,9 +277,17 @@ export  function MeasureToCad({value = {},onChange}) {
       
     });
 
-   // form.setFieldsValue(fields)
+   onchange(form.getFieldsValue(true))
     
   }
+
+
+  const cloneData = (name) =>
+  {
+    const copyData = form.getFieldValue("process") ;
+    console.log(copyData)
+  }
+
 const caltotal = data =>
 {
   console.log(data)
@@ -230,7 +345,7 @@ const caltotal = data =>
         <Col span={5}><Form.Item noStyle name={"loss"}><Input></Input></Form.Item></Col>  
         </Row></>
 :''}
-        <Form.List name="process"
+        <Form.List name="cmt"
 
         >
 
@@ -242,7 +357,10 @@ const caltotal = data =>
         <Col span={5}><Typography.Title level={5}>Loss (%)</Typography.Title></Col>
         <Col span={5} ><Typography.Title level={5}>Rate (Kgs)</Typography.Title></Col> 
         <Col span={5} ><Typography.Title level={5}>Cost</Typography.Title></Col> 
-        <Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button></Form.Item></Col>  
+        <Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> 
+      add()
+        
+        }  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button></Form.Item></Col>  
         </Row>
           {fields.map( ({name,key,...restField}) =>
             (
@@ -276,6 +394,52 @@ const caltotal = data =>
        
         
         </Form.List>
+        <Form.List name="process"
+
+>
+
+{(fields,{add,remove}) =>
+
+<div>
+<Row>
+<Col span={6}><Typography.Title level={5}>Process Name</Typography.Title></Col>
+<Col span={5}><Typography.Title level={5}>Loss (%)</Typography.Title></Col>
+<Col span={5} ><Typography.Title level={5}>Rate (Kgs)</Typography.Title></Col> 
+<Col span={5} ><Typography.Title level={5}>Cost</Typography.Title></Col> 
+<Col span={3}><Form.Item noStyle ><Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button></Form.Item></Col>  
+</Row>
+  {fields.map( ({name,key,...restField}) =>
+    (
+    <Row key={key}>       
+    <Col span={6}><Form.Item initialValue={null} {...restField}  name={[name,"processName"]} noStyle><Select notFoundContent={<><Button type='link'  >Create Process</Button></>} style={{width:'100%'}}></Select  ></Form.Item></Col>
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processLoss"]}><Input></Input></Form.Item></Col>
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle name={[name,"processRate"]} ><Input></Input></Form.Item></Col>  
+    <Col span={5}><Form.Item initialValue={0} {...restField}  noStyle  name={[name,"processCost"]} ><Input></Input></Form.Item></Col> 
+   
+    <Col span={3}>
+      
+      <Button  type='text' onClick={()=>
+      {
+      remove(name)
+      }
+      
+      } style={{color:'red'}} icon={<MinusCircleFilled color='red' ></MinusCircleFilled>}></Button>
+    <Button type='text' onClick={()=> add()}  style={{color:'green'}} icon={<PlusCircleFilled color='green' ></PlusCircleFilled>}></Button>
+    </Col>  
+  </Row>
+    
+    ))
+}
+
+
+</div>   
+
+}
+{/* Process Calculation Row */}
+
+
+
+</Form.List>
         <Row>
         <Col span={6}><Form.Item ><Input disabled className='disabled-input' value={"Total"}></Input></Form.Item></Col>
         <Col span={5}><Form.Item name={"total_process_loss"} ><Input disabled className='disabled-input' defaultValue={0 }></Input></Form.Item></Col>
@@ -887,3 +1051,37 @@ const caltotal = data =>
 //     </Form>
 //   );
 // };
+
+
+
+
+export  function CMTPlanning({value={},onChange}) {
+  return (
+    <div>
+      <Form
+      name='ACCPLAN'
+      onValuesChange={(data)=> console.log(data)}
+      >
+        <Form.List name={"ACCPLAN_DET"}>
+          {(fields,{add,remove}) =>
+          {
+
+            return (<>
+            {
+              fields.map(({name,key,...restField}) =>
+              {
+                return (<>
+                    <Form.Item name={"acc_name"} >
+                        <Input></Input>
+                    </Form.Item>
+                </>)
+              })
+            }
+            
+            </>) 
+          }}
+        </Form.List>
+      </Form>
+    </div>
+  )
+}
