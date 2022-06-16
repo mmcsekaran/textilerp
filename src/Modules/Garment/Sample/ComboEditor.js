@@ -57,7 +57,7 @@ constructor(props)
                    ref = {this.comboTabs}
                    type='editable-card'
                    
-activeKey={this.state.activeCombo}
+activeKey={7}
                     
                     onChange ={key => this.setState({activeCombo:key})}
                     onEdit={(targetKey,action) =>

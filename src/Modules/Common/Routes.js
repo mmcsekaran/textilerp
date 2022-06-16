@@ -16,7 +16,7 @@ import Color from '../Garment/Master/Color'
 import UserPage from '../User/UserPage'
 import Yarn from './../Garment/Master/Yarn';
 import TechPack from './../Garment/Sample/TechPack';
-import SampleConsting from './../Garment/Sample/Consting';
+import SampleConsting from './../Garment/Sample/SampleCosting';
 export default function AppRouters() {
   return (
     <Routes>
