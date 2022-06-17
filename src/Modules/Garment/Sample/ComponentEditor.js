@@ -11,7 +11,7 @@ export default class ComponentEditor extends Component {
  
        
       <Form.Item name={this.props.name}>
-        <Input></Input>
+        <Input readOnly value={this.props.name}  ></Input>
       </Form.Item>
        
 
