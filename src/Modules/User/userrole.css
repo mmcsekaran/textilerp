@@ -1,7 +1,16 @@
+.button-top{
+    justify-content: center;
+    align-items: middle;
+}
 
+.top-reverse{
+    display: flex;
+    flex-direction: row-reverse;
+}
 
-.role-card {
-    font-family:Georgia, 'Times New Roman', Times, serif;
-    font-size: small;
+.button-top{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     
 }

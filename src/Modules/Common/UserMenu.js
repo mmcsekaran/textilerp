@@ -23,6 +23,22 @@ export default function UserMenu() {
             {/* Garment related masters and page setups all things. */}
             <Menu.ItemGroup title={"Master"}>
                 
+                <Menu.Item>
+                    <Link to= "/master/partymaster">Party Master</Link>
+                </Menu.Item>
+
+                <Menu.Item >
+                    <Link to ="/master/exportmaster">Export Master</Link>
+                </Menu.Item>
+
+                <Menu.Item >
+                    <Link to ="/master/buyermaster">Buyer Master</Link>
+                </Menu.Item>
+
+                <Menu.Item >
+                    <Link to ="/master/processmaster">Process Master</Link>
+                </Menu.Item>
+                
                 <Menu.SubMenu title={"Setup"}>
                    
                     <Menu.Item>
@@ -62,6 +78,14 @@ export default function UserMenu() {
                    <Menu.Item>
                        <Link to ="/master/fabricname">Fabri Name Master</Link>
                    </Menu.Item>
+
+                </Menu.SubMenu>
+
+                <Menu.SubMenu title='Costing'>
+
+                    <Menu.Item>
+                        <Link to ="/master/costingenty">Costin Entry</Link> 
+                    </Menu.Item>
 
                 </Menu.SubMenu>
 
