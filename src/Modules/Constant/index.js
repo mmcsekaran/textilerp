@@ -8,5 +8,6 @@ export const PAGE_USER = "MASTER.USERS"
 export const PAGE_USERROLE = "MASTER.USERROLES"
 export const PAGE_USERPAGES = "MASTER.USERPAGES"
 
+export const PAGE_COMMON ="PAGE_COMMON"
 
 
