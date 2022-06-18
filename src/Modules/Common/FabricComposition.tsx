@@ -1,12 +1,12 @@
 import { Button, Form, Select, Spin ,message} from 'antd'
 import React, { useState } from 'react'
 
-export default function Designnation() {
+export default function FabricCompositionComponent() {
 
     const [fetching, setFetching] = useState(false);
     const [value, setValue] = useState(null);
 
-    const fetchDesignation = () =>
+    const fetchData = () =>
     {
         setFetching( true);
         setInterval(() => {
@@ -15,15 +15,14 @@ export default function Designnation() {
     }
 
   return (
-   <Form.Item>
        <Select
        labelInValue
        filterOption ={false}
-       onSearch = {fetchDesignation}
+       onSearch = {fetchData}
        notFoundContent = { fetching ? <Spin size='small'></Spin>: <Button type='link' onClick={() => 
     {
         message.success("Created")
-    }}>CreateNew Designation</Button>}
+    }}>Create New Fabric Composition</Button>}
         mode ='multiple'
         onChange={(e) => 
         {
@@ -35,6 +34,5 @@ export default function Designnation() {
        />
            
        
-   </Form.Item>
   )
 }
