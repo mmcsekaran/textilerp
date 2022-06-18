@@ -11,7 +11,7 @@ import Yarntype from '../Master/Yarntype'
 import Fabrictype from '../Master/Fabrictype'
 import Fabricmaster from '../Master/Fabricmaster'
 import Fabricname from '../Master/Fabricname'
-
+import UserPage from '../User/UserPage'
 import Color from '../Garment/Master/Color'
 import Yarn from './../Garment/Master/Yarn';
 import TechPack from './../Garment/Sample/TechPack';
