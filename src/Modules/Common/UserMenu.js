@@ -38,6 +38,9 @@ export default function UserMenu() {
                 <Menu.Item >
                     <Link to ="/master/processmaster">Process Master</Link>
                 </Menu.Item>
+                <Menu.Item >
+                    <Link to ="/master/city">City Master</Link>
+                </Menu.Item>
                 
                 <Menu.SubMenu title={"Setup"}>
                    

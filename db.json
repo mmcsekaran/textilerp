@@ -97,5 +97,13 @@
   ],
   "profile": {
     "name": "typicode"
-  }
+  },
+  "cityMaster":[
+    {
+      "id":1,
+      "cityName":"Tirupur",
+      "active":true
+    }
+  ]
 }
+

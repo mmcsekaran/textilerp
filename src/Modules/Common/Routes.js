@@ -21,6 +21,7 @@ import Exportmaster from '../Master/Exportmaster'
 import Buyermaster from '../Master/Buyermaster'
 import Processmaster from '../Master/Processmaster'
 import SampleConsting from './../Garment/Sample/SampleCosting';
+import Citylist from './../Master/City/Citylist';
 export default function AppRouters() {
   return (
     <Routes>
@@ -48,6 +49,7 @@ export default function AppRouters() {
                   <Route path='/master/fabmaster' element = { <Fabricmaster></Fabricmaster>} />
                   <Route path='/master/fabricname' element = { <Fabricname></Fabricname>} />
                   <Route path='/master/costingenty' element = { <Costingentry></Costingentry>} />
+                  <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>
                 
