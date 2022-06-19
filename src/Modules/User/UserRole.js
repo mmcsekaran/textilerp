@@ -1,85 +1,202 @@
-import { Card, Form, PageHeader, Radio,Row, Col, Input, Button} from 'antd'
-import React, { Component } from 'react'
+import { PageHeader,Card, Form, Input, Button, Col, Row, Select, DatePicker, Space,message, Modal } from "antd";
+import { Component } from "react";
 import './userrole.css';
-export default class 
- extends Component {
-  render() {
-    return (
-      <div>
-          <PageHeader title  = {"User Roles"}></PageHeader>
-          <div >
-              <div style={{ paddingLeft: '10px' }} >
-                <Row justify='center' align='middle'>
-                  <Col xs={24} sm={16} md={16} xl={16}>
-                       
-                      <Button type='primery'>View History</Button>
-                      <Button type='primery'>Save</Button>
-                      <Button type='primery'>List View</Button>
-                     <div className='role-card'>
-                        <Card 
-                        hoverable>
-                          <Form
-                          labelCol={{
-                            span: 6,
-                          }}
-                          wrapperCol={{
-                            span: 12,
-                          }}
-                            style={{}}
-                            layout='horizontal'
-                          >
-                            <Form.Item
-                              name={"Crystal path"}
-                              label="Crystal path"
-                            >
-                              <Input />
-                            </Form.Item>
-                            <Form.Item
-                              name={"Attachment Path"}
-                              label="Attachment Path"
-                            >
-                              <Input />
-                            </Form.Item>
-                            <Form.Item 
-                              name={'Yarn lot (y/n)'}
-                              label='Yarn lot (y/n)'
-                            >
-                            <Radio.Group>
-                              <Radio value={1}>Yes</Radio>
-                              <Radio value={2}>No</Radio>
-                            </Radio.Group>
-                            </Form.Item>
-                            <Form.Item
-                              name={"Stk Audit All Qty"}
-                              label="Stk Audit All Qty"                           
-                            >
-                              <Input />
-                            </Form.Item> 
-                            <Form.Item 
-                              name={'Sample Budget Required'}
-                              label='Sample Budget Required'
-                            >
-                            <Radio.Group>
-                              <Radio value={1}>Yes</Radio>
-                              <Radio value={2}>No</Radio>
-                            </Radio.Group>
-                            </Form.Item>
-                            <Form.Item
-                              name={"Stock Divison %"}
-                              label="Stock Divison %"
-                             
-                            >
-                              <Input />
-                            </Form.Item> 
-                          </Form>
-                        </Card>
-                      </div>
-                  </Col>
-                </Row>
 
-              </div>
+export default class extends Component{
+
+  state = {Visible:false}
+      showModal = () => {
+        this.setState({
+          Visible:true,
+        });
+      }  
+      
+      handleOk = (e) => {
+        console.log (e);
+        this.setState({
+          Visible:false,
+        });
+      }
+
+      handleCancel = (e) => {
+        console.log =(e);
+        this.setState({
+          Visible:false,
+        });
+      }
+    render(){
+      const success = () => {
+        message.success('');
+      };
+
+      
+        return(
+            <div>
+                <PageHeader title='Salesquote'></PageHeader>
+                <div >
+                    <Row justify='center' align='middle'>
+                        <Col style={{width:'95%'}} >
+                            <Card 
+                            hoverable>
+                              <Form 
+                              size="small"
+                               layout="horizontal">
+                                 <div  justify='center' align='middle'>
+                                   <Form.Item>
+                                   <Space>
+                               <Button type="primery"   htmlType="submit"
+                               onClick={success} shape="round" >Main</Button>
+                               <Button type="primery" shape="round">Quote Details</Button>
+                               </Space>
+                               </Form.Item>
+                               </div> 
+                       
+                                  <Row>
+
+                                   <Space>
+                                      <Form.Item
+                                        name={'Quote No'}
+                                        label='Quote No'
+
+                                        rules={[
+                                          {
+                                            required: true,
+                                            message: 'Quote No required',
+                                          },
+                                        ]}
+                                        >
+                                          <Input />
+
+                                      </Form.Item> 
+
+                                      
+                                      <Form.Item
+                                        name={'Revision No'}
+                                        label='Revision No'>
+                                          <Input />
+                                      </Form.Item>
+                                                              
+                                      <Form.Item>
+                                        <DatePicker/>
+                                      </Form.Item>
+                                   </Space>
+                                  </Row>                              
+                                   
+                                  <Row>                                   
+                                <Space>
+                           
+                                     <Form.Item
+                                       name={'Byer'}
+                                       label='Byer'
+                                      >
+                                        <Input />
+                                     </Form.Item>
+                                                             
+                                    <Form.Item >
+                                     <Input />
+                                    </Form.Item>
+                                
+                                      <Form.Item 
+                                      name={'Currency'}
+                                      label='Currency'
+                                     >
+                                        <Input />
+                                    </Form.Item>
+                                                            
+                                    <Form.Item>
+                                     <Select />
+                                    </Form.Item>
+                                </Space>
+                                 </Row>
+                                 
+                                 <Row>
+                                  <Space>
+                                   <Form.Item
+                                   name={'order ref no'}
+                                   label='Order Ref No' 
+                                   >
+                                     <Input />
+                                   </Form.Item>
+
+                                   <Form.Item
+                                   name={'date'}
+                                   label='Date'                                
+                                 >
+                                     <DatePicker />
+                                   </Form.Item>
+
+                                   <Form.Item
+                                   name={'merchandiser'}
+                                   label='merchandiser'                                                                   
+                                  >
+                                     <Select />
+                                   </Form.Item>
+
+                                   <Form.Item
+                                   name={'payment'}
+                                   label='Payment'                                 
+                                  >
+                                     <Select />
+                                   </Form.Item>
+                                   </Space>                                  
+                                 </Row>
+                                 <Row>
+                                   <Space>
+                                   <Form.Item
+                                   name={'fabric'}
+                                   label='Fabric'                                
+                                   >
+                                     <Select />
+                                   </Form.Item>
+
+                                  <Form.Item
+                                   name={'style'}
+                                   label='Style'                                
+                                 >
+                                     <Select/>
+                                   </Form.Item>
+                                                                     
+                                   <Form.Item
+                                   name={'pattern'}
+                                   label='Pattern'
+                                   >
+                                     <Select />
+                                   </Form.Item>
+                                                                     
+                                   <Form.Item
+                                   name={'size'}
+                                   label='Size'
+                                  >
+                                     <Select />
+                                   </Form.Item>
+                                   </Space>
+                                   
+                                 </Row>
+                                                           
+                              </Form>
+                                          
+                            </Card>
+                        </Col>               
+                    </Row>
+                    <div>
+                      <Button type="primary" onClick={this.showModal}>Open</Button>
+                      <Modal
+                      title='User'
+                      visible={this.state.Visible}
+                      onOk={this.handleOk}
+                      onCancel={this.handleCancel}
+                      >
+                        <Form>
+                          <Form.Item
+                          label='name'
+                          >
+                            <Input />
+                          </Form.Item>
+                        </Form>
+                      </Modal>
+                    </div>
+                </div>
             </div>
-      </div>
-    )
-  }
+        )
+    }
 }

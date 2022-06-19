@@ -1,4 +1,4 @@
-import { Card, Form, PageHeader, Radio, Row, Col, Input, Button } from 'antd'
+import { Card, Form, PageHeader, Radio, Row, Col, Input, Button, Space } from 'antd'
 import React, { Component } from 'react'
 import './adminsetup.css';
 export default class
@@ -11,15 +11,16 @@ export default class
           <div style={{ paddingLeft: '10px' }} >
             <Row justify='center' align='middle'>
               <Col xs={24} sm={16} md={16} xl={16}>
-                
+                <Space>
                 <Button type='primery'>View History</Button>
                 <Button type='primery'>Save</Button>
                 <Button type='primery'>List View</Button>
+                </Space>
                 <div className='role-card'>
                   <Card
                     hoverable>
                     <Form
-                      labelCol={{
+                      labelCol={{ 
                         span: 6,
                       }}
                       wrapperCol={{

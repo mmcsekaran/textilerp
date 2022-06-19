@@ -11,12 +11,17 @@ import Yarntype from '../Master/Yarntype'
 import Fabrictype from '../Master/Fabrictype'
 import Fabricmaster from '../Master/Fabricmaster'
 import Fabricname from '../Master/Fabricname'
-
-import Color from '../Garment/Master/Color'
 import UserPage from '../User/UserPage'
+import Color from '../Garment/Master/Color'
 import Yarn from './../Garment/Master/Yarn';
 import TechPack from './../Garment/Sample/TechPack';
+import Costingentry from '../Master/Costingentry'
+import Partymaster from '../Master/Partymaster'
+import Exportmaster from '../Master/Exportmaster'
+import Buyermaster from '../Master/Buyermaster'
+import Processmaster from '../Master/Processmaster'
 import SampleConsting from './../Garment/Sample/SampleCosting';
+import Citylist from './../Master/City/Citylist';
 export default function AppRouters() {
   return (
     <Routes>
@@ -32,6 +37,10 @@ export default function AppRouters() {
                 <Route path ='/users/*' element = {<ComingSoon></ComingSoon>} />
             </Route>
             <Route path='/master/' element={<Outlet></Outlet>}>
+              <Route path='/master/partymaster' element = { <Partymaster></Partymaster>} />
+              <Route path='/master/exportmaster' element = { <Exportmaster></Exportmaster>} />
+              <Route path='/master/buyermaster' element = { <Buyermaster></Buyermaster>} />
+              <Route path='/master/processmaster' element = { <Processmaster></Processmaster>} />
                   <Route path='/master/setup/adminsetup' element = { <AdminSetup></AdminSetup> }/>
                   <Route path='/master/yarncount' element = { <Yarncount></Yarncount>} />
                   <Route path='/master/countmaster' element = { <Countmaster></Countmaster>} />
@@ -39,6 +48,8 @@ export default function AppRouters() {
                   <Route path='/master/fabric' element = { <Fabrictype></Fabrictype>} />
                   <Route path='/master/fabmaster' element = { <Fabricmaster></Fabricmaster>} />
                   <Route path='/master/fabricname' element = { <Fabricname></Fabricname>} />
+                  <Route path='/master/costingenty' element = { <Costingentry></Costingentry>} />
+                  <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>
                 
