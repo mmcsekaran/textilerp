@@ -233,30 +233,39 @@ export default class SampleCosting extends React.Component<SampleCostingProps,Sa
                         title : "S.No",
                         width:50,
                         align:'center',
-                        
-                      },
+                        render(value, record, index) {
+                          return (<>{index+1}</>)
+                        },
+                                     },
+                      {
+                        title : "Combo",
+                        width:120,
+                        align:'left',
+                        dataIndex:'comboName'
+                                     },
+                      {
+                        title : "Component",
+                        width:120,
+                        align:'left',
+                        dataIndex:'componentName'
+                                     },
                       {
                         title : "Panel Name",
-                        align:'center',
-                        width:150,
+                        align:'left',
+                        width:120,
                         dataIndex:'panelName'                   
                       },
                       {
                         title : "Fabric",
-                        align:'center',
+                        align:'left',
                         dataIndex:'fabric'
+
                       },
                       {
                         title : "Cad",
-                        width:100,
-                        align:'center',
+                        width:80,
+                        align:'left',
                         dataIndex:'cad'
-                      },
-                      {
-                        title : "GSM",
-                        width:100,
-                        align:'center',
-                      
                       },
                       {
                         title : "Process Template",
@@ -523,13 +532,13 @@ const SampleCostingEditorModal :React.FC<SampleCostingEditorProps> = ({visible,o
               <Col md={12}>
               <Form.Item noStyle name={[field.name,"processName"]}>
                 <Select style={{width:'100%'}}>
-                  <Select.Option>Yarn</Select.Option>
-                  <Select.Option>Yarn Dyeing</Select.Option>
-                  <Select.Option>Knitting</Select.Option>
-                  <Select.Option>HeatSetting</Select.Option>
-                  <Select.Option>Dyeing</Select.Option>
-                  <Select.Option>Print</Select.Option>
-                  <Select.Option>Compacting</Select.Option>
+                  <Select.Option value = {"yrn"}>Yarn</Select.Option>
+                  <Select.Option value =  "y/d">Yarn Dyeing</Select.Option>
+                  <Select.Option value ="knt">Knitting</Select.Option>
+                  <Select.Option value = "h/s">HeatSetting</Select.Option>
+                  <Select.Option value="dye">Dyeing</Select.Option>
+                  <Select.Option value="prnt">Print</Select.Option>
+                  <Select.Option value ="o/w">Compacting</Select.Option>
                 </Select>
               </Form.Item>
               </Col>

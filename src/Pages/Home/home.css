@@ -1,7 +1,7 @@
 .home-layout
 {
-    min-width: 100vw;
-    min-height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 .home-header
 {
@@ -25,13 +25,12 @@
 }
 .home-sidebar
 {
-  min-height: 100vh;
-  width: 100%;
-  background: #6BB64A;
+ 
+  background: #1893cc;
 
 }
 .home-menubar
 {
   width: 100%;
- background: #6BB64A;
+ background: #1893cc;
 }
