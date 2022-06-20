@@ -3,6 +3,7 @@ import { Button, Col, Form, Image, Input, Modal, Row, Select, Table, Typography 
 import React, { Component, useState } from "react";
 import StyleCategory from "../../Common/StyleCategory";
 import StyleEditor from "./StyleEditor";
+
 export interface SampleCostingProps {
   costingNo: number;
   
@@ -21,12 +22,26 @@ interface SampleCostingData
   packs?:string|number
   noOfPcs?:number,
   imageSrc?:string
-  combos?:Array<StyleCombo>
+  components:Array<SampleCostingFormData>
   exachangeRate?:number
   packFoc?:number
-
-
+  packLocal?:number
+  cmtCosting?:Array<CMTCosting>
+  trimsCosting?:Array<TrimsCosting>
 }
+
+const defaultCostingData:SampleCostingData =
+{
+  id:0,
+  costingNo:0,
+  buyerId:0,
+  buyerCurrency:undefined,
+  buyerPrice:0,
+  styleCategory:"General",
+  styleNo :0 ,
+  components:[]
+
+} 
 
 interface StyleCombo
 {
@@ -65,6 +80,8 @@ interface FabricProcess
 interface TrimsCosting
 {
   id?:number|string;
+  compoName:string,
+  component:string
   trimName:string|number;
   unit:string|number
   price:number,
@@ -73,6 +90,8 @@ interface TrimsCosting
 interface CMTCosting
 {
   id?:number|string
+  comboName:string,
+  componentName:string | 'All'
   cmtName?:string|number;
   cmtRate?:number
 
@@ -80,7 +99,7 @@ interface CMTCosting
 
 interface SampleCostingState
 {
-  costingData?:SampleCostingData,
+  costingData:SampleCostingData,
   showEditor?:boolean
 }
 
@@ -100,6 +119,7 @@ export default class SampleCosting extends React.Component<SampleCostingProps,Sa
 
     this.state =
     {
+      costingData:defaultCostingData,
       showEditor:false
     }
 
@@ -212,48 +232,59 @@ export default class SampleCosting extends React.Component<SampleCostingProps,Sa
                       {
                         title : "S.No",
                         width:50,
-                        align:'center'
+                        align:'center',
+                        
                       },
                       {
                         title : "Panel Name",
                         align:'center',
-                        width:150
+                        width:150,
+                        dataIndex:'panelName'                   
                       },
                       {
                         title : "Fabric",
-                        align:'center'
+                        align:'center',
+                        dataIndex:'fabric'
                       },
                       {
                         title : "Cad",
                         width:100,
-                        align:'center'
+                        align:'center',
+                        dataIndex:'cad'
                       },
                       {
                         title : "GSM",
                         width:100,
-                        align:'center'
+                        align:'center',
+                      
                       },
                       {
                         title : "Process Template",
                         align:'center',
-                        width:150
-                      },
-                      {
-                        title : "Fabric Consumption",
-                        width:100,
-                        align:'center'
+                        width:150,
+                        dataIndex:'processTemplate',
+                        
                       },
                       {
                         title : "Fabric Cost (KGS)",
                         width:100,
-                        align:'center'
+                        align:'center',
+                        dataIndex:'totalProcessRate'
+                        
                       },
                       {
                         title : "Fabric Cost",
                         width:100,
-                        align:'center'
+                        align:'center',
+                        render:(_,record) =>
+                        {
+
+                          return (<>{record.totalProcessRate *(record.cad/1000)}</>)
+                        }
+                        
                       },
                     ]}
+                   dataSource = {this.state.costingData.components}
                    
                   ></Table>
               </Col>
@@ -261,10 +292,19 @@ export default class SampleCosting extends React.Component<SampleCostingProps,Sa
           </Form>
           <SampleCostingEditorModal onCancel={() => {
             this.setState({showEditor:false})
-          }} visible ={this.state.showEditor} onSave={(values)=>{
-            
-            
-            
+          }} visible ={this.state.showEditor} onSave={(values)=>{   
+              const costData = this.state.costingData ;
+             
+             const component = [...this.state.costingData.components]
+
+             component.push(values) ;
+
+             costData.components = [...this.state.costingData.components,values] ;
+
+              
+              this.setState({showEditor:false,costingData:costData})
+console.log(this.state)
+
             }}></SampleCostingEditorModal>
           
         </Form.Provider>
@@ -273,10 +313,24 @@ export default class SampleCosting extends React.Component<SampleCostingProps,Sa
   }
 }
 
+interface SampleCostingFormData
+{
+  comboName?:string
+  componentName?:string,
+  panelName?:string,
+  color?:string
+  cad:number,
+  fabric?:string,
+  process?:Array<FabricProcess>
+  totalProcessLoss:number
+  totalProcessRate:number
+  processTemplate?:string
+}
+
 interface SampleCostingEditorProps
 {
   visible?:boolean
-  onSave:(values:StyleComponentPanel)=> void
+  onSave:(values:SampleCostingFormData)=> void
   onCancel?:()=> void
   
 }
@@ -286,56 +340,88 @@ interface SampleEditor
   open(props:SampleCostingEditorProps): void
 }
 
+
+
 const SampleCostingEditorModal :React.FC<SampleCostingEditorProps> = ({visible,onSave,onCancel}) =>
 {
   const [form] = Form.useForm();
   const [processLoss,setProcessLoss] = useState(0)
   const [processRate,setProcessRate] = useState(0)
+  const [processTemplate,setProcessTemplate] = useState('')
   const valueChange = (_:any,values:any) =>
   {
-     const process =  [...values.process];
+
+   
 
      const cad = parseFloat(values.cad)|0
     console.log(values)
-     if(process)
+     if(values.process)
      {
+      const process =  [...values.process];
       let totalCost =0;
       let totalLoss = 0
+      let proTemplate ='';
      process.forEach((pro,index) => 
       {
        
           let loss =   0 ;
           let price = 0 ;
+         
+            proTemplate = proTemplate +  (pro?.processName ?  pro.processName : '') + (index < process.length-1 ? '+':'')
+           
           if(pro?.processLoss) loss = parseFloat(pro.processLoss) ;
           if(pro?.processRate) price = parseFloat(pro.processRate) ;
           totalCost += price // (totalCost+price)*loss/((100/100)-loss)
           totalLoss += loss // (totalCost+price)*loss/((100/100)-loss)
          // pro.cost = totalCost
          // process.splice(index,1,pro);
-        
+        //form.setFieldsValue({processTemplate:proTemplate})
       })
+      
   
       setProcessLoss(totalLoss);
       setProcessRate(totalCost)
-    
+      setProcessTemplate(proTemplate)
      }
   }
   return (
     <Modal
-    width={'70%'}
+    
     visible = {visible}
     title = {"Create Fabric Details"}
-    okText ="Add"
+    okText ="Save"
     cancelText ="Close"
-    onCancel={onCancel}
+    centered
+    onCancel={()=>
+      {
+        if(onCancel) {onCancel() ;
+        form.resetFields();}
+      }
+    }
+    
+    
     onOk = {() =>
     {
       form.validateFields().then(
         res => 
         {
-          onSave({ panelName 
+          let formData:SampleCostingFormData = {
+            totalProcessLoss:0,
+            totalProcessRate:0,
+            cad:0
+          } ;  
 
-          })
+          formData.componentName = res.component ;
+          formData.panelName = res.panelName ;
+          formData.cad = res.cad ;
+          formData.fabric = res.fabric;
+          formData.totalProcessLoss = processLoss; 
+          formData.totalProcessRate = processRate ;
+          formData.process = [res.process.map((v:any) => ({processName:v.processName,loss:v.processLoss,rate:v.processRate}))]
+          formData.processTemplate = processTemplate
+          
+          onSave(formData)
+          form.resetFields()
         }
       )
     }}
@@ -385,7 +471,7 @@ const SampleCostingEditorModal :React.FC<SampleCostingEditorProps> = ({visible,o
         </Row>
       
        <Row>
-        <Col md ={16}>
+        <Col md ={24}>
         <Form.Item
         label = "Fabric"
         labelCol={{span:3}}
@@ -410,20 +496,23 @@ const SampleCostingEditorModal :React.FC<SampleCostingEditorProps> = ({visible,o
            return( <>
            <Row>
             
-           
+           <Col  md={12}>
+              <Typography.Text strong>{processTemplate}</Typography.Text>
+            </Col>
            </Row>
            <Row>
             <Col  md={12}>
               <Typography.Text strong>Process</Typography.Text>
             </Col>
-            <Col  md={3}>
+            <Col  md={4}>
               <Typography.Text strong>Loss (%)</Typography.Text>
             </Col>
-            <Col  md={3}>
+            <Col  md={4}>
               <Typography.Text strong>Price/Kgs</Typography.Text>
             </Col>
-            <Col  md={3}>
-            <Button type="link" onClick={()=>add()}>Add</Button>
+            <Col  md={4}>
+              {fields.length === 0 ? <Button type="link" onClick={()=>add()}>Add</Button> :'' }
+           
             </Col>
            
            </Row>
@@ -444,26 +533,28 @@ const SampleCostingEditorModal :React.FC<SampleCostingEditorProps> = ({visible,o
                 </Select>
               </Form.Item>
               </Col>
-              <Col md={3}>
+              <Col md={4}>
               <Form.Item noStyle name={[field.name,"processLoss"]}>
                 <Input/>
               </Form.Item>
               </Col>
-              <Col md={3}>
+              <Col md={4}>
               <Form.Item noStyle name={[field.name,"processRate"]}>
                 <Input/>
               </Form.Item>
               </Col>
-              {/* <Col md={2}> */}
+              <Col md={2}>
               
-               {/* <Button type='text'  icon ={<PlusCircleOutlined/>} ></Button> */}
+               <Button type='text' onClick={()=>add({},field.name+1)}  icon ={<PlusCircleOutlined/>} ></Button>
                
-              {/* </Col> */}
-              {/* <Col md={2}> */}
+              </Col>
+              <Col md={2}>
               
-              
-               <Button type='text' onClick={()=> remove(field.name)}  icon ={<MinusCircleOutlined/>} ></Button>
-              {/* </Col> */}
+                {
+                  fields.length > 1 ? <Button type='text' onClick={()=> remove(field.name)}  icon ={<MinusCircleOutlined/>} ></Button> : ''
+                }
+               
+              </Col>
               
               
               </Row>

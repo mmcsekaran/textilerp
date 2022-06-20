@@ -115,6 +115,7 @@ const index = data.findIndex((v,i) => v.cityName === values.cityName) ;
 console.log(index)
 
                     data.splice(index,1)
+                    
 
                 }
               
