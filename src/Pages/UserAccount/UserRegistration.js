@@ -80,7 +80,7 @@ class UserRegistration extends Component {
   render() {
     console.log(this.props);
     return (
-      <Layout style={{ width: "100vw", height: "100vh" }}>
+      <Layout >
         <Layout.Content>
           <Row
             justify="center"

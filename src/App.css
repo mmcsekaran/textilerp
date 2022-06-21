@@ -1,7 +1,6 @@
 @import '~antd/dist/antd.css';
 
 
-
 .App {
   text-align: center;
 }
@@ -42,6 +41,6 @@
 }
 .fullview
 {
- height: 100vh;
- width: 100vw;
+  height: 50%;
+  width: 100%;
 }
