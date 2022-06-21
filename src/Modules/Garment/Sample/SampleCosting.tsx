@@ -1,4 +1,4 @@
-import { DeleteFilled, MinusCircleOutlined, PlusCircleOutlined } from "@ant-design/icons";
+import { DeleteFilled, LoadingOutlined, MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -14,6 +14,7 @@ import {
   Space,
   Upload,
 } from "antd";
+import { RcFile, UploadFile, UploadType } from "antd/lib/upload/interface";
 import React, { Component, useState } from "react";
 import StyleCategory from "../../Common/StyleCategory";
 import PortionEditor from "./PortionEditor";
@@ -52,6 +53,7 @@ const defaultCostingData: SampleCostingData = {
   styleCategory: "General",
   styleNo: 0,
   components: [],
+  imageSrc:undefined
 };
 
 interface StyleCombo {
@@ -102,6 +104,7 @@ interface CMTCosting {
 interface SampleCostingState {
   costingData: SampleCostingData;
   showEditor?: boolean;
+  imageLoading:boolean
 }
 
 interface CostingFabricData {
@@ -111,6 +114,11 @@ interface CostingFabricData {
   fabric: string;
 }
 
+const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+};
 export default class SampleCosting extends React.Component<
   SampleCostingProps,
   SampleCostingState
@@ -121,6 +129,7 @@ export default class SampleCosting extends React.Component<
     this.state = {
       costingData: defaultCostingData,
       showEditor: false,
+      imageLoading:false
     };
   }
 
@@ -130,28 +139,55 @@ export default class SampleCosting extends React.Component<
         <Form.Provider>
           <Form name="costmas">
             <Row >
-            <Col md={4} style={{ padding: "15px" }}>
-                <div style={{ width: "100%", height: "100%"}}>
-                  <Image
-                    width={230}
-                    height={250}
-                    src="error"
+            <Col md = {5} style={{ padding: "15px" }}>
+              <Row>
+              <div style={{ width: "100%", height: "100%"}}>
+                <Upload
+                showUploadList ={false}
+              listType ='picture-card'
+              className="avatar-uploader"
+                beforeUpload ={(file =>
+                  {
+                   
+                     getBase64(file,url =>
+                      {
+ const data = this.state.costingData ;
+ data.imageSrc = url;
+ this.setState({imageLoading:false ,costingData:data})
+                      })
+                  })}
+                >
+                  {
+                    this.state.costingData.imageSrc ?<Image
+                    width={200}
+                    height={200}
+                   preview ={false}
+                    src = {this.state.costingData.imageSrc}/>
+                    :
                   
-                  
-                  >
-                  <Upload   >
-
-                  </Upload>
-                  </Image>
+               
+                <div>
+                    {this.state.imageLoading ? <LoadingOutlined/> : <PlusOutlined/>}
+                    <div style={{marginTop:8}}>Upload</div>
                 </div>
+  }
+                  
+                
+                
+                  
+                
+                </Upload>
+                  
+                  </div>
+
+              </Row>
+              
+                  
+              
               </Col>
-              <Col md={18} >
-                <Row>
-                  <Form.Item>
-                    
-                  </Form.Item>
-                </Row>
-                <Row gutter={5}>
+              <Col  md={18} >
+                
+                <Row style={{paddingTop:'20px'}} gutter={5}>
                   <Col md={8}>
                     <Form.Item name={"styleCategory"} label={"Style Category"}>
                       <StyleCategory />
@@ -263,7 +299,7 @@ export default class SampleCosting extends React.Component<
                         <td><Input></Input></td>
                       </tr>
                       <tr>
-                        <td>Profit</td>  <td><Input></Input></td>
+                        <td>Pro fit</td>  <td><Input></Input></td>
                         <td><Input></Input></td>
                       </tr>
                       <tr>
