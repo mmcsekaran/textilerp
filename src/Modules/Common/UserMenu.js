@@ -105,6 +105,10 @@ export default function UserMenu() {
                        <Link to ="/master/contentmaster">Content Master</Link>
                    </Menu.Item>
 
+                   <Menu.Item>
+                       <Link to ="/master/designmaster">Design Master</Link>
+                   </Menu.Item>
+
                 </Menu.SubMenu>
 
                 <Menu.SubMenu title='Costing'>
