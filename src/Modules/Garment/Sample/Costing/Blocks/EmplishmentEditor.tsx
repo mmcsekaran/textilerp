@@ -2,36 +2,29 @@ import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Input, Modal, Row, Select, Typography } from 'antd';
 import React, { useState } from 'react'
 import TrimsPlan from '../../TrimsPlan';
+import { ModalEditorProps } from '../interface/ModalEditorProps';
 
 
-interface ModalEditorProps 
-{
-    visible :boolean,
-    onSave : (value:TrimsCostingFormData) => void;
-    onCancel : () => void
-}
 
- export interface TrimsCostingFormData
+
+ export interface EmplishmentCostingFormData
  {
-    key?:React.Key
+    key:React.Key
     comboName:string|number,
     componentName:string|number,
-    trimsName:string|number,
-    trim_uom:string|number,
-    trimsCount:number,
-    trimsPrice:number
+    emplishment:string|number,
+    empRate:number,
+   
     
  }
 
-export const TrimsEditor: React.FC<ModalEditorProps> = ({
+export const CMTCostingEditor: React.FC<ModalEditorProps<EmplishmentCostingFormData>> = ({
     visible,
     onSave,
     onCancel,
   }) => {
     const [form] = Form.useForm();
-    const [processLoss, setProcessLoss] = useState(0);
-    const [processRate, setProcessRate] = useState(0);
-    const [processTemplate, setProcessTemplate] = useState("");
+    
     const valueChange = (_: any, values: any) => {
     
       console.log(values);
@@ -41,7 +34,7 @@ export const TrimsEditor: React.FC<ModalEditorProps> = ({
     return (
       <Modal
         visible={visible}
-        title={"Trims Costing Editor"}
+        title={"CMT Costing Editor"}
         okText="Save"
         cancelText="Close"
         centered
@@ -53,31 +46,32 @@ export const TrimsEditor: React.FC<ModalEditorProps> = ({
         }}
         onOk={() => {
           form.validateFields().then((res) => {
-            let formData: TrimsCostingFormData = {
+            let formData: EmplishmentCostingFormData = {
               comboName:'',
               componentName:'',
-              trimsName:'',
-              trim_uom:'',
-              trimsCount:0,
-              trimsPrice:0,
+              emplishment:'',
+              empRate:0,
+              key:''
+            
               
 
             };
             
             formData.comboName = res.comboName ;
             formData.componentName = res.componentName;
-            formData.trim_uom = res.trimsUom ;
-            formData.trimsCount = res.trimsCount;
-            formData.trimsPrice = res.trimsPrice
-            formData.trimsName = res.trimsName
-            formData.key = res.comboName+res.component+res.trimsName
+            formData.emplishment = res.empName ;
+            formData.empRate = res.empRate;
+           
+            formData.key = res.comboName+res.component+res.empName
     
             onSave(formData);
             form.resetFields();
           });
         }}
       >
-        <Form layout="vertical" onValuesChange={valueChange} form={form}>
+        <Form layout="vertical" onValuesChange={valueChange}
+
+        form={form}>
          
             <Row gutter={10} justify='space-between'>
                 <Col md={12}>
@@ -102,34 +96,19 @@ export const TrimsEditor: React.FC<ModalEditorProps> = ({
 
             </Row>
          
-             <Row>
-                <Col md={24}>
-                <Form.Item name={"trimsName"}>
-                    <Select>
-
-                        <Select.Option key={"sewtrd"}>Sewing Thread</Select.Option>
-                        <Select.Option key={"foam"}>Foam</Select.Option>
-                        <Select.Option key={"tag"}>Tag</Select.Option>
-                    </Select>
-                </Form.Item>
-                </Col>
-             </Row>
+            
              <Row gutter={10} justify='space-between'>
-                <Col md={8}>
-                <Form.Item name={"trimsUom"}>
+                <Col md={16}>
+                <Form.Item name={"empName"}>
           <Input></Input>
           </Form.Item  >
                 </Col>
                <Col md={8}>
-                 <Form.Item name={"trimsPrice"} >
+                 <Form.Item name={"empRate"} >
           <Input></Input>
           </Form.Item>
                </Col> 
-               <Col md={8}>
-                 <Form.Item  name={"trimsCount"}>
-          <Input></Input>
-          </Form.Item>
-               </Col> 
+              
         
 
             </Row>

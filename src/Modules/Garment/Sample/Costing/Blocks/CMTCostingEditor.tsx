@@ -4,34 +4,31 @@ import React, { useState } from 'react'
 import TrimsPlan from '../../TrimsPlan';
 
 
-interface ModalEditorProps 
+interface ModalEditorProps<T>
 {
     visible :boolean,
-    onSave : (value:TrimsCostingFormData) => void;
+    onSave : (value:T) => void;
     onCancel : () => void
 }
 
- export interface TrimsCostingFormData
+ export interface CMTCostingFormData
  {
-    key?:React.Key
+    key:React.Key
     comboName:string|number,
     componentName:string|number,
-    trimsName:string|number,
-    trim_uom:string|number,
-    trimsCount:number,
-    trimsPrice:number
+    cmtName:string|number,
+    cmtRate:number,
+   
     
  }
 
-export const TrimsEditor: React.FC<ModalEditorProps> = ({
+export const CMTCostingEditor: React.FC<ModalEditorProps<CMTCostingFormData>> = ({
     visible,
     onSave,
     onCancel,
   }) => {
     const [form] = Form.useForm();
-    const [processLoss, setProcessLoss] = useState(0);
-    const [processRate, setProcessRate] = useState(0);
-    const [processTemplate, setProcessTemplate] = useState("");
+    
     const valueChange = (_: any, values: any) => {
     
       console.log(values);
@@ -41,7 +38,7 @@ export const TrimsEditor: React.FC<ModalEditorProps> = ({
     return (
       <Modal
         visible={visible}
-        title={"Trims Costing Editor"}
+        title={"CMT Costing Editor"}
         okText="Save"
         cancelText="Close"
         centered
@@ -53,31 +50,32 @@ export const TrimsEditor: React.FC<ModalEditorProps> = ({
         }}
         onOk={() => {
           form.validateFields().then((res) => {
-            let formData: TrimsCostingFormData = {
+            let formData: CMTCostingFormData = {
               comboName:'',
               componentName:'',
-              trimsName:'',
-              trim_uom:'',
-              trimsCount:0,
-              trimsPrice:0,
+              cmtName:'',
+              cmtRate:0,
+              key:''
+            
               
 
             };
             
             formData.comboName = res.comboName ;
             formData.componentName = res.componentName;
-            formData.trim_uom = res.trimsUom ;
-            formData.trimsCount = res.trimsCount;
-            formData.trimsPrice = res.trimsPrice
-            formData.trimsName = res.trimsName
-            formData.key = res.comboName+res.component+res.trimsName
+            formData.cmtName = res.cmtName ;
+            formData.cmtRate = res.cmtRate;
+           
+            formData.key = res.comboName+res.component+res.cmtName
     
             onSave(formData);
             form.resetFields();
           });
         }}
       >
-        <Form layout="vertical" onValuesChange={valueChange} form={form}>
+        <Form layout="vertical" onValuesChange={valueChange}
+
+        form={form}>
          
             <Row gutter={10} justify='space-between'>
                 <Col md={12}>
@@ -102,34 +100,19 @@ export const TrimsEditor: React.FC<ModalEditorProps> = ({
 
             </Row>
          
-             <Row>
-                <Col md={24}>
-                <Form.Item name={"trimsName"}>
-                    <Select>
-
-                        <Select.Option key={"sewtrd"}>Sewing Thread</Select.Option>
-                        <Select.Option key={"foam"}>Foam</Select.Option>
-                        <Select.Option key={"tag"}>Tag</Select.Option>
-                    </Select>
-                </Form.Item>
-                </Col>
-             </Row>
+            
              <Row gutter={10} justify='space-between'>
-                <Col md={8}>
-                <Form.Item name={"trimsUom"}>
+                <Col md={16}>
+                <Form.Item name={"cmtName"}>
           <Input></Input>
           </Form.Item  >
                 </Col>
                <Col md={8}>
-                 <Form.Item name={"trimsPrice"} >
+                 <Form.Item name={"cmtRate"} >
           <Input></Input>
           </Form.Item>
                </Col> 
-               <Col md={8}>
-                 <Form.Item  name={"trimsCount"}>
-          <Input></Input>
-          </Form.Item>
-               </Col> 
+              
         
 
             </Row>

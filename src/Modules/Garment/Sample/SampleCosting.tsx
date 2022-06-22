@@ -13,13 +13,18 @@ import {
   message,
   Space,
   Upload,
+  PageHeader,
 } from "antd";
 import { RcFile, UploadFile, UploadType } from "antd/lib/upload/interface";
-import React, { Component, useState } from "react";
+import React, { Component, ReactElement, ReactInstance, RefObject, useRef, useState } from "react";
 import StyleCategory from "../../Common/StyleCategory";
 import PortionEditor from "./PortionEditor";
 import StyleEditor from "./StyleEditor";
 import { TrimsEditor, TrimsCostingFormData } from './Costing/Blocks/TrimsCostingEditor';
+import { CMTCostingEditor, CMTCostingFormData } from "./Costing/Blocks/CMTCostingEditor";
+import ReactToPrint from "react-to-print";
+import CostingPrint from "./Costing/Blocks/CostingPrint";
+import { PrintCosting } from "./Costing/component/PrintCosting";
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -107,7 +112,9 @@ interface SampleCostingState {
   showEditor?: boolean;
   imageLoading:boolean,
   trimsCosting:Array<TrimsCostingFormData>
-  showTrimsEditor:boolean
+  showTrimsEditor:boolean,
+  showCmtEditor:boolean,
+  cmtCosting:Array<CMTCostingFormData>
 }
 
 interface CostingFabricData {
@@ -122,23 +129,38 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.addEventListener('load', () => callback(reader.result as string));
   reader.readAsDataURL(img);
 };
+
+
+
 export default class SampleCosting extends React.Component<
   SampleCostingProps,
   SampleCostingState
 > {
+  addCmt = (value: CMTCostingFormData) => 
+  {
+    const cmtData = [...this.state.cmtCosting]
+
+    cmtData.push(value);
+
+    this.setState({cmtCosting:cmtData})
+
+  }
+  private printCosting:React.RefObject<ReactElement> ;
   constructor(props: SampleCostingProps) {
     super(props);
-
+      this.printCosting = React.createRef()
     this.state = {
       costingData: defaultCostingData,
       showEditor: false,
       imageLoading:false,
       trimsCosting:[],
-      showTrimsEditor:false
+      showTrimsEditor:false,
+      showCmtEditor:false,
+      cmtCosting:[]
     };
   }
 
-  handleTrimsEditorSave = (values:TrimsCostingFormData) =>
+  addTrims = (values:TrimsCostingFormData) =>
   {
     const trims = [...this.state.trimsCosting] ;
 
@@ -148,9 +170,27 @@ export default class SampleCosting extends React.Component<
     console.log(values)
   }
 
+  showCmtEditor = (visible:boolean) =>
+  {
+    this.setState({showCmtEditor:visible})
+  }
   showTrimsEditor = (visible:boolean) =>
   {
     this.setState({showTrimsEditor:visible})
+  }
+
+  deleteCmts = (key:React.Key) =>
+  {
+    Modal.confirm({
+      title:'Delete CMT - ',
+      centered:true,
+      onOk :() =>
+      {
+          const cmtData = this.state.cmtCosting.filter(d => d.key != key);
+
+    this.setState({cmtCosting:cmtData})
+      }
+    })
   }
 
   deleteTrims = (key:any) =>
@@ -172,6 +212,7 @@ export default class SampleCosting extends React.Component<
   render() {
     return (
       <div>
+        <PageHeader title={"Sample Costing"} extra={[<PrintCosting data = {this.state.cmtCosting}/>]} />
         <Form.Provider>
           <Form name="costmas">
             <Row >
@@ -653,7 +694,7 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                          this.setState({ showEditor: true });
+                          this.showCmtEditor(true);
                         }}
                         type="primary"
                         style={{ float: "right" }}
@@ -686,16 +727,30 @@ export default class SampleCosting extends React.Component<
                     {
                       title: "CMT",
                       align: "left",
-                      dataIndex: "fabric",
+                      dataIndex: "cmtName",
                     },
                     {
                       title: "Rate",
                       width: 80,
-                      align: "left",
-                      dataIndex: "cad",
+                      align: "right",
+                      dataIndex: "cmtRate",
                     },
+                    {
+                      title: "",
+                      width: 80,
+                      align: "left",
+                      dataIndex: "action",
+                      render:(value, record, index) => {
+                        
+                        return(<><Button type="text" onClick ={()=>
+                        {
+                          this.deleteCmts(record.key)
+                        }} block icon ={<DeleteOutlined/> }></Button></>)
+                      },
+                    },
+
                   ]}
-                  dataSource={this.state.costingData.components}
+                  dataSource={this.state.cmtCosting}
                   footer={() => <>Name</>}
                 ></Table>
               </Col>
@@ -791,7 +846,8 @@ export default class SampleCosting extends React.Component<
               console.log(this.state);
             }}
           ></SampleCostingEditorModal>
-          <TrimsEditor visible  = {this.state.showTrimsEditor} onCancel={()=> {this.showTrimsEditor(false)}} onSave = {this.handleTrimsEditorSave}></TrimsEditor>
+          <TrimsEditor visible  = {this.state.showTrimsEditor} onCancel={()=> {this.showTrimsEditor(false)}} onSave = {this.addTrims}></TrimsEditor>
+          <CMTCostingEditor visible = {this.state.showCmtEditor} onCancel={() => {this.showCmtEditor(false)}} onSave = {this.addCmt}></CMTCostingEditor>
         </Form.Provider>
       </div>
     );
