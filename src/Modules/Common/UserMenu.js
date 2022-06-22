@@ -8,7 +8,7 @@ import {GiSewingMachine} from 'react-icons/gi'
 import {FaUsersCog} from 'react-icons/fa'
 export default function UserMenu() {
     return (
-        <Menu style={{height:'100%',paddingTop:'10px'}} theme='light' mode='inline'>
+        <Menu style={{height:'100%',paddingTop:'10px'}} theme='light' mode='vertical'>
 
             {/* User Groups and roles and their permission Menus */}
 

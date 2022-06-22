@@ -1,4 +1,4 @@
-import { DeleteFilled, LoadingOutlined, MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteColumnOutlined, DeleteFilled, DeleteOutlined, LoadingOutlined, MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -19,6 +19,7 @@ import React, { Component, useState } from "react";
 import StyleCategory from "../../Common/StyleCategory";
 import PortionEditor from "./PortionEditor";
 import StyleEditor from "./StyleEditor";
+import { TrimsEditor, TrimsCostingFormData } from './Costing/Blocks/TrimsCostingEditor';
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -104,7 +105,9 @@ interface CMTCosting {
 interface SampleCostingState {
   costingData: SampleCostingData;
   showEditor?: boolean;
-  imageLoading:boolean
+  imageLoading:boolean,
+  trimsCosting:Array<TrimsCostingFormData>
+  showTrimsEditor:boolean
 }
 
 interface CostingFabricData {
@@ -129,8 +132,41 @@ export default class SampleCosting extends React.Component<
     this.state = {
       costingData: defaultCostingData,
       showEditor: false,
-      imageLoading:false
+      imageLoading:false,
+      trimsCosting:[],
+      showTrimsEditor:false
     };
+  }
+
+  handleTrimsEditorSave = (values:TrimsCostingFormData) =>
+  {
+    const trims = [...this.state.trimsCosting] ;
+
+    trims.push(values) ;
+
+    this.setState({trimsCosting:trims})
+    console.log(values)
+  }
+
+  showTrimsEditor = (visible:boolean) =>
+  {
+    this.setState({showTrimsEditor:visible})
+  }
+
+  deleteTrims = (key:any) =>
+  {
+    Modal.confirm({
+      title:'Delete Trim - ',
+      centered:true,
+      onOk :() =>
+      {
+          const trimsData = this.state.trimsCosting.filter(d => d.key != key);
+
+    this.setState({trimsCosting:trimsData})
+      }
+    })
+  
+
   }
 
   render() {
@@ -163,13 +199,11 @@ export default class SampleCosting extends React.Component<
                     height={200}
                    preview ={false}
                     src = {this.state.costingData.imageSrc}/>
-                    :
-                  
-               
-                <div  >
-                    {this.state.imageLoading ? <LoadingOutlined/> : <PlusOutlined/>}
-                    <div style={{marginTop:8}}>Upload</div>
-                </div>
+                    :             
+                <Row justify='center' align="middle" style={{height:'100%'}}  >
+                    {this.state.imageLoading ? <LoadingOutlined/> : <PlusOutlined style={{fontSize:'14pt'}}/>}
+                    {/* <div style={{marginTop:8}}>Upload</div> */}
+                </Row>
   }
                   
                 
@@ -524,12 +558,12 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                          this.setState({ showEditor: true });
+                          this.showTrimsEditor(true);
                         }}
                         type="primary"
                         style={{ float: "right" }}
                       >
-                        Add Fabric
+                        Add
                       </Button>
                     </>
                   )}
@@ -557,46 +591,49 @@ export default class SampleCosting extends React.Component<
                     {
                       title: "Trims",
                       align: "left",
-                      dataIndex: "fabric",
+                      dataIndex: "trimsName",
                     },
                     {
                       title: "UOM",
                       width: 80,
                       align: "left",
-                      dataIndex: "cad",
+                      dataIndex: "trim_uom",
                     },
                     {
                       title: "Price",
                       align: "center",
                       width: 150,
-                      dataIndex: "processTemplate",
+                      dataIndex: "trimsPrice",
                     },
                     {
                       title: "CNT/GMT",
                       width: 100,
                       align: "center",
-                      dataIndex: "totalProcessRate",
+                      dataIndex: "trimsCount",
                     },
                     {
                       title: "Trims Cost",
                       width: 100,
                       align: "center",
-                      dataIndex: "totalProcessRate",
+                      dataIndex: "trimsCost",
+                      render(value, record, index) {
+                        return <>{record.trimsPrice * record.trimsCount}</>
+                      },
                     },
                     {
                       title: "#",
                       width: 100,
                       align: "center",
                       dataIndex: "",
-                      render(value, record, index) {
-                        return <>
-                        <Button type="link">Edit</Button>
-                        <Button type="link">Delete</Button>
-                        </>
-                      },
+                      render:(value, record, index)  => 
+                         (<>
+                       
+                        <Button onClick={() => {this.deleteTrims(record.key)}} type="text" block icon ={<DeleteOutlined/>} />
+                        </>)
+                      
                     },
                   ]}
-                  dataSource={this.state.costingData.components}
+                  dataSource={this.state.trimsCosting}
                   footer={() => <>Name</>}
                 ></Table>
               </Col>
@@ -754,6 +791,7 @@ export default class SampleCosting extends React.Component<
               console.log(this.state);
             }}
           ></SampleCostingEditorModal>
+          <TrimsEditor visible  = {this.state.showTrimsEditor} onCancel={()=> {this.showTrimsEditor(false)}} onSave = {this.handleTrimsEditorSave}></TrimsEditor>
         </Form.Provider>
       </div>
     );
@@ -1015,190 +1053,9 @@ const SampleCostingEditorModal: React.FC<SampleCostingEditorProps> = ({
   );
 };
 
-const TrimsEditor: React.FC<SampleCostingEditorProps> = ({
-  visible,
-  onSave,
-  onCancel,
-}) => {
-  const [form] = Form.useForm();
-  const [processLoss, setProcessLoss] = useState(0);
-  const [processRate, setProcessRate] = useState(0);
-  const [processTemplate, setProcessTemplate] = useState("");
-  const valueChange = (_: any, values: any) => {
-    const cad = parseFloat(values.cad) | 0;
-    console.log(values);
-    if (values.process) {
-      const process = [...values.process];
-      let totalCost = 0;
-      let totalLoss = 0;
-      let proTemplate = "";
-      process.forEach((pro, index) => {
-        let loss = 0;
-        let price = 0;
 
-        proTemplate =
-          proTemplate +
-          (pro?.processName ? pro.processName : "") +
-          (index < process.length - 1 ? "+" : "");
 
-        if (pro?.processLoss) loss = parseFloat(pro.processLoss);
-        if (pro?.processRate) price = parseFloat(pro.processRate);
-        totalCost += price; // (totalCost+price)*loss/((100/100)-loss)
-        totalLoss += loss; // (totalCost+price)*loss/((100/100)-loss)
-        // pro.cost = totalCost
-        // process.splice(index,1,pro);
-        //form.setFieldsValue({processTemplate:proTemplate})
-      });
+function deleteTrims(datasource:Array<TrimsCostingFormData>,key: React.Key | undefined) {
+  throw new Error("Function not implemented.");
+}
 
-      setProcessLoss(totalLoss);
-      setProcessRate(totalCost);
-      setProcessTemplate(proTemplate);
-    }
-  };
-  return (
-    <Modal
-      visible={visible}
-      title={"Create Fabric Details"}
-      okText="Save"
-      cancelText="Close"
-      centered
-      onCancel={() => {
-        if (onCancel) {
-          onCancel();
-          form.resetFields();
-        }
-      }}
-      onOk={() => {
-        form.validateFields().then((res) => {
-          let formData: SampleCostingFormData = {
-            totalProcessLoss: 0,
-            totalProcessRate: 0,
-            cad: 0,
-          };
-
-          formData.componentName = res.component;
-          formData.panelName = res.panelName;
-          formData.cad = res.cad;
-          formData.fabric = res.fabric;
-          formData.totalProcessLoss = processLoss;
-          formData.totalProcessRate = processRate;
-          formData.process = [
-            res.process.map((v: any) => ({
-              processName: v.processName,
-              loss: v.processLoss,
-              rate: v.processRate,
-            })),
-          ];
-          formData.processTemplate = processTemplate;
-
-          onSave(formData);
-          form.resetFields();
-        });
-      }}
-    >
-      <Form layout="vertical" onValuesChange={valueChange} form={form}>
-        <Form.List name={"process"}>
-          {(fields, { add, remove }) => {
-            return (
-              <>
-                <Row>
-                  <Col md={12}>
-                    <Typography.Text strong>{processTemplate}</Typography.Text>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={12}>
-                    <Typography.Text strong>Process</Typography.Text>
-                  </Col>
-                  <Col md={4}>
-                    <Typography.Text strong>Loss (%)</Typography.Text>
-                  </Col>
-                  <Col md={4}>
-                    <Typography.Text strong>Price/Kgs</Typography.Text>
-                  </Col>
-                  <Col md={4}>
-                    {fields.length === 0 ? (
-                      <Button type="link" onClick={() => add()}>
-                        Add
-                      </Button>
-                    ) : (
-                      ""
-                    )}
-                  </Col>
-                </Row>
-
-                {fields.map((field) => (
-                  <Row>
-                    <Col md={12}>
-                      <Form.Item noStyle name={[field.name, "processName"]}>
-                        <Select style={{ width: "100%" }}>
-                          <Select.Option value={"yrn"}>Yarn</Select.Option>
-                          <Select.Option value="y/d">Yarn Dyeing</Select.Option>
-                          <Select.Option value="knt">Knitting</Select.Option>
-                          <Select.Option value="h/s">HeatSetting</Select.Option>
-                          <Select.Option value="dye">Dyeing</Select.Option>
-                          <Select.Option value="prnt">Print</Select.Option>
-                          <Select.Option value="o/w">Compacting</Select.Option>
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col md={4}>
-                      <Form.Item noStyle name={[field.name, "processLoss"]}>
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col md={4}>
-                      <Form.Item noStyle name={[field.name, "processRate"]}>
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        type="text"
-                        onClick={() => add({}, field.name + 1)}
-                        icon={<PlusCircleOutlined />}
-                      ></Button>
-                    </Col>
-                    <Col md={2}>
-                      {fields.length > 1 ? (
-                        <Button
-                          type="text"
-                          onClick={() => remove(field.name)}
-                          icon={<MinusCircleOutlined />}
-                        ></Button>
-                      ) : (
-                        ""
-                      )}
-                    </Col>
-                  </Row>
-                ))}
-
-                {fields.length > 0 ? (
-                  <Row>
-                    <Col md={12}>
-                      <Typography.Text strong>Total</Typography.Text>
-                    </Col>
-                    <Col
-                      style={{ textAlign: "right", paddingRight: "5px" }}
-                      md={3}
-                    >
-                      <Typography.Text strong>{processLoss}</Typography.Text>
-                    </Col>
-                    <Col
-                      style={{ textAlign: "right", paddingRight: "5px" }}
-                      md={3}
-                    >
-                      <Typography.Text strong>{processRate}</Typography.Text>
-                    </Col>
-                  </Row>
-                ) : (
-                  ""
-                )}
-              </>
-            );
-          }}
-        </Form.List>
-      </Form>
-    </Modal>
-  );
-};
