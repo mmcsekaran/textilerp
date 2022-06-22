@@ -24,6 +24,8 @@ import SampleConsting from './../Garment/Sample/SampleCosting';
 import Citylist from './../Master/City/Citylist';
 import Processgroup from '../Master/Processgroup'
 import Departmentmaster from '../Master/Departmentmaster'
+import { Content } from 'antd/lib/layout/layout'
+import Contentmaster from '../Master/Contentmaster'
 export default function AppRouters() {
   return (
     <Routes>
@@ -50,10 +52,12 @@ export default function AppRouters() {
                   <Route path='/master/fabric' element = { <Fabrictype></Fabrictype>} />
                   <Route path='/master/fabmaster' element = { <Fabricmaster></Fabricmaster>} />
                   <Route path='/master/fabricname' element = { <Fabricname></Fabricname>} />
+                  <Route path='/master/contentmaster' element = {<Contentmaster></Contentmaster>} />
                   <Route path='/master/costingenty' element = { <Costingentry></Costingentry>} />
                   <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path='/master/processgroup' element = { <Processgroup></Processgroup>} />
                   <Route path='/master/departmentmaster' element = { <Departmentmaster></Departmentmaster>} />
+                  
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>
                 

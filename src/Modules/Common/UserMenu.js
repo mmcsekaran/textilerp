@@ -2,6 +2,7 @@ import { Menu } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Component } from 'react';
+import { HomeTwoTone, UserOutlined } from '@ant-design/icons';
 
 export default function UserMenu() {
     return (
@@ -11,6 +12,7 @@ export default function UserMenu() {
 
             <Menu.ItemGroup title={"Users"}>
                 <Menu.Item>
+                    <UserOutlined style={{paddingRight:'20px',fontSize:'16pt'}}/>
                     <Link to="/users">Users</Link>
                 </Menu.Item>
                 <Menu.Item>
@@ -37,6 +39,7 @@ export default function UserMenu() {
                 </Menu.Item>
 
                 <Menu.Item >
+                    <HomeTwoTone style={{paddingRight:'20px',fontSize:'16pt'}}></HomeTwoTone>
                     <Link to ="/master/processmaster">Process Master</Link>
                 </Menu.Item>
                 <Menu.Item >
@@ -91,6 +94,10 @@ export default function UserMenu() {
 
                    <Menu.Item>
                        <Link to ="/master/fabricname">Fabri Name Master</Link>
+                   </Menu.Item>
+                   
+                   <Menu.Item>
+                       <Link to ="/master/contentmaster">Content Master</Link>
                    </Menu.Item>
 
                 </Menu.SubMenu>

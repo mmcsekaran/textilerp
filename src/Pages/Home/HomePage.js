@@ -25,7 +25,7 @@ import ComingSoon from "../ErrorPage/ComingSoon";
 
 import Modules from "../../Modules";
 import ResetPassword from './../../Modules/User/ResetPassword';
-import { LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
+import { LoginOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import logo from '../../assets/img/d2d.png'
 import UserMenu from "../../Modules/Common/UserMenu";
 import AppRouters from "../../Modules/Common/Routes";
@@ -99,8 +99,8 @@ class HomePage extends Component {
       <Layout className="home-layout">
         
         
-             <Layout.Sider  collapsible collapsedWidth={0}  className="home-sidebar">
-              <section style={{height:'50px',lineHeight:'50px'}}>
+             <Layout.Sider  collapsible collapsedWidth={70}  className="home-sidebar">
+              <section style={{height:'50px',lineHeight:'50px',paddingLeft:'10px'}}>
                 <span style={{fontSize:'22pt',fontWeight:'bold',color:'white'}}>D2D</span>
                 {/* <Button onClick={()=>
                 {
@@ -114,23 +114,28 @@ class HomePage extends Component {
             </Layout.Sider> 
         <Layout.Content>
         <Layout>
-        <Layout.Header style={{background:'linear-gradient(45deg,#1893cc ,#1893cc)',padding:'0'}} className="home-header">
+        <Layout.Header style={{background:'linear-gradient(45deg,#1893cc ,#1893cc)'}} className="home-header">
          
         {/*  */}
-         {/* <Typography.Text strong style={{color:'white',fontSize:'2.4em',fontFamily:'mono',paddingLeft:'10px'}}>D2D International</Typography.Text> */}
+         {/* <Typography.Text strong style={{color:'white',fontSize:'2.4em',fontFamily:'mono'}}>D2D International</Typography.Text> */}
         
-         <Dropdown trigger={['click']} overlay={ <Menu style={{width:'100%',background:'red'}}>
-           <Menu.Item style={{float:'right'}}>
-            <LogoutOutlined></LogoutOutlined> Logout
-           </Menu.Item> </Menu>
+         <Dropdown trigger={['click']} overlay={ <Menu style={{width:'100%',background:'#1893cc',color:'white'}}>
+           <Menu.Item style={{background:'#1893cc',color:'white'}}>
+            <LogoutOutlined style={{fontSize:'12pt',marginRight:'5px'}}></LogoutOutlined> Profile
+           </Menu.Item> 
+           <Menu.Divider/>
+           <Menu.Item style={{background:'#1893cc',color:'white'}}>
+            <LogoutOutlined style={{fontSize:'12pt',marginRight:'5px'}}></LogoutOutlined> Logout
+           </Menu.Item> 
+           </Menu>
         }>
-           <Avatar style={{background:'#F8CD24'}} className="header-logout">C</Avatar>
+           <Avatar icon = {<LoginOutlined></LoginOutlined>} style={{background:'transparent'}} className="header-logout"></Avatar>
          </Dropdown>
          
          
         </Layout.Header>
          
-            <Layout.Content>
+            <Layout.Content className="app-container" style={{paddingLeft:'40px',paddingRight:'40px'}} >
               {/* <Routes>              
                {Modules.map(module => (<Route {...module.routerProps} key={module.name}>
                <Route exact path="*" element={<ComingSoon></ComingSoon>}/>
