@@ -22,6 +22,7 @@ export default function UserMenu() {
             </Menu.ItemGroup>
             {/* Garment related masters and page setups all things. */}
             <Menu.ItemGroup title={"Master"}>
+                <Menu.SubMenu title={"Admin"}>
                 
                 <Menu.Item>
                     <Link to= "/master/partymaster">Party Master</Link>
@@ -41,6 +42,16 @@ export default function UserMenu() {
                 <Menu.Item >
                     <Link to ="/master/city">City Master</Link>
                 </Menu.Item>
+
+                <Menu.Item >
+                    <Link to ="/master/processgroup">Process Group</Link>
+                </Menu.Item>
+
+                <Menu.Item >
+                    <Link to ="/master/departmentmaster">Department Master</Link>
+                </Menu.Item>
+
+                </Menu.SubMenu>
                 
                 <Menu.SubMenu title={"Setup"}>
                    
