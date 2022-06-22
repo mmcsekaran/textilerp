@@ -14,7 +14,7 @@ export default class AppLayout extends Component
 
     render()
     {
-      return  <Layout style={{height:"100vh"}}  > 
+      return  <Layout> 
        
             <Layout.Header style={{background:"#FFFFFF"}} >
                 <Menu mode="horizontal" >
@@ -24,7 +24,7 @@ export default class AppLayout extends Component
                  
                 </Menu>
             </Layout.Header>
-            <Layout.Content style={{height:'80vh'}}  >
+            <Layout.Content   >
               
             
                    <Routes>

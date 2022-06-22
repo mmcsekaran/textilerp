@@ -25,11 +25,19 @@ import ComingSoon from "../ErrorPage/ComingSoon";
 
 import Modules from "../../Modules";
 import ResetPassword from './../../Modules/User/ResetPassword';
-import { LogoutOutlined } from "@ant-design/icons";
+import { LoginOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import logo from '../../assets/img/d2d.png'
 import UserMenu from "../../Modules/Common/UserMenu";
 import AppRouters from "../../Modules/Common/Routes";
 class HomePage extends Component {
+
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      sideClose:false
+    }
+  }
 
   generateModuleMenu = (module) =>
   {
@@ -89,30 +97,45 @@ class HomePage extends Component {
     console.log(this.props);
     return (
       <Layout className="home-layout">
-        <Layout.Header style={{background:'linear-gradient(45deg,#6BB64A ,#6BB64A)',paddingLeft:'0'}} className="home-header">
-          <div style={{height:'100%',width:'200px',background:'white',paddingLeft:'10px',textAlign:'center'}}>
-             <Image style={{background:'white'}} src={logo} width ={80}height ={40}></Image>
-          </div>
-        {/*  */}
-         {/* <Typography.Text strong style={{color:'white',fontSize:'2.4em',fontFamily:'mono',paddingLeft:'10px'}}>D2D International</Typography.Text> */}
-         <Dropdown trigger={['click']} overlay={<Menu>
-           <Menu.Item>
-            <LogoutOutlined></LogoutOutlined> Logout
-           </Menu.Item>
-         </Menu>}>
-           <Avatar style={{background:'#F8CD24'}} className="header-logout">C</Avatar>
-         </Dropdown>
-        </Layout.Header>
-        <Layout.Content>
-         
-          <Layout>
-             <Layout.Sider   className="home-sidebar">
+        
+        
+             <Layout.Sider  collapsible collapsedWidth={70}  className="home-sidebar">
+              <section style={{height:'50px',lineHeight:'50px',paddingLeft:'10px'}}>
+                <span style={{fontSize:'22pt',fontWeight:'bold',color:'white'}}>D2D</span>
+                {/* <Button onClick={()=>
+                {
+                  this.setState({sideClose:!this.state.sideClose})
+                }} type="text" style={{float:'right',marginTop:'10px'}} icon ={this.state.sideClose ? <MenuUnfoldOutlined style={{fontSize:'20pt',color:'white'}}></MenuUnfoldOutlined >:<MenuFoldOutlined style={{fontSize:'20pt',color:'white'}}></MenuFoldOutlined>} ></Button>
+              */} </section>
              {/* <Menu className="home-menubar" mode='vertical' >
              {Modules.map(module => this.generateMenu(module))}
           </Menu> */}
          <UserMenu/>  
             </Layout.Sider> 
-            <Layout.Content>
+        <Layout.Content>
+        <Layout>
+        <Layout.Header style={{background:'linear-gradient(45deg,#1893cc ,#1893cc)'}} className="home-header">
+         
+        {/*  */}
+         {/* <Typography.Text strong style={{color:'white',fontSize:'2.4em',fontFamily:'mono'}}>D2D International</Typography.Text> */}
+        
+         <Dropdown trigger={['click']} overlay={ <Menu style={{width:'100%',background:'#1893cc',color:'white'}}>
+           <Menu.Item style={{background:'#1893cc',color:'white'}}>
+            <LogoutOutlined style={{fontSize:'12pt',marginRight:'5px'}}></LogoutOutlined> Profile
+           </Menu.Item> 
+           <Menu.Divider/>
+           <Menu.Item style={{background:'#1893cc',color:'white'}}>
+            <LogoutOutlined style={{fontSize:'12pt',marginRight:'5px'}}></LogoutOutlined> Logout
+           </Menu.Item> 
+           </Menu>
+        }>
+           <Avatar icon = {<LoginOutlined></LoginOutlined>} style={{background:'transparent'}} className="header-logout"></Avatar>
+         </Dropdown>
+         
+         
+        </Layout.Header>
+         
+            <Layout.Content className="app-container" style={{paddingLeft:'40px',paddingRight:'40px'}} >
               {/* <Routes>              
                {Modules.map(module => (<Route {...module.routerProps} key={module.name}>
                <Route exact path="*" element={<ComingSoon></ComingSoon>}/>
@@ -122,9 +145,10 @@ class HomePage extends Component {
               </Routes> */}
               <AppRouters></AppRouters>
             </Layout.Content>
+            <Layout.Footer>Copyrights R 2022 </Layout.Footer>
           </Layout>
         </Layout.Content>
-        <Layout.Footer>Copyrights R 2022 </Layout.Footer>
+
       </Layout>
     );
   }
