@@ -21,6 +21,8 @@ import Exportmaster from '../Master/Exportmaster'
 import Buyermaster from '../Master/Buyermaster'
 import Processmaster from '../Master/Processmaster'
 import SampleConsting from './../Garment/Sample/SampleCosting';
+import { Content } from 'antd/lib/layout/layout'
+import Contentmaster from '../Master/Contentmaster'
 export default function AppRouters() {
   return (
     <Routes>
@@ -47,6 +49,7 @@ export default function AppRouters() {
                   <Route path='/master/fabric' element = { <Fabrictype></Fabrictype>} />
                   <Route path='/master/fabmaster' element = { <Fabricmaster></Fabricmaster>} />
                   <Route path='/master/fabricname' element = { <Fabricname></Fabricname>} />
+                  <Route path='/master/contentmaster' element = {<Contentmaster></Contentmaster>} />
                   <Route path='/master/costingenty' element = { <Costingentry></Costingentry>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>

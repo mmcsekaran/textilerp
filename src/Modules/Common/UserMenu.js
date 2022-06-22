@@ -78,6 +78,10 @@ export default function UserMenu() {
                    <Menu.Item>
                        <Link to ="/master/fabricname">Fabri Name Master</Link>
                    </Menu.Item>
+                   
+                   <Menu.Item>
+                       <Link to ="/master/contentmaster">Content Master</Link>
+                   </Menu.Item>
 
                 </Menu.SubMenu>
 
