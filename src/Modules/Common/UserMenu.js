@@ -3,16 +3,18 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Component } from 'react';
 import { HomeTwoTone, UserOutlined } from '@ant-design/icons';
-
+import {AiFillDatabase} from 'react-icons/ai'
+import {GiSewingMachine} from 'react-icons/gi'
+import {FaUsersCog} from 'react-icons/fa'
 export default function UserMenu() {
     return (
-        <Menu style={{height:'100%'}} theme='light' mode='inline'>
+        <Menu style={{height:'100%',paddingTop:'10px'}} theme='light' mode='inline'>
 
             {/* User Groups and roles and their permission Menus */}
 
-            <Menu.ItemGroup title={"Users"}>
-                <Menu.Item>
-                    <UserOutlined style={{paddingRight:'20px',fontSize:'16pt'}}/>
+                <Menu.SubMenu title ="Users" icon = {<FaUsersCog style={{fontSize:'18pt'}}></FaUsersCog>} >
+                     <Menu.Item>
+                   
                     <Link to="/users">Users</Link>
                 </Menu.Item>
                 <Menu.Item>
@@ -20,10 +22,12 @@ export default function UserMenu() {
                 </Menu.Item>
                 <Menu.Item>
                     <Link to="/users/permissions">Permission</Link>
-                </Menu.Item>
-            </Menu.ItemGroup>
+                </Menu.Item> 
+                </Menu.SubMenu>
+              
+        
             {/* Garment related masters and page setups all things. */}
-            <Menu.ItemGroup title={"Master"}>
+            <Menu.SubMenu icon ={<AiFillDatabase  style={{fontSize:'18pt'}}></AiFillDatabase>} title={"Master"}>
                 
                 <Menu.Item>
                     <Link to= "/master/partymaster">Party Master</Link>
@@ -108,8 +112,8 @@ export default function UserMenu() {
                     <Menu.Item > <Link to='/master/order/process' >Process</Link></Menu.Item>
                     
                 </Menu.SubMenu>
-            </Menu.ItemGroup>
-            <Menu.ItemGroup title="Garment" >
+            </Menu.SubMenu>
+            <Menu.SubMenu icon ={<GiSewingMachine  style={{fontSize:'18pt'}}/>} title="Garment"  >
                 <Menu.SubMenu title="Master">
                     <Menu.Item><Link to = '/garment/master/color'>Color</Link></Menu.Item>
                     <Menu.Item><Link to = '/garment/master/yarn'>Yarn</Link></Menu.Item>
@@ -117,7 +121,7 @@ export default function UserMenu() {
                 <Menu.SubMenu title = {"Sample"}>
                 <Menu.Item><Link to = '/garment/sample/techpack'>Tech Sheet</Link></Menu.Item>
                 </Menu.SubMenu>
-            </Menu.ItemGroup>
+            </Menu.SubMenu>
         </Menu>
     )
 }

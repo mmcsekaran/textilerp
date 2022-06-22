@@ -141,19 +141,19 @@ export default class SampleCosting extends React.Component<
             <Row >
             <Col md = {5} style={{ padding: "15px" }}>
               <Row>
-              <div style={{ width: "100%", height: "100%"}}>
+              <div style={{ width: "200px", height: "200px  ",border:'1px dashed gray'}}>
                 <Upload
                 showUploadList ={false}
-              listType ='picture-card'
+              listType ='picture'
               className="avatar-uploader"
                 beforeUpload ={(file =>
                   {
                    
                      getBase64(file,url =>
                       {
- const data = this.state.costingData ;
- data.imageSrc = url;
- this.setState({imageLoading:false ,costingData:data})
+                        const data = this.state.costingData ;
+                        data.imageSrc = url;
+                        this.setState({imageLoading:false ,costingData:data})
                       })
                   })}
                 >
@@ -166,7 +166,7 @@ export default class SampleCosting extends React.Component<
                     :
                   
                
-                <div>
+                <div  >
                     {this.state.imageLoading ? <LoadingOutlined/> : <PlusOutlined/>}
                     <div style={{marginTop:8}}>Upload</div>
                 </div>
@@ -175,7 +175,7 @@ export default class SampleCosting extends React.Component<
                 
                 
                   
-                
+
                 </Upload>
                   
                   </div>
@@ -246,77 +246,77 @@ export default class SampleCosting extends React.Component<
             
 
            
-              <Col md={6}>
+              <Col md={7}>
                 <div className="summary-costing">
 
               
                   <table className="summary-costing">
                   
                       <tr>
-                        <th style={{width:'150px'}}>Summary</th>
+                        <th style={{width:'80px'}}>Summary</th>
                         <th style={{width:'80px'}}></th>
                         <th style={{width:'120px'}} >Cost</th>
                       </tr>
                    
                     
                       <tr>
-                        <td >Digital Print</td>
+                        <th >Digital Print</th>
                         <td></td>
                         <td><Input></Input></td>
                       </tr>
                       <tr>
-                        <td>Emproidery</td><td></td>
+                        <th>Emproidery</th><td></td>
                         <td><Input></Input></td>
                       </tr>
                       <tr>
-                        <td>Testing</td><td></td>
+                        <th>Testing</th><td></td>
                         <td><Input></Input></td>
                       </tr>
                       <tr>
-                        <td>Accessories</td><td></td>
-                        <td><Input></Input></td>
+                        <th>Accessories</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                       <tr>
-                        <td>CMT</td><td></td>
-                        <td><Input></Input></td>
+                        <th>CMT</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                       <tr>
-                        <td>Transport</td><td></td>
-                        <td><Input></Input></td>
+                        <th>Transport</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                       <tr>
-                        <td>Garment Cost</td>
+                        <th>Garment Cost</th>
                         <td><Input></Input></td>
-                        <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                       <tr>
-                        <td>GMT Rejection</td>
+                        <th>GMT Rejection</th>
                         <td><Input></Input></td>
-                        <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                       <tr>
-                        <td>Admin & OHS</td>  <td><Input></Input></td>
-                        <td><Input></Input></td>
+                        <th>Admin & OHS</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                       <tr>
-                        <td>Pro fit</td>  <td><Input></Input></td>
-                        <td><Input></Input></td>
+                        <th>Profit</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                       <tr>
-                        <td>Commission</td>  <td><Input></Input></td>
-                        <td><Input></Input></td>
+                        <th>Commission</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                      
                     
                     <tr>
-                        <td>Total</td><td></td>
-                        <td>0.0</td>
+                        <th>Total</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
                       </tr>
                    
                   </table>
                   </div>
               </Col>
-              <Col md={12}>
+              <Col md={17}>
               <div className="profit-summary">
                 <table className ="profit-summary">
                   <thead>

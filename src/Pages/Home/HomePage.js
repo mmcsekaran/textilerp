@@ -29,6 +29,7 @@ import { LoginOutlined, LogoutOutlined, MenuFoldOutlined, MenuUnfoldOutlined } f
 import logo from '../../assets/img/d2d.png'
 import UserMenu from "../../Modules/Common/UserMenu";
 import AppRouters from "../../Modules/Common/Routes";
+import { GiHamburgerMenu } from "react-icons/gi";
 class HomePage extends Component {
 
   constructor(props)
@@ -92,6 +93,10 @@ class HomePage extends Component {
     }
   }
 
+  hanleSiderBar= () =>
+  {
+    this.setState({sideClose:!this.state.sideClose})
+  }
 
   render() {
     console.log(this.props);
@@ -99,9 +104,10 @@ class HomePage extends Component {
       <Layout className="home-layout">
         
         
-             <Layout.Sider  collapsible collapsedWidth={70}  className="home-sidebar">
-              <section style={{height:'50px',lineHeight:'50px',paddingLeft:'10px'}}>
-                <span style={{fontSize:'22pt',fontWeight:'bold',color:'white'}}>D2D</span>
+             <Layout.Sider collapsed ={this.state.sideClose}   collapsedWidth={70}  className="home-sidebar">
+              <section style={{height:'50px'}}>
+                <Button style={{marginTop:'8px',marginLeft:'18px'}}  type="text" onClick={this.hanleSiderBar} icon ={<GiHamburgerMenu style={{fontSize:'22pt',color:'white'}}></GiHamburgerMenu>}></Button>
+                {/* <span style={{fontSize:'22pt',fontWeight:'bold',color:'white',paddingLeft:'5px'}}>D2D</span> */}
                 {/* <Button onClick={()=>
                 {
                   this.setState({sideClose:!this.state.sideClose})
@@ -117,7 +123,7 @@ class HomePage extends Component {
         <Layout.Header style={{background:'linear-gradient(45deg,#1893cc ,#1893cc)'}} className="home-header">
          
         {/*  */}
-         {/* <Typography.Text strong style={{color:'white',fontSize:'2.4em',fontFamily:'mono'}}>D2D International</Typography.Text> */}
+         <Typography.Text strong style={{color:'white',fontSize:'2.4em',fontFamily:'mono'}}>D2D International</Typography.Text>
         
          <Dropdown trigger={['click']} overlay={ <Menu style={{width:'100%',background:'#1893cc',color:'white'}}>
            <Menu.Item style={{background:'#1893cc',color:'white'}}>
