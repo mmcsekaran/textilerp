@@ -51,6 +51,7 @@ export default function AppRouters() {
                   <Route path='/master/fabricname' element = { <Fabricname></Fabricname>} />
                   <Route path='/master/contentmaster' element = {<Contentmaster></Contentmaster>} />
                   <Route path='/master/costingenty' element = { <Costingentry></Costingentry>} />
+                  
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>
                 
