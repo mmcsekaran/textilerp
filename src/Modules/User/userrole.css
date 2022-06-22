@@ -1,16 +1,5 @@
-.button-top{
-    justify-content: center;
-    align-items: middle;
-}
-
-.top-reverse{
-    display: flex;
-    flex-direction: row-reverse;
-}
-
-.button-top{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-}
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  

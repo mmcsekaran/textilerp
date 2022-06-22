@@ -21,15 +21,16 @@ export default class extends Component{
                                                 <Input />
 
                                             </Form.Item>
-
+                                            <Row>
+                                            <Col span={12}>
                                             <Form.Item
                                             name={'Description'}
                                             label='Description'>
                                                 <Input />
 
                                             </Form.Item>
-
-                                                <Row>
+                                            </Col>
+                                               
 
                                             <Col span={12}>
                                                 <Form.Item
@@ -41,18 +42,17 @@ export default class extends Component{
                                                         </Select>
                                                     </Form.Item>
                                             </Col>
-                                            <Col span={12}>
+                                            </Row>
+                                            
                                                 <Form.Item
                                                     name={'Count Type'}
                                                     label='Count Type'
                                                     >
-                                                        <Select>
-                                                            
-                                                        </Select>
+                                                       <Input />
                                                     </Form.Item>
-                                            </Col>
+                                           
 
-                                            </Row>
+                                            
                                         
                                              <Checkbox>Active</Checkbox>
 

@@ -1,7 +1,6 @@
 import { Card, Col, Form, Input, PageHeader, Row, Select, Tabs, Space } from 'antd'
 import TextArea from 'antd/lib/input/TextArea';
 import { Component } from 'react'
-import Addresscomponent from '../Common/Addresscomponent'
 import './card.css';
 
 export default class Exportmaster extends Component {
@@ -13,7 +12,9 @@ export default class Exportmaster extends Component {
     
     return (
         <div>
+            <div style={{ paddingleft:'10px'}}>
           <PageHeader title='Exporter Master'></PageHeader>
+          </div>
             <div className='card-content'>
               <Row justify='center' align='middle'>
                   <Col xs={24} sm={16} md={16} xl={16}>

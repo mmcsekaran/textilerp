@@ -1,7 +1,7 @@
 import { Card, Form, Input, PageHeader, Row, Col, Space, Select, DatePicker, Button, Table, Steps, message} from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { Component } from "react";
-import Addresscomponent from "../Common/Addresscomponent";
+
 
 
 export default class Partymaster
@@ -21,7 +21,7 @@ export default class Partymaster
             content:<>
                 <Row justify="center" align="middle">
                     <Col xs={24} sm={16} md={16} xl={16}>
-                        <Card CloseButton>
+                        <Card>
                             <Form 
                             size="small"
                             layout="horizontal"
@@ -65,6 +65,15 @@ export default class Partymaster
                                             </Form.Item>
                                         </Col>
 
+                                        <Col span={12}>                                 
+                                            <Form.Item
+                                            label='Address'
+                                           >
+                                               <TextArea />
+                                              
+                                            </Form.Item>
+                                        </Col>
+
                                         <Col span={12}>
                                             <Form.Item
                                             name={'unit name'}
@@ -76,12 +85,6 @@ export default class Partymaster
                                             </Form.Item>
                                         </Col>
 
-                                        <Col span={18}>                                 
-                                            <Form.Item
-                                           >
-                                               <Addresscomponent />
-                                            </Form.Item>
-                                        </Col>
 
                                         <Col span={12}>
                                             <Form.Item
@@ -334,7 +337,7 @@ export default class Partymaster
                          {this.Steps[this.state.step] && this.Steps[this.state.step].content}
                      </>
 
-                        <Button onClick={() => this.setState({step:this.state.step+1} )}  type="primary" htmlType="submit">Next</Button>
+                        <Button onClick={() => this.setState({step:this.state.step+1} )}  type="primary" htmlType="button">Next</Button>
                     
                         <Button onClick={() => this.setState({step:this.state.step-1})}>previous</Button>
                 </Card>

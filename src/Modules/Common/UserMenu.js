@@ -28,6 +28,8 @@ export default function UserMenu() {
         
             {/* Garment related masters and page setups all things. */}
             <Menu.SubMenu icon ={<AiFillDatabase  style={{fontSize:'18pt'}}></AiFillDatabase>} title={"Master"}>
+           
+                <Menu.SubMenu title={"Admin"}>
                 
                 <Menu.Item>
                     <Link to= "/master/partymaster">Party Master</Link>
@@ -48,6 +50,16 @@ export default function UserMenu() {
                 <Menu.Item >
                     <Link to ="/master/city">City Master</Link>
                 </Menu.Item>
+
+                <Menu.Item >
+                    <Link to ="/master/processgroup">Process Group</Link>
+                </Menu.Item>
+
+                <Menu.Item >
+                    <Link to ="/master/departmentmaster">Department Master</Link>
+                </Menu.Item>
+
+                </Menu.SubMenu>
                 
                 <Menu.SubMenu title={"Setup"}>
                    
@@ -87,6 +99,10 @@ export default function UserMenu() {
 
                    <Menu.Item>
                        <Link to ="/master/fabricname">Fabri Name Master</Link>
+                   </Menu.Item>
+                   
+                   <Menu.Item>
+                       <Link to ="/master/contentmaster">Content Master</Link>
                    </Menu.Item>
 
                 </Menu.SubMenu>
