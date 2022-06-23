@@ -22,9 +22,9 @@ import PortionEditor from "./PortionEditor";
 import StyleEditor from "./StyleEditor";
 import { TrimsEditor, TrimsCostingFormData } from './Costing/Blocks/TrimsCostingEditor';
 import { CMTCostingEditor, CMTCostingFormData } from "./Costing/Blocks/CMTCostingEditor";
-import ReactToPrint from "react-to-print";
 import CostingPrint from "./Costing/Blocks/CostingPrint";
 import { PrintCosting } from "./Costing/component/PrintCosting";
+import { EmplishmentCostingEditor, EmplishmentCostingFormData } from "./Costing/Blocks/EmplishmentEditor";
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -115,6 +115,8 @@ interface SampleCostingState {
   showTrimsEditor:boolean,
   showCmtEditor:boolean,
   cmtCosting:Array<CMTCostingFormData>
+  showEmpEditor:{visible:boolean,value?:EmplishmentCostingFormData}
+  empCosting:Array<EmplishmentCostingFormData>
 }
 
 interface CostingFabricData {
@@ -130,7 +132,10 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.readAsDataURL(img);
 };
 
-
+interface summaryCosting
+{
+  cadSummary:{combo:string,component:string,cost:number}
+}
 
 export default class SampleCosting extends React.Component<
   SampleCostingProps,
@@ -144,8 +149,28 @@ export default class SampleCosting extends React.Component<
 
     this.setState({cmtCosting:cmtData})
 
+
   }
   private printCosting:React.RefObject<ReactElement> ;
+  addEmplishment = (value: EmplishmentCostingFormData) => 
+  { 
+    const empData = [...this.state.empCosting]
+    empData.push(value);
+    this.setState({empCosting:empData})
+  };
+  removeEmplishment = (key:React.Key) =>
+  {
+    Modal.confirm({
+      title:'Delete Emplishment',
+      centered:true,
+      onOk :() =>
+      {
+          const cmtData = this.state.empCosting.filter(d => d.key != key);
+
+        this.setState({empCosting:cmtData})
+      }
+    })
+  }
   constructor(props: SampleCostingProps) {
     super(props);
       this.printCosting = React.createRef()
@@ -156,7 +181,9 @@ export default class SampleCosting extends React.Component<
       trimsCosting:[],
       showTrimsEditor:false,
       showCmtEditor:false,
-      cmtCosting:[]
+      cmtCosting:[],
+      showEmpEditor:{visible:false},
+      empCosting:[]                                                                                                                                                                  
     };
   }
 
@@ -319,9 +346,7 @@ export default class SampleCosting extends React.Component<
             {/* Summary Pages */}
             <Row gutter={10}>
             
-
-           
-              <Col md={7}>
+            <Col md={6}>
                 <div className="summary-costing">
 
               
@@ -391,7 +416,78 @@ export default class SampleCosting extends React.Component<
                   </table>
                   </div>
               </Col>
-              <Col md={17}>
+           
+              <Col md={6}>
+                <div className="summary-costing">
+
+              
+                  <table className="summary-costing">
+                  
+                      <tr>
+                        <th style={{width:'80px'}}>Summary</th>
+                        <th style={{width:'80px'}}></th>
+                        <th style={{width:'120px'}} >Cost</th>
+                      </tr>
+                   
+                    
+                      <tr>
+                        <th >Digital Print</th>
+                        <td></td>
+                        <td><Input></Input></td>
+                      </tr>
+                      <tr>
+                        <th>Emproidery</th><td></td>
+                        <td><Input></Input></td>
+                      </tr>
+                      <tr>
+                        <th>Testing</th><td></td>
+                        <td><Input></Input></td>
+                      </tr>
+                      <tr>
+                        <th>Accessories</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>CMT</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Transport</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Garment Cost</th>
+                        <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>GMT Rejection</th>
+                        <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Admin & OHS</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Profit</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Commission</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                     
+                    
+                    <tr>
+                        <th>Total</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                   
+                  </table>
+                  </div>
+              </Col>
+              <Col md={12}>
               <div className="profit-summary">
                 <table className ="profit-summary">
                   <thead>
@@ -767,7 +863,6 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                          this.setState({ showEditor: true });
                         }}
                         type="primary"
                         style={{ float: "right" }}
@@ -798,18 +893,42 @@ export default class SampleCosting extends React.Component<
                       dataIndex: "componentName",
                     },
                     {
+                      title: "Portion",
+                      width: 120,
+                      align: "left",
+                      dataIndex: "portion",
+                    },
+                    {
                       title: "Emplishments",
                       align: "left",
-                      dataIndex: "fabric",
+                      dataIndex: "emplishment",
+                      render : (value, record, index) => {
+                        return (<Button type="link" onClick={()=>
+                        {
+                          this.showEmpEditor(true,record)
+                        }} >{value}</Button>)
+                      },
                     },
                     {
                       title: "Rate",
                       width: 80,
                       align: "left",
-                      dataIndex: "cad",
+                      dataIndex: "empRate",
+                    },
+                    {
+                      title: "",
+                      width: 80,
+                      align: "center",
+                      dataIndex: "action",
+                      render : (value, record, index) => {
+                        return (<><Button onClick={()=>
+                        {
+                          this.removeEmplishment(record.key)
+                        }} type="text" block icon ={<DeleteOutlined/>}></Button></>)
+                      },
                     },
                   ]}
-                  dataSource={this.state.costingData.components}
+                  dataSource={this.state.empCosting}
                   footer={() => <>Name</>}
                 ></Table>
               </Col>
@@ -848,9 +967,14 @@ export default class SampleCosting extends React.Component<
           ></SampleCostingEditorModal>
           <TrimsEditor visible  = {this.state.showTrimsEditor} onCancel={()=> {this.showTrimsEditor(false)}} onSave = {this.addTrims}></TrimsEditor>
           <CMTCostingEditor visible = {this.state.showCmtEditor} onCancel={() => {this.showCmtEditor(false)}} onSave = {this.addCmt}></CMTCostingEditor>
+          <EmplishmentCostingEditor value={this.state.showEmpEditor.value} visible = {this.state.showEmpEditor.visible} onCancel = {() => this.showEmpEditor(false)} onSave = {this.addEmplishment} />
         </Form.Provider>
       </div>
     );
+  }
+  showEmpEditor = (visible: boolean,value?:EmplishmentCostingFormData): void => {
+      
+   this.setState({showEmpEditor:{visible:visible,value:value}})
   }
 }
 
