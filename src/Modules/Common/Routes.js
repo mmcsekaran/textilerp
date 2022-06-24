@@ -28,6 +28,7 @@ import { Content } from 'antd/lib/layout/layout'
 import Contentmaster from '../Master/Contentmaster'
 import Accessories from '../Master/Accessories'
 import Buyeraccdesc from '../Master/Buyeraccdesc'
+import Designmaster from '../Master/Designmaster'
 export default function AppRouters() {
   return (
     <Routes>
@@ -54,7 +55,8 @@ export default function AppRouters() {
                   <Route path='/master/fabric' element = { <Fabrictype></Fabrictype>} />
                   <Route path='/master/fabmaster' element = { <Fabricmaster></Fabricmaster>} />
                   <Route path='/master/fabricname' element = { <Fabricname></Fabricname>} />
-                  <Route path='/master/contentmaster' element = {<Contentmaster></Contentmaster>} />
+                  <Route path='/master/contentmaster' element = {<Contentmaster></Contentmaster>} />  
+                  <Route path='/master/designmaster' element = {<Designmaster></Designmaster>} />
                   <Route path='/master/costingenty' element = { <Costingentry></Costingentry>} />
                   <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path='/master/processgroup' element = { <Processgroup></Processgroup>} />
