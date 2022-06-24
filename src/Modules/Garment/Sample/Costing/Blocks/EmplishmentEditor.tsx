@@ -1,10 +1,13 @@
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Form, Input, Modal, Row, Select, Typography } from 'antd';
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import TrimsPlan from '../../TrimsPlan';
 import { ModalEditorProps } from '../interface/ModalEditorProps';
-import { useForm } from 'antd/lib/form/Form';
-import { render } from '@testing-library/react';
+import { FormInstance, useForm } from 'antd/lib/form/Form';
+
+import { FormContext } from 'antd/lib/form/context';
+import { content } from '../../../../../../tailwind.config';
+import ReactDOM from 'react-dom';
 
 
 
@@ -23,7 +26,17 @@ import { render } from '@testing-library/react';
     
  }
 
- 
+ export const showEditor = (props:ModalEditorProps<EmplishmentCostingFormData>) =>
+ {
+    const dom = document.createElement("div")
+    document.body.appendChild(dom) ;
+    ReactDOM.render(<EmplishmentCostingEditor {...props}></EmplishmentCostingEditor>,dom)
+ }
+
+ const Editor:React.FC = () =>
+ {
+  return <>Hello</>
+ }
 
 export const EmplishmentCostingEditor: React.FC<ModalEditorProps<EmplishmentCostingFormData>> = ({
     visible,
@@ -38,7 +51,10 @@ export const EmplishmentCostingEditor: React.FC<ModalEditorProps<EmplishmentCost
       console.log(values);
         
       }
-
+     
+        form.setFieldsValue(value)
+      
+console.log(value)
     return (
       <Modal
         visible={visible}
@@ -80,7 +96,7 @@ export const EmplishmentCostingEditor: React.FC<ModalEditorProps<EmplishmentCost
         }}
       >
         <Form layout="vertical" onValuesChange={valueChange}
-          
+        initialValues = {value}
         form={form}>
          
             <Row gutter={10} justify='space-between'>

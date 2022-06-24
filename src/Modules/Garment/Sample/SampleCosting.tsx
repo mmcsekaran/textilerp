@@ -24,7 +24,7 @@ import { TrimsEditor, TrimsCostingFormData } from './Costing/Blocks/TrimsCosting
 import { CMTCostingEditor, CMTCostingFormData } from "./Costing/Blocks/CMTCostingEditor";
 import CostingPrint from "./Costing/Blocks/CostingPrint";
 import { PrintCosting } from "./Costing/component/PrintCosting";
-import { EmplishmentCostingEditor, EmplishmentCostingFormData } from "./Costing/Blocks/EmplishmentEditor";
+import { EmplishmentCostingEditor, EmplishmentCostingFormData, showEditor } from "./Costing/Blocks/EmplishmentEditor";
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -863,6 +863,7 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
+                         this.setState({showEmpEditor:{visible:true,value:undefined}})
                         }}
                         type="primary"
                         style={{ float: "right" }}
