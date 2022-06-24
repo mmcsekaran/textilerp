@@ -29,12 +29,12 @@ import Contentmaster from '../Master/Contentmaster'
 import Accessories from '../Master/Accessories'
 import Buyeraccdesc from '../Master/Buyeraccdesc'
 import Designmaster from '../Master/Designmaster'
-import Uommaster from '../Master/Uommaster'
 import Sizemaster from '../Master/Sizemaster'
 import Approvalmaster from '../Master/Approvalmaster'
+import Styleno from '../Master/Styleno'
+import Portionmaster from '../Master/Portionmaster'
 export default function AppRouters() {
   return (
-    <Routes>
         <Route>
             <Route path='/' element={<Outlet></Outlet>}>
                 
@@ -70,6 +70,10 @@ export default function AppRouters() {
                   <Route path='/master/uommaster' element = { <Uommaster></Uommaster>} />
                   <Route path='/master/sizemaster' element = { <Sizemaster></Sizemaster>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
+                  <Route path='/master/*' element = {<Unautherize></Unautherize>} />
+                  <Route path='/master/styleno' element = {<Styleno></Styleno>} />
+                  <Route path='/master/styleitem' element = {<Styleitem></Styleitem>} />
+                  <Route path='/master/portionmaster' element = {<Portionmaster></Portionmaster>} />
               </Route>
                 
             
@@ -85,6 +89,6 @@ export default function AppRouters() {
               </Route>
             </Route>
         </Route>
-    </Routes>
+  
   )
 }

@@ -137,6 +137,15 @@ export default function UserMenu() {
 
                     <Menu.Item>
                         <Link to="/master/sizemaster/">Size Master </Link>
+                        <Link to="/master/styleno/">StyleNo</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/styleitem/">StyleItem Description</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/portionmaster/">Portion Master</Link>
                     </Menu.Item>
 
                 </Menu.SubMenu>
