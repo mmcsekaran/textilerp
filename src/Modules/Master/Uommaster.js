@@ -40,7 +40,7 @@ export default class Uommaster extends Component {
            bordered
                 columns={[
                     {
-                        title: "S.No",
+                        title: "S.No.",
                         
                         
                         render: (text, record, index) => index + 1,
