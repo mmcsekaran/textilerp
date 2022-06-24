@@ -8,6 +8,7 @@ import { FormInstance, useForm } from 'antd/lib/form/Form';
 import { FormContext } from 'antd/lib/form/context';
 import { content } from '../../../../../../tailwind.config';
 import ReactDOM from 'react-dom';
+import { modalGlobalConfig } from 'antd/lib/modal/confirm';
 
 
 
@@ -16,7 +17,8 @@ import ReactDOM from 'react-dom';
 
  export interface EmplishmentCostingFormData
  {
-    key:React.Key
+    id:number
+    key:string
     comboName:string|number,
     componentName:string|number,
     emplishment:string|number,
@@ -26,23 +28,144 @@ import ReactDOM from 'react-dom';
     
  }
 
- export const showEditor = (props:ModalEditorProps<EmplishmentCostingFormData>) =>
+ export const showEditor = (props:ModalEditorProps<EmplishmentCostingFormData> )  =>
  {
-    const dom = document.createElement("div")
-    document.body.appendChild(dom) ;
-    ReactDOM.render(<EmplishmentCostingEditor {...props}></EmplishmentCostingEditor>,dom)
+  var form:FormInstance<any>
+   const getForm = (frm:FormInstance<any>)=>
+   {
+      form = frm ;
+   } 
+    
+   Modal.confirm(
+    {
+      visible:props.visible,
+      centered:true,
+      closable:true,
+      icon:null,
+      title:'Emplishment',
+      width:"600px",
+      onOk:() =>
+      {
+        form.validateFields().then(
+          value =>
+          {
+           const  frmData:EmplishmentCostingFormData = props.value? props.value : defaultValue ;
+            frmData.comboName = value.comboName ;
+            frmData.componentName = value.componentName;
+            frmData.emplishment = value.emplishment ;
+            frmData.empRate = value.empRate;
+            frmData.portion = value.portion
+            
+            frmData.key = value.comboName + value.componentName +value.portion + value.emplishment
+            form.resetFields();
+            props.onSave(props.value ? props.value : defaultValue,frmData);
+            form.submit()
+          }
+        )
+        
+      },
+      content:<EmplishmentCostingEditorv1 value={props.value} onChange={getForm}></EmplishmentCostingEditorv1>
+    }
+   )
  }
+
+ export const EmplishmentCostingEditorv1: React.FC<{value?:EmplishmentCostingFormData,onChange?:(form:FormInstance<any>) => void}> = (props) => {
+
+  const [myform] = Form.useForm();
+
+  const onValuesChange = (_:any,values:any) =>
+  {
+    
+  }
+ if(props.onChange)
+      props.onChange(myform);
+  return (
+      <Form  layout="vertical" onValuesChange={onValuesChange}
+      initialValues = {props.value}
+
+      form={myform}>
+       
+          <Row gutter={10} justify='space-between'>
+              <Col md={8}>
+              <Form.Item name={"comboName"}  >
+         <Select disabled = {props.value && props.value.id > -1 ? true : false }>
+                      <Select.Option key={"black"}>Black</Select.Option>
+                      <Select.Option key={"blue"}>Blue</Select.Option>
+                      <Select.Option key={"red"}>Red</Select.Option>
+         </Select>
+        </Form.Item
+        
+         >
+              </Col>
+             <Col md={8}>
+               <Form.Item name={"componentName"}>
+         <Select>
+                      <Select.Option key={"top"}>Top</Select.Option>
+                      <Select.Option key={"pant"}>Pant</Select.Option>
+                      <Select.Option key={"short"}>Shorts</Select.Option>
+         </Select>
+        </Form.Item>
+             </Col> 
+             <Col md={8}>
+               <Form.Item name={"portion"}>
+         <Select>
+                      <Select.Option key={"top"}>Top</Select.Option>
+                      <Select.Option key={"pant"}>Pant</Select.Option>
+                      <Select.Option key={"short"}>Shorts</Select.Option>
+         </Select>
+        </Form.Item>
+             </Col> 
+      
+
+          </Row>
+       
+          
+           <Row gutter={10} justify='space-between'>
+              <Col md={16}>
+              <Form.Item name={"emplishment"}>
+        <Input></Input>
+        </Form.Item  >
+              </Col>
+             <Col md={8}>
+               <Form.Item name={"empRate"} >
+        <Input></Input>
+        </Form.Item>
+             </Col> 
+            
+      
+
+          </Row>
+              
+               
+          
+   
+      </Form>
+  
+  );
+};
 
  const Editor:React.FC = () =>
  {
   return <>Hello</>
  }
 
+ const defaultValue:EmplishmentCostingFormData =
+ {
+  id:-1,
+  key:'',
+  comboName:'',
+  componentName:'',
+  portion:'',
+  emplishment:'',
+  empRate:0
+ }
+
 export const EmplishmentCostingEditor: React.FC<ModalEditorProps<EmplishmentCostingFormData>> = ({
     visible,
     onSave,
     onCancel,
-    value
+    value = defaultValue
+   
   }) => {
     const [form] = Form.useForm();
     
@@ -51,10 +174,6 @@ export const EmplishmentCostingEditor: React.FC<ModalEditorProps<EmplishmentCost
       console.log(values);
         
       }
-     
-        form.setFieldsValue(value)
-      
-console.log(value)
     return (
       <Modal
         visible={visible}
@@ -62,25 +181,19 @@ console.log(value)
         okText="Save"
         cancelText="Close"
         centered
+        
         onCancel={() => {
           if (onCancel) {
             onCancel();
             form.resetFields();
           }
         }}
+        destroyOnClose
         onOk={() => {
+         
           form.validateFields().then((res) => {
-            let formData: EmplishmentCostingFormData = {
-              comboName:'',
-              componentName:'',
-              portion:'',
-              emplishment:'',
-              empRate:0,
-              key:''
-            
-              
-
-            };
+             form.submit()
+            const formData: EmplishmentCostingFormData = defaultValue;
             
             formData.comboName = res.comboName ;
             formData.componentName = res.componentName;
@@ -89,14 +202,15 @@ console.log(value)
             formData.portion = res.portion
            
             formData.key = res.comboName+res.component+res.emplishment
-    
-            onSave(formData);
             form.resetFields();
+            onSave(value,formData);
+            
           });
         }}
       >
-        <Form layout="vertical" onValuesChange={valueChange}
-        initialValues = {value}
+        <Form  layout="vertical" onValuesChange={valueChange}
+        //initialValues = {value}
+
         form={form}>
          
             <Row gutter={10} justify='space-between'>

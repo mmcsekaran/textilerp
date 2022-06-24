@@ -152,12 +152,49 @@ export default class SampleCosting extends React.Component<
 
   }
   private printCosting:React.RefObject<ReactElement> ;
-  addEmplishment = (value: EmplishmentCostingFormData) => 
+  addEmplishment = (oldvalue:EmplishmentCostingFormData,value: EmplishmentCostingFormData) => 
   { 
     const empData = [...this.state.empCosting]
-    empData.push(value);
-    this.setState({empCosting:empData})
-  };
+    console.log(empData)
+    let val:EmplishmentCostingFormData = 
+    {
+      id:-1,
+      key:'',
+      comboName:'',
+      componentName:'',
+      portion:'',
+      emplishment:'',
+      empRate:0
+     }
+ ;
+     Object.assign(val,value) ;
+    const dupKey = this.state.empCosting.findIndex( p => p.key === val.key && val.id ===  -1 ) ;
+
+  console.log(dupKey)
+
+  if(dupKey > -1)
+  {
+    message.error("Error")
+
+  }
+  else
+  {
+    if(val.id === -1)
+    {
+
+      val.id = empData.length;
+      empData.push(val);
+     
+    }
+    else
+    {
+     
+     empData.splice(val.id,1,val)
+      
+    }
+    this.setState( {empCosting:empData})
+  }
+};
   removeEmplishment = (key:React.Key) =>
   {
     Modal.confirm({
@@ -863,10 +900,13 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                         this.setState({showEmpEditor:{visible:true,value:undefined}})
+                        // this.setState({showEmpEditor:{visible:true,value:undefined}})
+
+                          showEditor({visible:true,onCancel:()=>{},onSave:this.addEmplishment,})
+
                         }}
                         type="primary"
-                        style={{ float: "right" }}
+                        style={{ float: "right"}}
                       >
                         Add
                       </Button>
@@ -906,7 +946,7 @@ export default class SampleCosting extends React.Component<
                       render : (value, record, index) => {
                         return (<Button type="link" onClick={()=>
                         {
-                          this.showEmpEditor(true,record)
+                          showEditor({visible:true,onCancel:()=>{},onSave:this.addEmplishment,value : record})
                         }} >{value}</Button>)
                       },
                     },
