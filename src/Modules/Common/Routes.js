@@ -26,6 +26,8 @@ import Processgroup from '../Master/Processgroup'
 import Departmentmaster from '../Master/Departmentmaster'
 import { Content } from 'antd/lib/layout/layout'
 import Contentmaster from '../Master/Contentmaster'
+import Accessories from '../Master/Accessories'
+import Buyeraccdesc from '../Master/Buyeraccdesc'
 import Designmaster from '../Master/Designmaster'
 export default function AppRouters() {
   return (
@@ -59,8 +61,8 @@ export default function AppRouters() {
                   <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path='/master/processgroup' element = { <Processgroup></Processgroup>} />
                   <Route path='/master/departmentmaster' element = { <Departmentmaster></Departmentmaster>} />
-                
-                  
+                  <Route path='/master/accessories' element = { <Accessories></Accessories>} />
+                  <Route path='/master/buyeraccdesc' element = { <Buyeraccdesc></Buyeraccdesc>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>
                 

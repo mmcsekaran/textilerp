@@ -8,7 +8,7 @@ import {GiSewingMachine} from 'react-icons/gi'
 import {FaUsersCog} from 'react-icons/fa'
 export default function UserMenu() {
     return (
-        <Menu style={{height:'100%',paddingTop:'10px'}} theme='light' mode='inline'>
+        <Menu style={{height:'100%',paddingTop:'10px'}} theme='light' mode='vertical'>
 
             {/* User Groups and roles and their permission Menus */}
 
@@ -119,9 +119,18 @@ export default function UserMenu() {
 
                 </Menu.SubMenu>
 
+                <Menu.SubMenu title='Accessories'>
+
                     <Menu.Item>
                         <Link to="/master/accessories/">Accessories</Link>
                     </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/buyeraccdesc/">Buyer/Acc/Des</Link>
+                    </Menu.Item>
+
+                </Menu.SubMenu>
+
                     <Menu.Item>
                         <Link to="/master/general/">General</Link>
                     </Menu.Item>

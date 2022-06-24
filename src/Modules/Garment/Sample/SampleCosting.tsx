@@ -1,4 +1,4 @@
-import { DeleteFilled, LoadingOutlined, MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { DeleteColumnOutlined, DeleteFilled, DeleteOutlined, LoadingOutlined, MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -13,12 +13,18 @@ import {
   message,
   Space,
   Upload,
+  PageHeader,
 } from "antd";
 import { RcFile, UploadFile, UploadType } from "antd/lib/upload/interface";
-import React, { Component, useState } from "react";
+import React, { Component, ReactElement, ReactInstance, RefObject, useRef, useState } from "react";
 import StyleCategory from "../../Common/StyleCategory";
 import PortionEditor from "./PortionEditor";
 import StyleEditor from "./StyleEditor";
+import { TrimsEditor, TrimsCostingFormData } from './Costing/Blocks/TrimsCostingEditor';
+import { CMTCostingEditor, CMTCostingFormData } from "./Costing/Blocks/CMTCostingEditor";
+import CostingPrint from "./Costing/Blocks/CostingPrint";
+import { PrintCosting } from "./Costing/component/PrintCosting";
+import { EmplishmentCostingEditor, EmplishmentCostingFormData, showEditor } from "./Costing/Blocks/EmplishmentEditor";
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -104,7 +110,13 @@ interface CMTCosting {
 interface SampleCostingState {
   costingData: SampleCostingData;
   showEditor?: boolean;
-  imageLoading:boolean
+  imageLoading:boolean,
+  trimsCosting:Array<TrimsCostingFormData>
+  showTrimsEditor:boolean,
+  showCmtEditor:boolean,
+  cmtCosting:Array<CMTCostingFormData>
+  showEmpEditor:{visible:boolean,value?:EmplishmentCostingFormData}
+  empCosting:Array<EmplishmentCostingFormData>
 }
 
 interface CostingFabricData {
@@ -119,23 +131,115 @@ const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   reader.addEventListener('load', () => callback(reader.result as string));
   reader.readAsDataURL(img);
 };
+
+interface summaryCosting
+{
+  cadSummary:{combo:string,component:string,cost:number}
+}
+
 export default class SampleCosting extends React.Component<
   SampleCostingProps,
   SampleCostingState
 > {
+  addCmt = (value: CMTCostingFormData) => 
+  {
+    const cmtData = [...this.state.cmtCosting]
+
+    cmtData.push(value);
+
+    this.setState({cmtCosting:cmtData})
+
+
+  }
+  private printCosting:React.RefObject<ReactElement> ;
+  addEmplishment = (value: EmplishmentCostingFormData) => 
+  { 
+    const empData = [...this.state.empCosting]
+    empData.push(value);
+    this.setState({empCosting:empData})
+  };
+  removeEmplishment = (key:React.Key) =>
+  {
+    Modal.confirm({
+      title:'Delete Emplishment',
+      centered:true,
+      onOk :() =>
+      {
+          const cmtData = this.state.empCosting.filter(d => d.key != key);
+
+        this.setState({empCosting:cmtData})
+      }
+    })
+  }
   constructor(props: SampleCostingProps) {
     super(props);
-
+      this.printCosting = React.createRef()
     this.state = {
       costingData: defaultCostingData,
       showEditor: false,
-      imageLoading:false
+      imageLoading:false,
+      trimsCosting:[],
+      showTrimsEditor:false,
+      showCmtEditor:false,
+      cmtCosting:[],
+      showEmpEditor:{visible:false},
+      empCosting:[]                                                                                                                                                                  
     };
+  }
+
+  addTrims = (values:TrimsCostingFormData) =>
+  {
+    const trims = [...this.state.trimsCosting] ;
+
+    trims.push(values) ;
+
+    this.setState({trimsCosting:trims})
+    console.log(values)
+  }
+
+  showCmtEditor = (visible:boolean) =>
+  {
+    this.setState({showCmtEditor:visible})
+  }
+  showTrimsEditor = (visible:boolean) =>
+  {
+    this.setState({showTrimsEditor:visible})
+  }
+
+  deleteCmts = (key:React.Key) =>
+  {
+    Modal.confirm({
+      title:'Delete CMT - ',
+      centered:true,
+      onOk :() =>
+      {
+          const cmtData = this.state.cmtCosting.filter(d => d.key != key);
+
+    this.setState({cmtCosting:cmtData})
+      }
+    })
+  }
+
+  deleteTrims = (key:any) =>
+  {
+    Modal.confirm({
+      title:'Delete Trim - ',
+      centered:true,
+      onOk :() =>
+      {
+          const trimsData = this.state.trimsCosting.filter(d => d.key != key);
+
+    this.setState({trimsCosting:trimsData})
+      }
+    })
+  
+
   }
 
   render() {
     return (
       <div>
+        <PageHeader title={"Sample Costing"} extra={[<PrintCosting data = {this.state.cmtCosting}/>]} />
         <Form.Provider>
           <Form name="costmas">
             <Row >
@@ -163,13 +267,11 @@ export default class SampleCosting extends React.Component<
                     height={200}
                    preview ={false}
                     src = {this.state.costingData.imageSrc}/>
-                    :
-                  
-               
-                <div  >
-                    {this.state.imageLoading ? <LoadingOutlined/> : <PlusOutlined/>}
-                    <div style={{marginTop:8}}>Upload</div>
-                </div>
+                    :             
+                <Row justify='center' align="middle" style={{height:'100%'}}  >
+                    {this.state.imageLoading ? <LoadingOutlined/> : <PlusOutlined style={{fontSize:'14pt'}}/>}
+                    {/* <div style={{marginTop:8}}>Upload</div> */}
+                </Row>
   }
                   
                 
@@ -244,9 +346,7 @@ export default class SampleCosting extends React.Component<
             {/* Summary Pages */}
             <Row gutter={10}>
             
-
-           
-              <Col md={7}>
+            <Col md={6}>
                 <div className="summary-costing">
 
               
@@ -316,7 +416,78 @@ export default class SampleCosting extends React.Component<
                   </table>
                   </div>
               </Col>
-              <Col md={17}>
+           
+              <Col md={6}>
+                <div className="summary-costing">
+
+              
+                  <table className="summary-costing">
+                  
+                      <tr>
+                        <th style={{width:'80px'}}>Summary</th>
+                        <th style={{width:'80px'}}></th>
+                        <th style={{width:'120px'}} >Cost</th>
+                      </tr>
+                   
+                    
+                      <tr>
+                        <th >Digital Print</th>
+                        <td></td>
+                        <td><Input></Input></td>
+                      </tr>
+                      <tr>
+                        <th>Emproidery</th><td></td>
+                        <td><Input></Input></td>
+                      </tr>
+                      <tr>
+                        <th>Testing</th><td></td>
+                        <td><Input></Input></td>
+                      </tr>
+                      <tr>
+                        <th>Accessories</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>CMT</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Transport</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Garment Cost</th>
+                        <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>GMT Rejection</th>
+                        <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Admin & OHS</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Profit</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                      <tr>
+                        <th>Commission</th>  <td><Input></Input></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                     
+                    
+                    <tr>
+                        <th>Total</th><td></td>
+                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
+                      </tr>
+                   
+                  </table>
+                  </div>
+              </Col>
+              <Col md={12}>
               <div className="profit-summary">
                 <table className ="profit-summary">
                   <thead>
@@ -524,12 +695,12 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                          this.setState({ showEditor: true });
+                          this.showTrimsEditor(true);
                         }}
                         type="primary"
                         style={{ float: "right" }}
                       >
-                        Add Fabric
+                        Add
                       </Button>
                     </>
                   )}
@@ -557,46 +728,49 @@ export default class SampleCosting extends React.Component<
                     {
                       title: "Trims",
                       align: "left",
-                      dataIndex: "fabric",
+                      dataIndex: "trimsName",
                     },
                     {
                       title: "UOM",
                       width: 80,
                       align: "left",
-                      dataIndex: "cad",
+                      dataIndex: "trim_uom",
                     },
                     {
                       title: "Price",
                       align: "center",
                       width: 150,
-                      dataIndex: "processTemplate",
+                      dataIndex: "trimsPrice",
                     },
                     {
                       title: "CNT/GMT",
                       width: 100,
                       align: "center",
-                      dataIndex: "totalProcessRate",
+                      dataIndex: "trimsCount",
                     },
                     {
                       title: "Trims Cost",
                       width: 100,
                       align: "center",
-                      dataIndex: "totalProcessRate",
+                      dataIndex: "trimsCost",
+                      render(value, record, index) {
+                        return <>{record.trimsPrice * record.trimsCount}</>
+                      },
                     },
                     {
                       title: "#",
                       width: 100,
                       align: "center",
                       dataIndex: "",
-                      render(value, record, index) {
-                        return <>
-                        <Button type="link">Edit</Button>
-                        <Button type="link">Delete</Button>
-                        </>
-                      },
+                      render:(value, record, index)  => 
+                         (<>
+                       
+                        <Button onClick={() => {this.deleteTrims(record.key)}} type="text" block icon ={<DeleteOutlined/>} />
+                        </>)
+                      
                     },
                   ]}
-                  dataSource={this.state.costingData.components}
+                  dataSource={this.state.trimsCosting}
                   footer={() => <>Name</>}
                 ></Table>
               </Col>
@@ -616,7 +790,7 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                          this.setState({ showEditor: true });
+                          this.showCmtEditor(true);
                         }}
                         type="primary"
                         style={{ float: "right" }}
@@ -649,16 +823,30 @@ export default class SampleCosting extends React.Component<
                     {
                       title: "CMT",
                       align: "left",
-                      dataIndex: "fabric",
+                      dataIndex: "cmtName",
                     },
                     {
                       title: "Rate",
                       width: 80,
-                      align: "left",
-                      dataIndex: "cad",
+                      align: "right",
+                      dataIndex: "cmtRate",
                     },
+                    {
+                      title: "",
+                      width: 80,
+                      align: "left",
+                      dataIndex: "action",
+                      render:(value, record, index) => {
+                        
+                        return(<><Button type="text" onClick ={()=>
+                        {
+                          this.deleteCmts(record.key)
+                        }} block icon ={<DeleteOutlined/> }></Button></>)
+                      },
+                    },
+
                   ]}
-                  dataSource={this.state.costingData.components}
+                  dataSource={this.state.cmtCosting}
                   footer={() => <>Name</>}
                 ></Table>
               </Col>
@@ -675,7 +863,7 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                          this.setState({ showEditor: true });
+                         this.setState({showEmpEditor:{visible:true,value:undefined}})
                         }}
                         type="primary"
                         style={{ float: "right" }}
@@ -706,18 +894,42 @@ export default class SampleCosting extends React.Component<
                       dataIndex: "componentName",
                     },
                     {
+                      title: "Portion",
+                      width: 120,
+                      align: "left",
+                      dataIndex: "portion",
+                    },
+                    {
                       title: "Emplishments",
                       align: "left",
-                      dataIndex: "fabric",
+                      dataIndex: "emplishment",
+                      render : (value, record, index) => {
+                        return (<Button type="link" onClick={()=>
+                        {
+                          this.showEmpEditor(true,record)
+                        }} >{value}</Button>)
+                      },
                     },
                     {
                       title: "Rate",
                       width: 80,
                       align: "left",
-                      dataIndex: "cad",
+                      dataIndex: "empRate",
+                    },
+                    {
+                      title: "",
+                      width: 80,
+                      align: "center",
+                      dataIndex: "action",
+                      render : (value, record, index) => {
+                        return (<><Button onClick={()=>
+                        {
+                          this.removeEmplishment(record.key)
+                        }} type="text" block icon ={<DeleteOutlined/>}></Button></>)
+                      },
                     },
                   ]}
-                  dataSource={this.state.costingData.components}
+                  dataSource={this.state.empCosting}
                   footer={() => <>Name</>}
                 ></Table>
               </Col>
@@ -754,9 +966,16 @@ export default class SampleCosting extends React.Component<
               console.log(this.state);
             }}
           ></SampleCostingEditorModal>
+          <TrimsEditor visible  = {this.state.showTrimsEditor} onCancel={()=> {this.showTrimsEditor(false)}} onSave = {this.addTrims}></TrimsEditor>
+          <CMTCostingEditor visible = {this.state.showCmtEditor} onCancel={() => {this.showCmtEditor(false)}} onSave = {this.addCmt}></CMTCostingEditor>
+          <EmplishmentCostingEditor value={this.state.showEmpEditor.value} visible = {this.state.showEmpEditor.visible} onCancel = {() => this.showEmpEditor(false)} onSave = {this.addEmplishment} />
         </Form.Provider>
       </div>
     );
+  }
+  showEmpEditor = (visible: boolean,value?:EmplishmentCostingFormData): void => {
+      
+   this.setState({showEmpEditor:{visible:visible,value:value}})
   }
 }
 
@@ -1015,190 +1234,9 @@ const SampleCostingEditorModal: React.FC<SampleCostingEditorProps> = ({
   );
 };
 
-const TrimsEditor: React.FC<SampleCostingEditorProps> = ({
-  visible,
-  onSave,
-  onCancel,
-}) => {
-  const [form] = Form.useForm();
-  const [processLoss, setProcessLoss] = useState(0);
-  const [processRate, setProcessRate] = useState(0);
-  const [processTemplate, setProcessTemplate] = useState("");
-  const valueChange = (_: any, values: any) => {
-    const cad = parseFloat(values.cad) | 0;
-    console.log(values);
-    if (values.process) {
-      const process = [...values.process];
-      let totalCost = 0;
-      let totalLoss = 0;
-      let proTemplate = "";
-      process.forEach((pro, index) => {
-        let loss = 0;
-        let price = 0;
 
-        proTemplate =
-          proTemplate +
-          (pro?.processName ? pro.processName : "") +
-          (index < process.length - 1 ? "+" : "");
 
-        if (pro?.processLoss) loss = parseFloat(pro.processLoss);
-        if (pro?.processRate) price = parseFloat(pro.processRate);
-        totalCost += price; // (totalCost+price)*loss/((100/100)-loss)
-        totalLoss += loss; // (totalCost+price)*loss/((100/100)-loss)
-        // pro.cost = totalCost
-        // process.splice(index,1,pro);
-        //form.setFieldsValue({processTemplate:proTemplate})
-      });
+function deleteTrims(datasource:Array<TrimsCostingFormData>,key: React.Key | undefined) {
+  throw new Error("Function not implemented.");
+}
 
-      setProcessLoss(totalLoss);
-      setProcessRate(totalCost);
-      setProcessTemplate(proTemplate);
-    }
-  };
-  return (
-    <Modal
-      visible={visible}
-      title={"Create Fabric Details"}
-      okText="Save"
-      cancelText="Close"
-      centered
-      onCancel={() => {
-        if (onCancel) {
-          onCancel();
-          form.resetFields();
-        }
-      }}
-      onOk={() => {
-        form.validateFields().then((res) => {
-          let formData: SampleCostingFormData = {
-            totalProcessLoss: 0,
-            totalProcessRate: 0,
-            cad: 0,
-          };
-
-          formData.componentName = res.component;
-          formData.panelName = res.panelName;
-          formData.cad = res.cad;
-          formData.fabric = res.fabric;
-          formData.totalProcessLoss = processLoss;
-          formData.totalProcessRate = processRate;
-          formData.process = [
-            res.process.map((v: any) => ({
-              processName: v.processName,
-              loss: v.processLoss,
-              rate: v.processRate,
-            })),
-          ];
-          formData.processTemplate = processTemplate;
-
-          onSave(formData);
-          form.resetFields();
-        });
-      }}
-    >
-      <Form layout="vertical" onValuesChange={valueChange} form={form}>
-        <Form.List name={"process"}>
-          {(fields, { add, remove }) => {
-            return (
-              <>
-                <Row>
-                  <Col md={12}>
-                    <Typography.Text strong>{processTemplate}</Typography.Text>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col md={12}>
-                    <Typography.Text strong>Process</Typography.Text>
-                  </Col>
-                  <Col md={4}>
-                    <Typography.Text strong>Loss (%)</Typography.Text>
-                  </Col>
-                  <Col md={4}>
-                    <Typography.Text strong>Price/Kgs</Typography.Text>
-                  </Col>
-                  <Col md={4}>
-                    {fields.length === 0 ? (
-                      <Button type="link" onClick={() => add()}>
-                        Add
-                      </Button>
-                    ) : (
-                      ""
-                    )}
-                  </Col>
-                </Row>
-
-                {fields.map((field) => (
-                  <Row>
-                    <Col md={12}>
-                      <Form.Item noStyle name={[field.name, "processName"]}>
-                        <Select style={{ width: "100%" }}>
-                          <Select.Option value={"yrn"}>Yarn</Select.Option>
-                          <Select.Option value="y/d">Yarn Dyeing</Select.Option>
-                          <Select.Option value="knt">Knitting</Select.Option>
-                          <Select.Option value="h/s">HeatSetting</Select.Option>
-                          <Select.Option value="dye">Dyeing</Select.Option>
-                          <Select.Option value="prnt">Print</Select.Option>
-                          <Select.Option value="o/w">Compacting</Select.Option>
-                        </Select>
-                      </Form.Item>
-                    </Col>
-                    <Col md={4}>
-                      <Form.Item noStyle name={[field.name, "processLoss"]}>
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col md={4}>
-                      <Form.Item noStyle name={[field.name, "processRate"]}>
-                        <Input />
-                      </Form.Item>
-                    </Col>
-                    <Col md={2}>
-                      <Button
-                        type="text"
-                        onClick={() => add({}, field.name + 1)}
-                        icon={<PlusCircleOutlined />}
-                      ></Button>
-                    </Col>
-                    <Col md={2}>
-                      {fields.length > 1 ? (
-                        <Button
-                          type="text"
-                          onClick={() => remove(field.name)}
-                          icon={<MinusCircleOutlined />}
-                        ></Button>
-                      ) : (
-                        ""
-                      )}
-                    </Col>
-                  </Row>
-                ))}
-
-                {fields.length > 0 ? (
-                  <Row>
-                    <Col md={12}>
-                      <Typography.Text strong>Total</Typography.Text>
-                    </Col>
-                    <Col
-                      style={{ textAlign: "right", paddingRight: "5px" }}
-                      md={3}
-                    >
-                      <Typography.Text strong>{processLoss}</Typography.Text>
-                    </Col>
-                    <Col
-                      style={{ textAlign: "right", paddingRight: "5px" }}
-                      md={3}
-                    >
-                      <Typography.Text strong>{processRate}</Typography.Text>
-                    </Col>
-                  </Row>
-                ) : (
-                  ""
-                )}
-              </>
-            );
-          }}
-        </Form.List>
-      </Form>
-    </Modal>
-  );
-};
