@@ -26,10 +26,15 @@ import Processgroup from '../Master/Processgroup'
 import Departmentmaster from '../Master/Departmentmaster'
 import { Content } from 'antd/lib/layout/layout'
 import Contentmaster from '../Master/Contentmaster'
+import Accessories from '../Master/Accessories'
+import Buyeraccdesc from '../Master/Buyeraccdesc'
 import Designmaster from '../Master/Designmaster'
+import Sizemaster from '../Master/Sizemaster'
+import Approvalmaster from '../Master/Approvalmaster'
+import Styleno from '../Master/Styleno'
+import Portionmaster from '../Master/Portionmaster'
 export default function AppRouters() {
   return (
-    <Routes>
         <Route>
             <Route path='/' element={<Outlet></Outlet>}>
                 
@@ -47,6 +52,7 @@ export default function AppRouters() {
               <Route path='/master/buyermaster' element = { <Buyermaster></Buyermaster>} />
               <Route path='/master/processmaster' element = { <Processmaster></Processmaster>} />
                   <Route path='/master/setup/adminsetup' element = { <AdminSetup></AdminSetup> }/>
+                  <Route path='/master/approvalmaster' element = { <Approvalmaster></Approvalmaster>} />
                   <Route path='/master/yarncount' element = { <Yarncount></Yarncount>} />
                   <Route path='/master/countmaster' element = { <Countmaster></Countmaster>} />
                   <Route path='/master/yarntype' element = { <Yarntype></Yarntype>} />
@@ -59,8 +65,15 @@ export default function AppRouters() {
                   <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path='/master/processgroup' element = { <Processgroup></Processgroup>} />
                   <Route path='/master/departmentmaster' element = { <Departmentmaster></Departmentmaster>} />
-                  
+                  <Route path='/master/accessories' element = { <Accessories></Accessories>} />
+                  <Route path='/master/buyeraccdesc' element = { <Buyeraccdesc></Buyeraccdesc>} />
+                  <Route path='/master/uommaster' element = { <Uommaster></Uommaster>} />
+                  <Route path='/master/sizemaster' element = { <Sizemaster></Sizemaster>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
+                  <Route path='/master/*' element = {<Unautherize></Unautherize>} />
+                  <Route path='/master/styleno' element = {<Styleno></Styleno>} />
+                  <Route path='/master/styleitem' element = {<Styleitem></Styleitem>} />
+                  <Route path='/master/portionmaster' element = {<Portionmaster></Portionmaster>} />
               </Route>
                 
             
@@ -76,6 +89,6 @@ export default function AppRouters() {
               </Route>
             </Route>
         </Route>
-    </Routes>
+  
   )
 }

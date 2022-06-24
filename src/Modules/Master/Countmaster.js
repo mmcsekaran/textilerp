@@ -50,9 +50,7 @@ export default class extends Component{
                                                     >
                                                        <Input />
                                                     </Form.Item>
-                                           
-
-                                            
+                                                               
                                         
                                              <Checkbox>Active</Checkbox>
 
