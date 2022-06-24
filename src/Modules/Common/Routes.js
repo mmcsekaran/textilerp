@@ -59,6 +59,7 @@ export default function AppRouters() {
                   <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path='/master/processgroup' element = { <Processgroup></Processgroup>} />
                   <Route path='/master/departmentmaster' element = { <Departmentmaster></Departmentmaster>} />
+                
                   
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>

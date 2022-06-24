@@ -1,8 +1,9 @@
-import { Card, Col, Form, Input, PageHeader, Row, Select,Checkbox } from "antd";
+import { Card, Col, Form, Input, PageHeader, Row, Select,Checkbox,Modal } from "antd";
 import { Component } from "react";
+import FabricInput from "./Fabric/FabricInput";
 
 
-export default class
+export default class 
     extends Component {
     render() {
         return (
@@ -18,7 +19,7 @@ export default class
                                     hoverable>
                                         <Form 
                                         layout='vertical'
-                                       
+                                        onValuesChange  = {(_,value) => {console.log(value)}}
                                         >
                                             <Row >
 
@@ -85,7 +86,14 @@ export default class
                                                 </Select>
                                               </Form.Item>
                                             </Col>    
-                                            
+                                            <Form.Item
+                                            name={"fabric"}
+                                            >
+                                                <FabricInput onSelect={(e) =>
+                                                {
+                                                    console.log(e);
+                                                }}></FabricInput>
+                                            </Form.Item>
                                             <Checkbox>Active</Checkbox>
                                         </Form>
                                     </Card>
