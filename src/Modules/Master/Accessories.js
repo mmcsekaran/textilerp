@@ -34,6 +34,7 @@ export default class Processgroup extends Component {
         })
     }
     render() {
+
         return(
             <div>
                 <PageHeader title='Acessories/General Master'
@@ -44,12 +45,14 @@ export default class Processgroup extends Component {
                 columns={[
                     {
                         title: "S.No",
+                        width:40,
                         
                        
                         render: (text, record, index) => index + 1,
                     },
                     {
                         title :'Acc Name',
+                        width :100
                         
                     },
                     {

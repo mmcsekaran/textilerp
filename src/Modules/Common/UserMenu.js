@@ -67,6 +67,8 @@ export default function UserMenu() {
                     <Link to='/master/setup/adminsetup'>Adminsetup</Link>
                     </Menu.Item>
 
+                    <Menu.Item><Link to='/master/approvalmaster'>Approvalmaster</Link></Menu.Item>
+
                 </Menu.SubMenu>
                 
                 <Menu.SubMenu title={"Material"}>
@@ -127,6 +129,14 @@ export default function UserMenu() {
 
                     <Menu.Item>
                         <Link to="/master/buyeraccdesc/">Buyer/Acc/Des</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/uommaster/">UOM Master</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/sizemaster/">Size Master </Link>
                     </Menu.Item>
 
                 </Menu.SubMenu>

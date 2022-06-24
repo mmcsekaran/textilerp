@@ -151,10 +151,7 @@ export default function Yarncount() {
                     label='Yarn Type*'
                     >
                       <Select
-                      showSearch
-                      style={{
-                        width: '100%',
-                      }}
+                      showSearch                                         
                       >                      
                         {yarn.map((yarn) => (
                           <Option key={yarn}>{yarn}</Option>

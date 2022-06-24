@@ -29,6 +29,9 @@ import Contentmaster from '../Master/Contentmaster'
 import Accessories from '../Master/Accessories'
 import Buyeraccdesc from '../Master/Buyeraccdesc'
 import Designmaster from '../Master/Designmaster'
+import Uommaster from '../Master/Uommaster'
+import Sizemaster from '../Master/Sizemaster'
+import Approvalmaster from '../Master/Approvalmaster'
 export default function AppRouters() {
   return (
     <Routes>
@@ -49,6 +52,7 @@ export default function AppRouters() {
               <Route path='/master/buyermaster' element = { <Buyermaster></Buyermaster>} />
               <Route path='/master/processmaster' element = { <Processmaster></Processmaster>} />
                   <Route path='/master/setup/adminsetup' element = { <AdminSetup></AdminSetup> }/>
+                  <Route path='/master/approvalmaster' element = { <Approvalmaster></Approvalmaster>} />
                   <Route path='/master/yarncount' element = { <Yarncount></Yarncount>} />
                   <Route path='/master/countmaster' element = { <Countmaster></Countmaster>} />
                   <Route path='/master/yarntype' element = { <Yarntype></Yarntype>} />
@@ -63,6 +67,8 @@ export default function AppRouters() {
                   <Route path='/master/departmentmaster' element = { <Departmentmaster></Departmentmaster>} />
                   <Route path='/master/accessories' element = { <Accessories></Accessories>} />
                   <Route path='/master/buyeraccdesc' element = { <Buyeraccdesc></Buyeraccdesc>} />
+                  <Route path='/master/uommaster' element = { <Uommaster></Uommaster>} />
+                  <Route path='/master/sizemaster' element = { <Sizemaster></Sizemaster>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
               </Route>
                 
