@@ -42,7 +42,7 @@ export default class Styleitem extends Component
      bordered
      columns={[
         {
-            title: "S.No",width:50, 
+            title: "S.No",width:60, 
        
             render: (text, record, index) => index + 1,
         },
