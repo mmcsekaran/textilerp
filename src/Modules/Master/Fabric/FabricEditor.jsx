@@ -5,7 +5,6 @@ export default class FabricEditor extends Component {
   render() {
     return (
       <div><Form>
-        
         </Form></div>
     )
   }

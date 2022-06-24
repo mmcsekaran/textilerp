@@ -129,6 +129,18 @@ export default function UserMenu() {
                         <Link to="/master/buyeraccdesc/">Buyer/Acc/Des</Link>
                     </Menu.Item>
 
+                    <Menu.Item>
+                        <Link to="/master/styleno/">StyleNo</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/styleitem/">StyleItem Description</Link>
+                    </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/portionmaster/">Portion Master</Link>
+                    </Menu.Item>
+
                 </Menu.SubMenu>
 
                     <Menu.Item>
