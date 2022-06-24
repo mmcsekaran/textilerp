@@ -17,7 +17,7 @@ export default class Processgroup extends Component {
             mode:1
         }
     }   
-    
+     
       showModal = () => {
           this.setState({
           visible: true,

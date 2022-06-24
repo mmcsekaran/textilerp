@@ -115,9 +115,18 @@ export default function UserMenu() {
 
                 </Menu.SubMenu>
 
+                <Menu.SubMenu title='Accessories'>
+
                     <Menu.Item>
                         <Link to="/master/accessories/">Accessories</Link>
                     </Menu.Item>
+
+                    <Menu.Item>
+                        <Link to="/master/buyeraccdesc/">Buyer/Acc/Des</Link>
+                    </Menu.Item>
+
+                </Menu.SubMenu>
+
                     <Menu.Item>
                         <Link to="/master/general/">General</Link>
                     </Menu.Item>
