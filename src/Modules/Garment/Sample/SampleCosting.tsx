@@ -21,7 +21,7 @@ import StyleCategory from "../../Common/StyleCategory";
 import PortionEditor from "./PortionEditor";
 import StyleEditor from "./StyleEditor";
 import { TrimsEditor, TrimsCostingFormData } from './Costing/Blocks/TrimsCostingEditor';
-import { CMTCostingEditor, CMTCostingFormData } from "./Costing/Blocks/CMTCostingEditor";
+import { CMTCostingEditor, CMTCostingFormData, showCMTCostingEditor } from "./Costing/Blocks/CMTCostingEditor";
 import CostingPrint from "./Costing/Blocks/CostingPrint";
 import { PrintCosting } from "./Costing/component/PrintCosting";
 import { EmplishmentCostingEditor, EmplishmentCostingFormData, showEditor } from "./Costing/Blocks/EmplishmentEditor";
@@ -144,10 +144,44 @@ export default class SampleCosting extends React.Component<
   addCmt = (value: CMTCostingFormData) => 
   {
     const cmtData = [...this.state.cmtCosting]
+    console.log(cmtData)
+    let val:CMTCostingFormData = 
+    {
+      id:-1,
+      key:'',
+      comboName:'',
+      componentName:'',
+      cmtName:'',
+      cmtRate:0
+     }
+ ;
+     Object.assign(val,value) ;
+    const dupKey = this.state.cmtCosting.findIndex( p => p.key === val.key && val.id ===  -1 ) ;
 
-    cmtData.push(value);
+  console.log(dupKey)
 
-    this.setState({cmtCosting:cmtData})
+  if(dupKey > -1)
+  {
+    message.error("Error")
+
+  }
+  else
+  {
+    if(val.id === -1)
+    {
+
+      val.id = cmtData.length;
+      cmtData.push(val);
+     
+    }
+    else
+    {
+     
+     cmtData.splice(val.id,1,val)
+      
+    }
+    this.setState( {cmtCosting:cmtData})
+  }
 
 
   }
@@ -827,7 +861,9 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                          this.showCmtEditor(true);
+
+                          showCMTCostingEditor({visible:true,onCancel:() => {},onSave:this.addCmt})
+
                         }}
                         type="primary"
                         style={{ float: "right" }}
@@ -1007,7 +1043,7 @@ export default class SampleCosting extends React.Component<
             }}
           ></SampleCostingEditorModal>
           <TrimsEditor visible  = {this.state.showTrimsEditor} onCancel={()=> {this.showTrimsEditor(false)}} onSave = {this.addTrims}></TrimsEditor>
-          <CMTCostingEditor visible = {this.state.showCmtEditor} onCancel={() => {this.showCmtEditor(false)}} onSave = {this.addCmt}></CMTCostingEditor>
+         
           <EmplishmentCostingEditor value={this.state.showEmpEditor.value} visible = {this.state.showEmpEditor.visible} onCancel = {() => this.showEmpEditor(false)} onSave = {this.addEmplishment} />
         </Form.Provider>
       </div>

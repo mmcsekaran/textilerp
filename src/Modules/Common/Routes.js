@@ -33,9 +33,11 @@ import Sizemaster from '../Master/Sizemaster'
 import Approvalmaster from '../Master/Approvalmaster'
 import Styleno from '../Master/Styleno'
 import Portionmaster from '../Master/Portionmaster'
+import Uommaster from '../Master/Uommaster'
+import Styleitem from '../Master/Styleitem'
 export default function AppRouters() {
   return (
-        <Route>
+        <Routes>
             <Route path='/' element={<Outlet></Outlet>}>
                 
             </Route>
@@ -88,7 +90,7 @@ export default function AppRouters() {
                     
               </Route>
             </Route>
-        </Route>
+        </Routes>
   
   )
 }

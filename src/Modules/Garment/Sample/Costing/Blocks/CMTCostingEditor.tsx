@@ -1,126 +1,133 @@
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, Modal, Row, Select, Typography } from 'antd';
+import { Button, Col, Form, FormInstance, Input, Modal, Row, Select, Typography } from 'antd';
 import React, { useState } from 'react'
 import TrimsPlan from '../../TrimsPlan';
+import { ModalEditorProps } from '../interface/ModalEditorProps';
 
 
-interface ModalEditorProps<T>
-{
-    visible :boolean,
-    onSave : (value:T) => void;
-    onCancel : () => void
-}
+
 
  export interface CMTCostingFormData
  {
+    id:number
     key:React.Key
     comboName:string|number,
     componentName:string|number,
     cmtName:string|number,
     cmtRate:number,
-   
-    
  }
 
-export const CMTCostingEditor: React.FC<ModalEditorProps<CMTCostingFormData>> = ({
-    visible,
-    onSave,
-    onCancel,
-  }) => {
-    const [form] = Form.useForm();
-    
-    const valueChange = (_: any, values: any) => {
-    
-      console.log(values);
-        
-      }
+ const DEFAULT_VALUE  :CMTCostingFormData =
+ {
+    id:-1,
+    key:'',
+    comboName:'',
+    componentName:'',
+    cmtName:'',
+    cmtRate:0
 
-    return (
-      <Modal
-        visible={visible}
-        title={"CMT Costing Editor"}
-        okText="Save"
-        cancelText="Close"
-        centered
-        onCancel={() => {
-          if (onCancel) {
-            onCancel();
-            form.resetFields();
-          }
-        }}
-        onOk={() => {
-          form.validateFields().then((res) => {
-            let formData: CMTCostingFormData = {
-              comboName:'',
-              componentName:'',
-              cmtName:'',
-              cmtRate:0,
-              key:''
-            
-              
+ }
 
-            };
-            
-            formData.comboName = res.comboName ;
-            formData.componentName = res.componentName;
-            formData.cmtName = res.cmtName ;
-            formData.cmtRate = res.cmtRate;
+ export const showCMTCostingEditor = ( props:ModalEditorProps<CMTCostingFormData>= {visible:true,onCancel:()=>{},onSave:()=>{},value:DEFAULT_VALUE})  =>
+ {
+
+    const {
+      visible = true,
+      value = DEFAULT_VALUE
+    } = props
+  var form:FormInstance<any>
+   const getForm = (frm:FormInstance<any>)=>
+   {
+      form = frm ;
+   } 
+    
+   Modal.confirm(
+    {
+      visible:props.visible,
+      centered:true,
+      closable:true,
+      icon:null,
+      title:'Emplishment',
+      width:"600px",
+      onOk:() =>
+      {
+        form.validateFields().then(
+          value =>
+          {
+           const  frmData:CMTCostingFormData = props.value ? props.value : DEFAULT_VALUE ;
+            frmData.comboName = value.comboName ;
+            frmData.componentName = value.componentName;
+            frmData.cmtName = value.cmtName ;
+            frmData.cmtRate = value.cmtRate;
            
-            formData.key = res.comboName+res.component+res.cmtName
-    
-            onSave(formData);
+            
+            frmData.key = value.comboName + value.componentName +value.cmtName 
             form.resetFields();
-          });
-        }}
-      >
-        <Form layout="vertical" onValuesChange={valueChange}
-
-        form={form}>
-         
-            <Row gutter={10} justify='space-between'>
-                <Col md={12}>
-                <Form.Item name={"comboName"} >
-           <Select>
-                        <Select.Option key={"black"}>Black</Select.Option>
-                        <Select.Option key={"blue"}>Blue</Select.Option>
-                        <Select.Option key={"red"}>Red</Select.Option>
-           </Select>
-          </Form.Item >
-                </Col>
-               <Col md={12}>
-                 <Form.Item name={"componentName"}>
-           <Select>
-                        <Select.Option key={"top"}>Top</Select.Option>
-                        <Select.Option key={"pant"}>Pant</Select.Option>
-                        <Select.Option key={"short"}>Shorts</Select.Option>
-           </Select>
-          </Form.Item>
-               </Col> 
+            props.onSave(props.value ? props.value : DEFAULT_VALUE,frmData);
+            form.submit()
+          }
+        )
         
+      },
+      content:<CMTCostingEditor value={props.value} onChange={getForm}></CMTCostingEditor>
+    }
+   )
+ }
 
-            </Row>
-         
-            
-             <Row gutter={10} justify='space-between'>
-                <Col md={16}>
-                <Form.Item name={"cmtName"}>
-          <Input></Input>
-          </Form.Item  >
-                </Col>
-               <Col md={8}>
-                 <Form.Item name={"cmtRate"} >
-          <Input></Input>
-          </Form.Item>
-               </Col> 
-              
+ export const CMTCostingEditor: React.FC<{value?:CMTCostingFormData,onChange?:(form:FormInstance<any>) => void}> = (props) => {
+
+  const [myform] = Form.useForm();
+
+ if(props.onChange)
+      props.onChange(myform);
+  return (<Form layout="vertical" 
+
+  form={myform}>
+   
+      <Row gutter={10} justify='space-between'>
+          <Col md={12}>
+          <Form.Item name={"comboName"} >
+     <Select>
+                  <Select.Option key={"black"}>Black</Select.Option>
+                  <Select.Option key={"blue"}>Blue</Select.Option>
+                  <Select.Option key={"red"}>Red</Select.Option>
+     </Select>
+    </Form.Item >
+          </Col>
+         <Col md={12}>
+           <Form.Item name={"componentName"}>
+     <Select>
+                  <Select.Option key={"top"}>Top</Select.Option>
+                  <Select.Option key={"pant"}>Pant</Select.Option>
+                  <Select.Option key={"short"}>Shorts</Select.Option>
+     </Select>
+    </Form.Item>
+         </Col> 
+  
+
+      </Row>
+   
+      
+       <Row gutter={10} justify='space-between'>
+          <Col md={16}>
+          <Form.Item name={"cmtName"}>
+    <Input></Input>
+    </Form.Item  >
+          </Col>
+         <Col md={8}>
+           <Form.Item name={"cmtRate"} >
+    <Input></Input>
+    </Form.Item>
+         </Col> 
         
+  
 
-            </Row>
-                
-                 
-            
-     
-        </Form>
-      </Modal>
-    );
-  };
+      </Row>
+          
+           
+      
+
+  </Form>  );
+};
+
+
