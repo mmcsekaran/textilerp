@@ -12,7 +12,7 @@ export default function UserMenu() {
 
             {/* User Groups and roles and their permission Menus */}
 
-                <Menu.SubMenu title ="Users" icon = {<FaUsersCog style={{fontSize:'18pt'}}></FaUsersCog>} >
+                <Menu.SubMenu title ="Users" icon = {<FaUsersCog style={{fontSize:'18pt'}}></FaUsersCog>}>
                      <Menu.Item>
                    
                     <Link to="/users">Users</Link>
@@ -76,15 +76,15 @@ export default function UserMenu() {
                 <Menu.SubMenu title={"Yarn"}>
 
                     <Menu.Item>
-                        <Link to="/master/yarncount">Yarn Count Master</Link>
+                        <Link to="/master/yarn/yarncount">Yarn Count Master</Link>
                     </Menu.Item>
 
                     <Menu.Item>
-                        <Link to="/master/countmaster">Count Master</Link>
+                        <Link to="/master/yarn/countmaster">Count Master</Link>
                     </Menu.Item>
 
                     <Menu.Item>
-                        <Link to="/master/yarntype">Yarn Type</Link>
+                        <Link to="/master/yarn/yarntype">Yarn Type</Link>
                     </Menu.Item>
 
                 </Menu.SubMenu>
@@ -92,19 +92,19 @@ export default function UserMenu() {
                 <Menu.SubMenu title={"Fabric"}>
 
                     <Menu.Item>
-                        <Link to="/master/fabric/">Fabric Type</Link>
+                        <Link to="/master/fabric/fabrictype/">Fabric Type</Link>
                     </Menu.Item>
 
                     <Menu.Item>
-                        <Link to="/master/fabmaster/">Fabric Master</Link>
+                        <Link to="/master/fabric/fabmaster/">Fabric Master</Link>
                     </Menu.Item>
 
                    <Menu.Item>
-                       <Link to ="/master/fabricname">Fabri Name Master</Link>
+                       <Link to ="/master/fabric/fabricname">Fabri Name Master</Link>
                    </Menu.Item>
                    
                    <Menu.Item>
-                       <Link to ="/master/contentmaster">Content Master</Link>
+                       <Link to ="/master/fabric/contentmaster">Content Master</Link>
                    </Menu.Item>
 
                    <Menu.Item>

@@ -5,12 +5,12 @@ import Unautherize from '../../Pages/ErrorPage/Unautherize'
 
 import UserRole from '../User/UserRole'
 import AdminSetup from'../Master/AdminSetup'
-import Yarncount from '../Master/Yarncount'
-import Countmaster from '../Master/Countmaster'
-import Yarntype from '../Master/Yarntype'
-import Fabrictype from '../Master/Fabrictype'
-import Fabricmaster from '../Master/Fabricmaster'
-import Fabricname from '../Master/Fabricname'
+import Yarncount from '../Master/Yarn/Yarncount'
+import Countmaster from '../Master/Yarn/Countmaster'
+import Yarntype from '../Master/Yarn/Yarntype'
+import Fabrictype from '../Master/Fabric/Fabrictype'
+import Fabricmaster from '../Master/Fabric/Fabricmaster'
+import Fabricname from '../Master/Fabric/Fabricname'
 import UserPage from '../User/UserPage'
 import Color from '../Garment/Master/Color'
 import Yarn from './../Garment/Master/Yarn';
@@ -25,7 +25,7 @@ import Citylist from './../Master/City/Citylist';
 import Processgroup from '../Master/Processgroup'
 import Departmentmaster from '../Master/Departmentmaster'
 import { Content } from 'antd/lib/layout/layout'
-import Contentmaster from '../Master/Contentmaster'
+import Contentmaster from '../Master/Fabric/Contentmaster'
 import Accessories from '../Master/Accessories'
 import Buyeraccdesc from '../Master/Buyeraccdesc'
 import Designmaster from '../Master/Designmaster'
@@ -55,13 +55,13 @@ export default function AppRouters() {
               <Route path='/master/processmaster' element = { <Processmaster></Processmaster>} />
                   <Route path='/master/setup/adminsetup' element = { <AdminSetup></AdminSetup> }/>
                   <Route path='/master/approvalmaster' element = { <Approvalmaster></Approvalmaster>} />
-                  <Route path='/master/yarncount' element = { <Yarncount></Yarncount>} />
-                  <Route path='/master/countmaster' element = { <Countmaster></Countmaster>} />
-                  <Route path='/master/yarntype' element = { <Yarntype></Yarntype>} />
-                  <Route path='/master/fabric' element = { <Fabrictype></Fabrictype>} />
-                  <Route path='/master/fabmaster' element = { <Fabricmaster></Fabricmaster>} />
-                  <Route path='/master/fabricname' element = { <Fabricname></Fabricname>} />
-                  <Route path='/master/contentmaster' element = {<Contentmaster></Contentmaster>} />  
+                  <Route path='/master/yarn/yarncount' element = { <Yarncount></Yarncount>} />
+                  <Route path='/master/yarn/countmaster' element = { <Countmaster></Countmaster>} />
+                  <Route path='/master/yarn/yarntype' element = { <Yarntype></Yarntype>} />
+                  <Route path='/master/fabric/fabrictype' element = { <Fabrictype></Fabrictype>} />
+                  <Route path='/master/fabric/fabmaster' element = { <Fabricmaster></Fabricmaster>} />
+                  <Route path='/master/fabric/fabricname' element = { <Fabricname></Fabricname>} />
+                  <Route path='/master/fabric/contentmaster' element = {<Contentmaster></Contentmaster>} />  
                   <Route path='/master/designmaster' element = {<Designmaster></Designmaster>} />
                   <Route path='/master/costingenty' element = { <Costingentry></Costingentry>} />
                   <Route path='/master/city' element = { <Citylist></Citylist>} />
