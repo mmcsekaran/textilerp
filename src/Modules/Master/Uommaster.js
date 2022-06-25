@@ -31,7 +31,7 @@ export default class Uommaster extends Component {
         })
     }
 
-  render() {
+  render() { 
     return (
       <div>
           <PageHeader title='UOM Master'
