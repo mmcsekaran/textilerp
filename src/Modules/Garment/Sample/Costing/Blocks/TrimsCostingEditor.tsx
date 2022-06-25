@@ -1,83 +1,98 @@
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
-import { Button, Col, Form, Input, Modal, Row, Select, Typography } from 'antd';
+import { Button, Col, Form, FormInstance, Input, Modal, Row, Select, Typography } from 'antd';
 import React, { useState } from 'react'
 import TrimsPlan from '../../TrimsPlan';
+import TrimsCosting from './TrimsCosting';
+import { ModalEditorProps } from './../interface/ModalEditorProps';
 
 
-interface ModalEditorProps 
-{
-    visible :boolean,
-    onSave : (value:TrimsCostingFormData) => void;
-    onCancel : () => void
-}
+
 
  export interface TrimsCostingFormData
  {
+    id:number
     key?:React.Key
-    comboName:string|number,
-    componentName:string|number,
-    trimsName:string|number,
-    trim_uom:string|number,
+    comboName?:string|number,
+    componentName?:string|number,
+    trimsName?:string|number,
+    trimsUom?:string|number,
     trimsCount:number,
     trimsPrice:number
     
  }
 
-export const TrimsEditor: React.FC<ModalEditorProps> = ({
-    visible,
-    onSave,
-    onCancel,
-  }) => {
-    const [form] = Form.useForm();
-    const [processLoss, setProcessLoss] = useState(0);
-    const [processRate, setProcessRate] = useState(0);
-    const [processTemplate, setProcessTemplate] = useState("");
-    const valueChange = (_: any, values: any) => {
+ class TrimsCostingEditor
+ {
+
+  constructor()
+  {
+  this.#congigData = {visible:true,onCancel:()=>{},onSave:()=>{},value: 
+  {
+    id : -1,
+    trimsCount: 0,
+    trimsPrice:0
+  }
+  }
+  }
+
+  #congigData:ModalEditorProps<TrimsCostingFormData>
+
+  open = ():void =>
+  {
+    this.showCMTCostingEditor()
+  }
+  
+setConfig = (props:ModalEditorProps<TrimsCostingFormData>) =>
+{
+  this.#congigData = props ;
+}
+
+ private showCMTCostingEditor = ( )  =>
+ {
+
+    var form:FormInstance<any>
+   const getForm = (frm:FormInstance<any>)=>
+   {
+      form = frm ;
+   } 
     
-      console.log(values);
+   Modal.confirm(
+    {
+      visible:this.#congigData.visible,
+      centered:true,
+      closable:true,
+      icon:null,
+      title:'Trims Costing',
+      width:"600px",
+      onOk:() =>
+      {
+        form.validateFields().then(
+          value =>
+          {
+           const  frmData:TrimsCostingFormData = {...this.#congigData.value,...value}  ;
+           
+            frmData.key = value.comboName + value.componentName +value.cmtName 
+            form.resetFields();
+            this.#congigData.onSave(!this.#congigData.value ? {id:-1,trimsCount:0,trimsPrice:0}:this.#congigData.value,frmData);
+            form.submit()
+          }
+        )
         
-      }
+      },
+      content:<TrimsCostingEditorComponent value={this.#congigData.value} onChange={getForm}></TrimsCostingEditorComponent>
+    }
+   )
+ }
+
+ }
+
+export const TrimsCostingEditorComponent: React.FC<{value?:TrimsCostingFormData,onChange:(form:FormInstance<any>) => void}> = (props) => {
+    const [form] = Form.useForm();
+   
+    if(props.onChange) props.onChange(form) ;
 
     return (
-      <Modal
-        visible={visible}
-        title={"Trims Costing Editor"}
-        okText="Save"
-        cancelText="Close"
-        centered
-        onCancel={() => {
-          if (onCancel) {
-            onCancel();
-            form.resetFields();
-          }
-        }}
-        onOk={() => {
-          form.validateFields().then((res) => {
-            let formData: TrimsCostingFormData = {
-              comboName:'',
-              componentName:'',
-              trimsName:'',
-              trim_uom:'',
-              trimsCount:0,
-              trimsPrice:0,
-              
-
-            };
-            
-            formData.comboName = res.comboName ;
-            formData.componentName = res.componentName;
-            formData.trim_uom = res.trimsUom ;
-            formData.trimsCount = res.trimsCount;
-            formData.trimsPrice = res.trimsPrice
-            formData.trimsName = res.trimsName
-            formData.key = res.comboName+res.component+res.trimsName
-    
-            onSave(formData);
-            form.resetFields();
-          });
-        }}
-      >
-        <Form layout="vertical" onValuesChange={valueChange} form={form}>
+        <Form layout="vertical"  form={form} >
          
             <Row gutter={10} justify='space-between'>
                 <Col md={12}>
@@ -130,14 +145,10 @@ export const TrimsEditor: React.FC<ModalEditorProps> = ({
           <Input></Input>
           </Form.Item>
                </Col> 
-        
-
-            </Row>
-                
-                 
-            
-     
+            </Row>   
         </Form>
-      </Modal>
     );
   };
+
+
+  export default   new TrimsCostingEditor() ;

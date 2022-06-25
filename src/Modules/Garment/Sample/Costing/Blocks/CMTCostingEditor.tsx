@@ -28,14 +28,23 @@ import { ModalEditorProps } from '../interface/ModalEditorProps';
 
  }
 
- export const showCMTCostingEditor = ( props:ModalEditorProps<CMTCostingFormData>= {visible:true,onCancel:()=>{},onSave:()=>{},value:DEFAULT_VALUE})  =>
+ export const showCMTCostingEditor:{open:(props:ModalEditorProps<CMTCostingFormData>)=> void} =
+ {
+  open :() => {},
+
+ }
+
+
+
+
+ showCMTCostingEditor.open = ( props:ModalEditorProps<CMTCostingFormData>= {visible:true,onCancel:()=>{},onSave:()=>{},value:DEFAULT_VALUE})  =>
  {
 
     const {
       visible = true,
       value = DEFAULT_VALUE
     } = props
-  var form:FormInstance<any>
+    var form:FormInstance<any>
    const getForm = (frm:FormInstance<any>)=>
    {
       form = frm ;
@@ -47,7 +56,7 @@ import { ModalEditorProps } from '../interface/ModalEditorProps';
       centered:true,
       closable:true,
       icon:null,
-      title:'Emplishment',
+      title:'CMT Details',
       width:"600px",
       onOk:() =>
       {
@@ -69,12 +78,12 @@ import { ModalEditorProps } from '../interface/ModalEditorProps';
         )
         
       },
-      content:<CMTCostingEditor value={props.value} onChange={getForm}></CMTCostingEditor>
+      content:<CMTCostingEditorComponent value={props.value} onChange={getForm}></CMTCostingEditorComponent>
     }
    )
  }
 
- export const CMTCostingEditor: React.FC<{value?:CMTCostingFormData,onChange?:(form:FormInstance<any>) => void}> = (props) => {
+ export const CMTCostingEditorComponent: React.FC<{value?:CMTCostingFormData,onChange?:(form:FormInstance<any>) => void}> = (props) => {
 
   const [myform] = Form.useForm();
 
@@ -131,3 +140,12 @@ import { ModalEditorProps } from '../interface/ModalEditorProps';
 };
 
 
+class CMTCostingEditorClass
+{
+  open =(props:ModalEditorProps<CMTCostingFormData>) =>
+  {
+       showCMTCostingEditor.open(props)
+  }
+}
+
+export  default new CMTCostingEditorClass()

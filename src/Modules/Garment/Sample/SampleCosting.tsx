@@ -1,4 +1,12 @@
-import { DeleteColumnOutlined, DeleteFilled, DeleteOutlined, LoadingOutlined, MinusCircleOutlined, PlusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  DeleteColumnOutlined,
+  DeleteFilled,
+  DeleteOutlined,
+  LoadingOutlined,
+  MinusCircleOutlined,
+  PlusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import {
   Button,
   Col,
@@ -14,17 +22,38 @@ import {
   Space,
   Upload,
   PageHeader,
+  notification,
 } from "antd";
 import { RcFile, UploadFile, UploadType } from "antd/lib/upload/interface";
-import React, { Component, ReactElement, ReactInstance, RefObject, useRef, useState } from "react";
+import React, {
+  Component,
+  ReactElement,
+  ReactInstance,
+  RefObject,
+  useRef,
+  useState,
+} from "react";
 import StyleCategory from "../../Common/StyleCategory";
 import PortionEditor from "./PortionEditor";
 import StyleEditor from "./StyleEditor";
-import { TrimsEditor, TrimsCostingFormData } from './Costing/Blocks/TrimsCostingEditor';
-import { CMTCostingEditor, CMTCostingFormData, showCMTCostingEditor } from "./Costing/Blocks/CMTCostingEditor";
+import TrimsCostingEditor, {
+  TrimsCostingFormData,
+} from "./Costing/Blocks/TrimsCostingEditor";
+import CMTCostingEditor, {
+  CMTCostingEditorComponent,
+  CMTCostingFormData,
+  showCMTCostingEditor,
+} from "./Costing/Blocks/CMTCostingEditor";
 import CostingPrint from "./Costing/Blocks/CostingPrint";
 import { PrintCosting } from "./Costing/component/PrintCosting";
-import { EmplishmentCostingEditor, EmplishmentCostingFormData, showEditor } from "./Costing/Blocks/EmplishmentEditor";
+import {
+  EmplishmentCostingEditor,
+  EmplishmentCostingFormData,
+  showEditor,
+} from "./Costing/Blocks/EmplishmentEditor";
+import { ModalEditor } from "./Costing/component/Editor";
+import TrimsCosting, { actionType } from "./Costing/Blocks/TrimsCosting";
+import CostingSummary from "./Costing/Blocks/CostingSummary";
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -59,7 +88,7 @@ const defaultCostingData: SampleCostingData = {
   styleCategory: "General",
   styleNo: 0,
   components: [],
-  imageSrc:undefined
+  imageSrc: undefined,
 };
 
 interface StyleCombo {
@@ -90,15 +119,15 @@ interface FabricProcess {
   rate: number;
 }
 
-interface TrimsCosting {
-  id?: number | string;
-  compoName: string;
-  component: string;
-  trimName: string | number;
-  unit: string | number;
-  price: number;
-  consumption: number;
-}
+// interface TrimsCosting {
+//   id?: number | string;
+//   compoName: string;
+//   component: string;
+//   trimName: string | number;
+//   unit: string | number;
+//   price: number;
+//   consumption: number;
+// }
 interface CMTCosting {
   id?: number | string;
   comboName: string;
@@ -110,13 +139,13 @@ interface CMTCosting {
 interface SampleCostingState {
   costingData: SampleCostingData;
   showEditor?: boolean;
-  imageLoading:boolean,
-  trimsCosting:Array<TrimsCostingFormData>
-  showTrimsEditor:boolean,
-  showCmtEditor:boolean,
-  cmtCosting:Array<CMTCostingFormData>
-  showEmpEditor:{visible:boolean,value?:EmplishmentCostingFormData}
-  empCosting:Array<EmplishmentCostingFormData>
+  imageLoading: boolean;
+  trimsCosting: Array<TrimsCostingFormData> | undefined;
+  showTrimsEditor: boolean;
+  showCmtEditor: boolean;
+  cmtCosting: Array<CMTCostingFormData>;
+  showEmpEditor: { visible: boolean; value?: EmplishmentCostingFormData };
+  empCosting: Array<EmplishmentCostingFormData>;
 }
 
 interface CostingFabricData {
@@ -128,239 +157,197 @@ interface CostingFabricData {
 
 const getBase64 = (img: RcFile, callback: (url: string) => void) => {
   const reader = new FileReader();
-  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.addEventListener("load", () => callback(reader.result as string));
   reader.readAsDataURL(img);
 };
 
-interface summaryCosting
-{
-  cadSummary:{combo:string,component:string,cost:number}
+interface summaryCosting {
+  cadSummary: { combo: string; component: string; cost: number };
 }
 
 export default class SampleCosting extends React.Component<
   SampleCostingProps,
   SampleCostingState
 > {
-  addCmt = (value: CMTCostingFormData) => 
-  {
-    const cmtData = [...this.state.cmtCosting]
-    console.log(cmtData)
-    let val:CMTCostingFormData = 
-    {
-      id:-1,
-      key:'',
-      comboName:'',
-      componentName:'',
-      cmtName:'',
-      cmtRate:0
-     }
- ;
-     Object.assign(val,value) ;
-    const dupKey = this.state.cmtCosting.findIndex( p => p.key === val.key && val.id ===  -1 ) ;
+  addCmt = (value: CMTCostingFormData) => {
+    const cmtData = [...this.state.cmtCosting];
+    console.log(cmtData);
+    let val: CMTCostingFormData = {
+      id: -1,
+      key: "",
+      comboName: "",
+      componentName: "",
+      cmtName: "",
+      cmtRate: 0,
+    };
+    Object.assign(val, value);
+    const dupKey = this.state.cmtCosting.findIndex(
+      (p) => p.key === val.key && val.id === -1
+    );
 
-  console.log(dupKey)
+    console.log(dupKey);
 
-  if(dupKey > -1)
-  {
-    message.error("Error")
-
-  }
-  else
-  {
-    if(val.id === -1)
-    {
-
-      val.id = cmtData.length;
-      cmtData.push(val);
-     
-    }
-    else
-    {
-     
-     cmtData.splice(val.id,1,val)
-      
-    }
-    this.setState( {cmtCosting:cmtData})
-  }
-
-
-  }
-  private printCosting:React.RefObject<ReactElement> ;
-  addEmplishment = (oldvalue:EmplishmentCostingFormData,value: EmplishmentCostingFormData) => 
-  { 
-    const empData = [...this.state.empCosting]
-    console.log(empData)
-    let val:EmplishmentCostingFormData = 
-    {
-      id:-1,
-      key:'',
-      comboName:'',
-      componentName:'',
-      portion:'',
-      emplishment:'',
-      empRate:0
-     }
- ;
-     Object.assign(val,value) ;
-    const dupKey = this.state.empCosting.findIndex( p => p.key === val.key && val.id ===  -1 ) ;
-
-  console.log(dupKey)
-
-  if(dupKey > -1)
-  {
-    message.error("Error")
-
-  }
-  else
-  {
-    if(val.id === -1)
-    {
-
-      val.id = empData.length;
-      empData.push(val);
-     
-    }
-    else
-    {
-     
-     empData.splice(val.id,1,val)
-      
-    }
-    this.setState( {empCosting:empData})
-  }
-};
-  removeEmplishment = (key:React.Key) =>
-  {
-    Modal.confirm({
-      title:'Delete Emplishment',
-      centered:true,
-      onOk :() =>
-      {
-          const cmtData = this.state.empCosting.filter(d => d.key != key);
-
-        this.setState({empCosting:cmtData})
+    if (dupKey > -1) {
+      message.error("Error");
+    } else {
+      if (val.id === -1) {
+        val.id = cmtData.length;
+        cmtData.push(val);
+      } else {
+        cmtData.splice(val.id, 1, val);
       }
-    })
+      this.setState({ cmtCosting: cmtData });
+    }
+  };
+  private printCosting: React.RefObject<ReactElement>;
+  addEmplishment = (
+    oldvalue: EmplishmentCostingFormData,
+    value: EmplishmentCostingFormData
+  ) => {
+    const empData = [...this.state.empCosting];
+    console.log(empData);
+    let val: EmplishmentCostingFormData = {
+      id: -1,
+      key: "",
+      comboName: "",
+      componentName: "",
+      portion: "",
+      emplishment: "",
+      empRate: 0,
+    };
+    Object.assign(val, value);
+    const dupKey = this.state.empCosting.findIndex(
+      (p) => p.key === val.key && val.id === -1
+    );
+
+    console.log(dupKey);
+
+    if (dupKey > -1) {
+      message.error("Error");
+    } else {
+      if (val.id === -1) {
+        val.id = empData.length;
+        empData.push(val);
+      } else {
+        empData.splice(val.id, 1, val);
+      }
+      this.setState({ empCosting: empData });
+    }
+  };
+  removeEmplishment = (key: React.Key) => {
+    Modal.confirm({
+      title: "Delete Emplishment",
+      centered: true,
+      onOk: () => {
+        const cmtData = this.state.empCosting.filter((d) => d.key != key);
+
+        this.setState({ empCosting: cmtData });
+      },
+    });
+  };
+  onChangeTrims = (action: actionType, value?: TrimsCostingFormData | undefined, values?: TrimsCostingFormData[] | undefined) => 
+  {
+    this.setState({...this.state,trimsCosting:values})
   }
+
   constructor(props: SampleCostingProps) {
     super(props);
-      this.printCosting = React.createRef()
+    this.printCosting = React.createRef();
     this.state = {
       costingData: defaultCostingData,
       showEditor: false,
-      imageLoading:false,
-      trimsCosting:[],
-      showTrimsEditor:false,
-      showCmtEditor:false,
-      cmtCosting:[],
-      showEmpEditor:{visible:false},
-      empCosting:[]                                                                                                                                                                  
+      imageLoading: false,
+      trimsCosting: [],
+      showTrimsEditor: false,
+      showCmtEditor: false,
+      cmtCosting: [],
+      showEmpEditor: { visible: false },
+      empCosting: [],
     };
   }
 
-  addTrims = (values:TrimsCostingFormData) =>
-  {
-    const trims = [...this.state.trimsCosting] ;
-
-    trims.push(values) ;
-
-    this.setState({trimsCosting:trims})
-    console.log(values)
-  }
-
-  showCmtEditor = (visible:boolean) =>
-  {
-    this.setState({showCmtEditor:visible})
-  }
-  showTrimsEditor = (visible:boolean) =>
-  {
-    this.setState({showTrimsEditor:visible})
-  }
-
-  deleteCmts = (key:React.Key) =>
-  {
-    Modal.confirm({
-      title:'Delete CMT - ',
-      centered:true,
-      onOk :() =>
-      {
-          const cmtData = this.state.cmtCosting.filter(d => d.key != key);
-
-    this.setState({cmtCosting:cmtData})
-      }
-    })
-  }
-
-  deleteTrims = (key:any) =>
-  {
-    Modal.confirm({
-      title:'Delete Trim - ',
-      centered:true,
-      onOk :() =>
-      {
-          const trimsData = this.state.trimsCosting.filter(d => d.key != key);
-
-    this.setState({trimsCosting:trimsData})
-      }
-    })
   
 
-  }
+  showCmtEditor = (visible: boolean) => {
+    this.setState({ showCmtEditor: visible });
+  };
+  showTrimsEditor = (visible: boolean) => {
+    this.setState({ showTrimsEditor: visible });
+  };
+
+  deleteCmts = (key: React.Key) => {
+    Modal.confirm({
+      title: "Delete CMT - ",
+      centered: true,
+      onOk: () => {
+        const cmtData = this.state.cmtCosting.filter((d) => d.key != key);
+
+        this.setState({ cmtCosting: cmtData });
+      },
+    });
+  };
 
   render() {
     return (
       <div>
-        <PageHeader title={"Sample Costing"} extra={[<PrintCosting data = {this.state.cmtCosting}/>]} />
+        <PageHeader
+          title={"Sample Costing"}
+          extra={[<PrintCosting data={this.state.cmtCosting} />]}
+        />
         <Form.Provider>
           <Form name="costmas">
-            <Row >
-            <Col md = {5} style={{ padding: "15px" }}>
-              <Row>
-              <div style={{ width: "200px", height: "200px  ",border:'1px dashed gray'}}>
-                <Upload
-                showUploadList ={false}
-              listType ='picture'
-              className="avatar-uploader"
-                beforeUpload ={(file =>
-                  {
-                   
-                     getBase64(file,url =>
-                      {
-                        const data = this.state.costingData ;
-                        data.imageSrc = url;
-                        this.setState({imageLoading:false ,costingData:data})
-                      })
-                  })}
-                >
-                  {
-                    this.state.costingData.imageSrc ?<Image
-                    width={200}
-                    height={200}
-                   preview ={false}
-                    src = {this.state.costingData.imageSrc}/>
-                    :             
-                <Row justify='center' align="middle" style={{height:'100%'}}  >
-                    {this.state.imageLoading ? <LoadingOutlined/> : <PlusOutlined style={{fontSize:'14pt'}}/>}
-                    {/* <div style={{marginTop:8}}>Upload</div> */}
-                </Row>
-  }
-                  
-                
-                
-                  
-
-                </Upload>
-                  
+            <Row>
+              <Col md={5} style={{ padding: "15px" }}>
+                <Row>
+                  <div
+                    style={{
+                      width: "200px",
+                      height: "200px  ",
+                      border: "1px dashed gray",
+                    }}
+                  >
+                    <Upload
+                      showUploadList={false}
+                      listType="picture"
+                      className="avatar-uploader"
+                      beforeUpload={(file) => {
+                        getBase64(file, (url) => {
+                          const data = this.state.costingData;
+                          data.imageSrc = url;
+                          this.setState({
+                            imageLoading: false,
+                            costingData: data,
+                          });
+                        });
+                      }}
+                    >
+                      {this.state.costingData.imageSrc ? (
+                        <Image
+                          width={200}
+                          height={200}
+                          preview={false}
+                          src={this.state.costingData.imageSrc}
+                        />
+                      ) : (
+                        <Row
+                          justify="center"
+                          align="middle"
+                          style={{ height: "100%" }}
+                        >
+                          {this.state.imageLoading ? (
+                            <LoadingOutlined />
+                          ) : (
+                            <PlusOutlined style={{ fontSize: "14pt" }} />
+                          )}
+                          {/* <div style={{marginTop:8}}>Upload</div> */}
+                        </Row>
+                      )}
+                    </Upload>
                   </div>
-
-              </Row>
-              
-                  
-              
+                </Row>
               </Col>
-              <Col  md={18} >
-                
-                <Row style={{paddingTop:'20px'}} gutter={5}>
+              <Col md={18}>
+                <Row style={{ paddingTop: "20px" }} gutter={5}>
                   <Col md={8}>
                     <Form.Item name={"styleCategory"} label={"Style Category"}>
                       <StyleCategory />
@@ -412,242 +399,241 @@ export default class SampleCosting extends React.Component<
                   </Col>
                 </Row>
               </Col>
-             
             </Row>
             {/* Summary Pages */}
             <Row gutter={10}>
-            
-            <Col md={6}>
-                <div className="summary-costing">
-
-              
-                  <table className="summary-costing">
-                  
-                      <tr>
-                        <th style={{width:'80px'}}>Summary</th>
-                        <th style={{width:'80px'}}></th>
-                        <th style={{width:'120px'}} >Cost</th>
-                      </tr>
-                   
-                    
-                      <tr>
-                        <th >Digital Print</th>
-                        <td></td>
-                        <td><Input></Input></td>
-                      </tr>
-                      <tr>
-                        <th>Emproidery</th><td></td>
-                        <td><Input></Input></td>
-                      </tr>
-                      <tr>
-                        <th>Testing</th><td></td>
-                        <td><Input></Input></td>
-                      </tr>
-                      <tr>
-                        <th>Accessories</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>CMT</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Transport</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Garment Cost</th>
-                        <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>GMT Rejection</th>
-                        <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Admin & OHS</th>  <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Profit</th>  <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Commission</th>  <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                     
-                    
-                    <tr>
-                        <th>Total</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                   
-                  </table>
-                  </div>
+              <Col md={6}>
+                <CostingSummary/>
               </Col>
-           
+
               <Col md={6}>
                 <div className="summary-costing">
-
-              
                   <table className="summary-costing">
-                  
-                      <tr>
-                        <th style={{width:'80px'}}>Summary</th>
-                        <th style={{width:'80px'}}></th>
-                        <th style={{width:'120px'}} >Cost</th>
-                      </tr>
-                   
-                    
-                      <tr>
-                        <th >Digital Print</th>
-                        <td></td>
-                        <td><Input></Input></td>
-                      </tr>
-                      <tr>
-                        <th>Emproidery</th><td></td>
-                        <td><Input></Input></td>
-                      </tr>
-                      <tr>
-                        <th>Testing</th><td></td>
-                        <td><Input></Input></td>
-                      </tr>
-                      <tr>
-                        <th>Accessories</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>CMT</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Transport</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Garment Cost</th>
-                        <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>GMT Rejection</th>
-                        <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Admin & OHS</th>  <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Profit</th>  <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                      <tr>
-                        <th>Commission</th>  <td><Input></Input></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                     
-                    
                     <tr>
-                        <th>Total</th><td></td>
-                        <td style={{padding:'5px',textAlign:'right'}}><Typography.Text strong style={{color:'white'}} >0.00</Typography.Text></td>
-                      </tr>
-                   
+                      <th style={{ width: "80px" }}>Summary</th>
+                      <th style={{ width: "80px" }}></th>
+                      <th style={{ width: "120px" }}>Cost</th>
+                    </tr>
+
+                    <tr>
+                      <th>Digital Print</th>
+                      <td></td>
+                      <td>
+                        <Input></Input>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Emproidery</th>
+                      <td></td>
+                      <td>
+                        <Input></Input>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Testing</th>
+                      <td></td>
+                      <td>
+                        <Input></Input>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Accessories</th>
+                      <td></td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>CMT</th>
+                      <td></td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Transport</th>
+                      <td></td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Garment Cost</th>
+                      <td>
+                        <Input></Input>
+                      </td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>GMT Rejection</th>
+                      <td>
+                        <Input></Input>
+                      </td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Admin & OHS</th>{" "}
+                      <td>
+                        <Input></Input>
+                      </td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Profit</th>{" "}
+                      <td>
+                        <Input></Input>
+                      </td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+                    <tr>
+                      <th>Commission</th>{" "}
+                      <td>
+                        <Input></Input>
+                      </td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th>Total</th>
+                      <td></td>
+                      <td style={{ padding: "5px", textAlign: "right" }}>
+                        <Typography.Text strong style={{ color: "white" }}>
+                          0.00
+                        </Typography.Text>
+                      </td>
+                    </tr>
                   </table>
-                  </div>
+                </div>
               </Col>
               <Col md={12}>
-              <div className="profit-summary">
-                <table className ="profit-summary">
-                  <thead>
-                   
-                    <tr>
-                      <th colSpan={2}>Exchange Rate</th>
-                      <th colSpan={2}>Per PCS</th>
-                      <th>PCS/PK</th>
-                      <th colSpan={2}>Pack</th>
-                     
-                    </tr> </thead>
+                <div className="profit-summary">
+                  <table className="profit-summary">
+                    <thead>
+                      <tr>
+                        <th colSpan={2}>Exchange Rate</th>
+                        <th colSpan={2}>Per PCS</th>
+                        <th>PCS/PK</th>
+                        <th colSpan={2}>Pack</th>
+                      </tr>{" "}
+                    </thead>
                     <tbody>
                       <tr>
-                        <td colSpan={2}><Input></Input></td>
-                        <td colSpan={2}><Input></Input></td>
-                        <td ><Input></Input></td>
-                        <td colSpan={2}><Input></Input></td>       
+                        <td colSpan={2}>
+                          <Input></Input>
+                        </td>
+                        <td colSpan={2}>
+                          <Input></Input>
+                        </td>
+                        <td>
+                          <Input></Input>
+                        </td>
+                        <td colSpan={2}>
+                          <Input></Input>
+                        </td>
                       </tr>
                       <tr>
-                        <th rowSpan={2 } colSpan={2}>Buyer Quote</th>
+                        <th rowSpan={2} colSpan={2}>
+                          Buyer Quote
+                        </th>
                         <th colSpan={2}>Offered</th>
                         <th colSpan={2}>Target</th>
-                        <th colSpan={2}>Differece</th>         
+                        <th colSpan={2}>Differece</th>
                       </tr>
                       <tr>
-                        
-                        <th colSpan={2}><Input></Input></th>
-                        <th colSpan={2}><Input></Input></th>
-                        <th colSpan={2}><Input></Input></th>         
+                        <th colSpan={2}>
+                          <Input></Input>
+                        </th>
+                        <th colSpan={2}>
+                          <Input></Input>
+                        </th>
+                        <th colSpan={2}>
+                          <Input></Input>
+                        </th>
                       </tr>
                       <tr>
-                      <th  colSpan={2}>Percentage</th>
-                        <th >Margin/PC</th>
-                        <th >INR/PC</th>
-                        <th >USD/PC</th>
-                        <th colSpan={2}>USD/Pack</th>             
+                        <th colSpan={2}>Percentage</th>
+                        <th>Margin/PC</th>
+                        <th>INR/PC</th>
+                        <th>USD/PC</th>
+                        <th colSpan={2}>USD/Pack</th>
                       </tr>
                       <tr>
-                        <th  colSpan={2}>5%</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th colSpan={2}>0</th>       
+                        <th colSpan={2}>5%</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th colSpan={2}>0</th>
                       </tr>
                       <tr>
-                        <th  colSpan={2}>10%</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th colSpan={2}>0</th>       
+                        <th colSpan={2}>10%</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th colSpan={2}>0</th>
                       </tr>
                       <tr>
-                        <th  colSpan={2}>15%</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th colSpan={2}>0</th>       
+                        <th colSpan={2}>15%</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th colSpan={2}>0</th>
                       </tr>
                       <tr>
-                        <th  colSpan={2}>20%</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th colSpan={2}>0</th>       
+                        <th colSpan={2}>20%</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th colSpan={2}>0</th>
                       </tr>
                       <tr>
-                        <th  colSpan={2}>25%</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th colSpan={2}>0</th>       
+                        <th colSpan={2}>25%</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th colSpan={2}>0</th>
                       </tr>
                       <tr>
-                        <th  colSpan={2}>30%</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th colSpan={2}>0</th>       
+                        <th colSpan={2}>30%</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th colSpan={2}>0</th>
                       </tr>
                       <tr>
-                        <th  colSpan={2}>35%</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th >0</th>
-                        <th colSpan={2}>0</th>       
+                        <th colSpan={2}>35%</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th>0</th>
+                        <th colSpan={2}>0</th>
                       </tr>
                     </tbody>
-                 
-                </table>
+                  </table>
                 </div>
               </Col>
             </Row>
@@ -701,7 +687,7 @@ export default class SampleCosting extends React.Component<
                       width: 120,
                       dataIndex: "panelName",
                       render(value, record, index) {
-                        return <a>{value}</a>
+                        return <a>{value}</a>;
                       },
                     },
                     {
@@ -735,7 +721,7 @@ export default class SampleCosting extends React.Component<
                         return (
                           <>{record.totalProcessRate * (record.cad / 1000)}</>
                         );
-                      }
+                      },
                     },
                     {
                       title: "",
@@ -743,7 +729,12 @@ export default class SampleCosting extends React.Component<
                       align: "center",
                       render: (_, record) => {
                         return (
-                          <><Button type="text" icon={<DeleteFilled></DeleteFilled>}></Button></>
+                          <>
+                            <Button
+                              type="text"
+                              icon={<DeleteFilled></DeleteFilled>}
+                            ></Button>
+                          </>
                         );
                       },
                     },
@@ -757,95 +748,8 @@ export default class SampleCosting extends React.Component<
                 <div
                   style={{ padding: "10px", width: "100%", height: "50px" }}
                 ></div>
-                <Table
-                  pagination={false}
-                  title={() => (
-                    <>
-                      <Typography.Text strong style={{ fontSize: "14pt" }}>
-                        Trims Details
-                      </Typography.Text>
-                      <Button
-                        onClick={() => {
-                          this.showTrimsEditor(true);
-                        }}
-                        type="primary"
-                        style={{ float: "right" }}
-                      >
-                        Add
-                      </Button>
-                    </>
-                  )}
-                  columns={[
-                    {
-                      title: "S.No",
-                      width: 50,
-                      align: "center",
-                      render(value, record, index) {
-                        return <>{index + 1}</>;
-                      },
-                    },
-                    {
-                      title: "Combo",
-                      width: 120,
-                      align: "left",
-                      dataIndex: "comboName",
-                    },
-                    {
-                      title: "Component",
-                      width: 120,
-                      align: "left",
-                      dataIndex: "componentName",
-                    },
-                    {
-                      title: "Trims",
-                      align: "left",
-                      dataIndex: "trimsName",
-                    },
-                    {
-                      title: "UOM",
-                      width: 80,
-                      align: "left",
-                      dataIndex: "trim_uom",
-                    },
-                    {
-                      title: "Price",
-                      align: "center",
-                      width: 150,
-                      dataIndex: "trimsPrice",
-                    },
-                    {
-                      title: "CNT/GMT",
-                      width: 100,
-                      align: "center",
-                      dataIndex: "trimsCount",
-                    },
-                    {
-                      title: "Trims Cost",
-                      width: 100,
-                      align: "center",
-                      dataIndex: "trimsCost",
-                      render(value, record, index) {
-                        return <>{record.trimsPrice * record.trimsCount}</>
-                      },
-                    },
-                    {
-                      title: "#",
-                      width: 100,
-                      align: "center",
-                      dataIndex: "",
-                      render:(value, record, index)  => 
-                         (<>
-                       
-                        <Button onClick={() => {this.deleteTrims(record.key)}} type="text" block icon ={<DeleteOutlined/>} />
-                        </>)
-                      
-                    },
-                  ]}
-                  dataSource={this.state.trimsCosting}
-                  footer={() => <>Name</>}
-                ></Table>
+                <TrimsCosting data={this.state.trimsCosting} onChange={this.onChangeTrims} />
               </Col>
-             
             </Row>
             <Row gutter={10}>
               <Col md={12}>
@@ -861,9 +765,11 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-
-                          showCMTCostingEditor({visible:true,onCancel:() => {},onSave:this.addCmt})
-
+                          showCMTCostingEditor.open({
+                            visible: true,
+                            onCancel: () => {},
+                            onSave: this.addCmt,
+                          });
                         }}
                         type="primary"
                         style={{ float: "right" }}
@@ -909,15 +815,21 @@ export default class SampleCosting extends React.Component<
                       width: 80,
                       align: "left",
                       dataIndex: "action",
-                      render:(value, record, index) => {
-                        
-                        return(<><Button type="text" onClick ={()=>
-                        {
-                          this.deleteCmts(record.key)
-                        }} block icon ={<DeleteOutlined/> }></Button></>)
+                      render: (value, record, index) => {
+                        return (
+                          <>
+                            <Button
+                              type="text"
+                              onClick={() => {
+                                this.deleteCmts(record.key);
+                              }}
+                              block
+                              icon={<DeleteOutlined />}
+                            ></Button>
+                          </>
+                        );
                       },
                     },
-
                   ]}
                   dataSource={this.state.cmtCosting}
                   footer={() => <>Name</>}
@@ -936,13 +848,16 @@ export default class SampleCosting extends React.Component<
                       </Typography.Text>
                       <Button
                         onClick={() => {
-                        // this.setState({showEmpEditor:{visible:true,value:undefined}})
+                          // this.setState({showEmpEditor:{visible:true,value:undefined}})
 
-                          showEditor({visible:true,onCancel:()=>{},onSave:this.addEmplishment,})
-
+                          showEditor({
+                            visible: true,
+                            onCancel: () => {},
+                            onSave: this.addEmplishment,
+                          });
                         }}
                         type="primary"
-                        style={{ float: "right"}}
+                        style={{ float: "right" }}
                       >
                         Add
                       </Button>
@@ -979,11 +894,22 @@ export default class SampleCosting extends React.Component<
                       title: "Emplishments",
                       align: "left",
                       dataIndex: "emplishment",
-                      render : (value, record, index) => {
-                        return (<Button type="link" onClick={()=>
-                        {
-                          showEditor({visible:true,onCancel:()=>{},onSave:this.addEmplishment,value : record})
-                        }} >{value}</Button>)
+                      render: (value, record, index) => {
+                        return (
+                          <Button
+                            type="link"
+                            onClick={() => {
+                              showEditor({
+                                visible: true,
+                                onCancel: () => {},
+                                onSave: this.addEmplishment,
+                                value: record,
+                              });
+                            }}
+                          >
+                            {value}
+                          </Button>
+                        );
                       },
                     },
                     {
@@ -997,11 +923,19 @@ export default class SampleCosting extends React.Component<
                       width: 80,
                       align: "center",
                       dataIndex: "action",
-                      render : (value, record, index) => {
-                        return (<><Button onClick={()=>
-                        {
-                          this.removeEmplishment(record.key)
-                        }} type="text" block icon ={<DeleteOutlined/>}></Button></>)
+                      render: (value, record, index) => {
+                        return (
+                          <>
+                            <Button
+                              onClick={() => {
+                                this.removeEmplishment(record.key);
+                              }}
+                              type="text"
+                              block
+                              icon={<DeleteOutlined />}
+                            ></Button>
+                          </>
+                        );
                       },
                     },
                   ]}
@@ -1010,14 +944,14 @@ export default class SampleCosting extends React.Component<
                 ></Table>
               </Col>
             </Row>
-            <Row gutter={10} style={{marginTop:'10px'}}>
+            <Row gutter={10} style={{ marginTop: "10px" }}>
               <Col md={12}>
                 <div>
                   <PortionEditor />
                 </div>
               </Col>
               <Col md={12}>
-              <PortionEditor type ='fabric' />
+                <PortionEditor type="fabric" />
               </Col>
             </Row>
           </Form>
@@ -1042,17 +976,23 @@ export default class SampleCosting extends React.Component<
               console.log(this.state);
             }}
           ></SampleCostingEditorModal>
-          <TrimsEditor visible  = {this.state.showTrimsEditor} onCancel={()=> {this.showTrimsEditor(false)}} onSave = {this.addTrims}></TrimsEditor>
-         
-          <EmplishmentCostingEditor value={this.state.showEmpEditor.value} visible = {this.state.showEmpEditor.visible} onCancel = {() => this.showEmpEditor(false)} onSave = {this.addEmplishment} />
+
+          <EmplishmentCostingEditor
+            value={this.state.showEmpEditor.value}
+            visible={this.state.showEmpEditor.visible}
+            onCancel={() => this.showEmpEditor(false)}
+            onSave={this.addEmplishment}
+          />
         </Form.Provider>
       </div>
     );
   }
-  showEmpEditor = (visible: boolean,value?:EmplishmentCostingFormData): void => {
-      
-   this.setState({showEmpEditor:{visible:visible,value:value}})
-  }
+  showEmpEditor = (
+    visible: boolean,
+    value?: EmplishmentCostingFormData
+  ): void => {
+    this.setState({ showEmpEditor: { visible: visible, value: value } });
+  };
 }
 
 interface SampleCostingFormData {
@@ -1310,9 +1250,9 @@ const SampleCostingEditorModal: React.FC<SampleCostingEditorProps> = ({
   );
 };
 
-
-
-function deleteTrims(datasource:Array<TrimsCostingFormData>,key: React.Key | undefined) {
+function deleteTrims(
+  datasource: Array<TrimsCostingFormData>,
+  key: React.Key | undefined
+) {
   throw new Error("Function not implemented.");
 }
-
