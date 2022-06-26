@@ -36,15 +36,9 @@ import React, {
 import StyleCategory from "../../Common/StyleCategory";
 import PortionEditor from "./PortionEditor";
 import StyleEditor from "./StyleEditor";
-import TrimsCostingEditor, {
+import  {
   TrimsCostingFormData,
 } from "./Costing/Blocks/TrimsCostingEditor";
-import CMTCostingEditor, {
-  CMTCostingEditorComponent,
-  CMTCostingFormData,
-  showCMTCostingEditor,
-} from "./Costing/Blocks/CMTCostingEditor";
-import CostingPrint from "./Costing/Blocks/CostingPrint";
 import { PrintCosting } from "./Costing/component/PrintCosting";
 import {
   EmplishmentCostingEditor,
@@ -54,6 +48,7 @@ import {
 import { ModalEditor } from "./Costing/component/Editor";
 import TrimsCosting, { actionType, TrimsCost } from "./Costing/Blocks/TrimsCosting";
 import CostingSummary from "./Costing/Blocks/CostingSummary";
+import CMTCosting, { CMTCost } from "./Costing/Blocks/CMTCosting";
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -128,13 +123,13 @@ interface FabricProcess {
 //   price: number;
 //   consumption: number;
 // }
-interface CMTCosting {
-  id?: number | string;
-  comboName: string;
-  componentName: string | "All";
-  cmtName?: string | number;
-  cmtRate?: number;
-}
+// interface CMTCosting {
+//   id?: number | string;
+//   comboName: string;
+//   componentName: string | "All";
+//   cmtName?: string | number;
+//   cmtRate?: number;
+// }
 
 interface SampleCostingState {
   costingData: SampleCostingData;
@@ -143,7 +138,7 @@ interface SampleCostingState {
   trimsCosting: TrimsCost | undefined;
   showTrimsEditor: boolean;
   showCmtEditor: boolean;
-  cmtCosting: Array<CMTCostingFormData>;
+  cmtCosting: CMTCost | undefined;
   showEmpEditor: { visible: boolean; value?: EmplishmentCostingFormData };
   empCosting: Array<EmplishmentCostingFormData>;
 }
@@ -169,36 +164,7 @@ export default class SampleCosting extends React.Component<
   SampleCostingProps,
   SampleCostingState
 > {
-  addCmt = (value: CMTCostingFormData) => {
-    const cmtData = [...this.state.cmtCosting];
-    console.log(cmtData);
-    let val: CMTCostingFormData = {
-      id: -1,
-      key: "",
-      comboName: "",
-      componentName: "",
-      cmtName: "",
-      cmtRate: 0,
-    };
-    Object.assign(val, value);
-    const dupKey = this.state.cmtCosting.findIndex(
-      (p) => p.key === val.key && val.id === -1
-    );
-
-    console.log(dupKey);
-
-    if (dupKey > -1) {
-      message.error("Error");
-    } else {
-      if (val.id === -1) {
-        val.id = cmtData.length;
-        cmtData.push(val);
-      } else {
-        cmtData.splice(val.id, 1, val);
-      }
-      this.setState({ cmtCosting: cmtData });
-    }
-  };
+ 
   private printCosting: React.RefObject<ReactElement>;
   addEmplishment = (
     oldvalue: EmplishmentCostingFormData,
@@ -250,6 +216,11 @@ export default class SampleCosting extends React.Component<
     console.log(value)
     this.setState({...this.state,trimsCosting:value})
   }
+  onChangeCMT = (value?: CMTCost | undefined) =>
+  {
+    console.log("CMT Changer = ",value)
+    this.setState({...this.state,cmtCosting:value})
+  }
 
   constructor(props: SampleCostingProps) {
     super(props);
@@ -261,7 +232,7 @@ export default class SampleCosting extends React.Component<
       trimsCosting: {total:0,trimsData:[]},
       showTrimsEditor: false,
       showCmtEditor: false,
-      cmtCosting: [],
+      cmtCosting: {subTotal:0,total:0,profit:0,cmtData:[]},
       showEmpEditor: { visible: false },
       empCosting: [],
     };
@@ -274,18 +245,6 @@ export default class SampleCosting extends React.Component<
   };
   showTrimsEditor = (visible: boolean) => {
     this.setState({ showTrimsEditor: visible });
-  };
-
-  deleteCmts = (key: React.Key) => {
-    Modal.confirm({
-      title: "Delete CMT - ",
-      centered: true,
-      onOk: () => {
-        const cmtData = this.state.cmtCosting.filter((d) => d.key != key);
-
-        this.setState({ cmtCosting: cmtData });
-      },
-    });
   };
 
   render() {
@@ -404,7 +363,7 @@ export default class SampleCosting extends React.Component<
             {/* Summary Pages */}
             <Row gutter={10}>
               <Col md={6}>
-                <CostingSummary accessories={this.state.trimsCosting?.total}/>
+                <CostingSummary accessories={this.state.trimsCosting?.total} cmt = {this.state.cmtCosting?.total}/>
               </Col>
 
               <Col md={6}>
@@ -757,84 +716,7 @@ export default class SampleCosting extends React.Component<
                 <div
                   style={{ padding: "10px", width: "100%", height: "50px" }}
                 ></div>
-                <Table
-                  pagination={false}
-                  title={() => (
-                    <>
-                      <Typography.Text strong style={{ fontSize: "14pt" }}>
-                        CMT Details
-                      </Typography.Text>
-                      <Button
-                        onClick={() => {
-                          showCMTCostingEditor.open({
-                            visible: true,
-                            onCancel: () => {},
-                            onSave: this.addCmt,
-                          });
-                        }}
-                        type="primary"
-                        style={{ float: "right" }}
-                      >
-                        Add
-                      </Button>
-                    </>
-                  )}
-                  columns={[
-                    {
-                      title: "S.No",
-                      width: 50,
-                      align: "center",
-                      render(value, record, index) {
-                        return <>{index + 1}</>;
-                      },
-                    },
-                    {
-                      title: "Combo",
-                      width: 120,
-                      align: "left",
-                      dataIndex: "comboName",
-                    },
-                    {
-                      title: "Component",
-                      width: 120,
-                      align: "left",
-                      dataIndex: "componentName",
-                    },
-                    {
-                      title: "CMT",
-                      align: "left",
-                      dataIndex: "cmtName",
-                    },
-                    {
-                      title: "Rate",
-                      width: 80,
-                      align: "right",
-                      dataIndex: "cmtRate",
-                    },
-                    {
-                      title: "",
-                      width: 80,
-                      align: "left",
-                      dataIndex: "action",
-                      render: (value, record, index) => {
-                        return (
-                          <>
-                            <Button
-                              type="text"
-                              onClick={() => {
-                                this.deleteCmts(record.key);
-                              }}
-                              block
-                              icon={<DeleteOutlined />}
-                            ></Button>
-                          </>
-                        );
-                      },
-                    },
-                  ]}
-                  dataSource={this.state.cmtCosting}
-                  footer={() => <>Name</>}
-                ></Table>
+                <CMTCosting data = {this.state.cmtCosting?.cmtData} onChange ={this.onChangeCMT} ></CMTCosting>
               </Col>
               <Col md={12}>
                 <div
