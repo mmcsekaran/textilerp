@@ -52,7 +52,7 @@ import {
   showEditor,
 } from "./Costing/Blocks/EmplishmentEditor";
 import { ModalEditor } from "./Costing/component/Editor";
-import TrimsCosting, { actionType } from "./Costing/Blocks/TrimsCosting";
+import TrimsCosting, { actionType, TrimsCost } from "./Costing/Blocks/TrimsCosting";
 import CostingSummary from "./Costing/Blocks/CostingSummary";
 
 export interface SampleCostingProps {
@@ -140,7 +140,7 @@ interface SampleCostingState {
   costingData: SampleCostingData;
   showEditor?: boolean;
   imageLoading: boolean;
-  trimsCosting: Array<TrimsCostingFormData> | undefined;
+  trimsCosting: TrimsCost | undefined;
   showTrimsEditor: boolean;
   showCmtEditor: boolean;
   cmtCosting: Array<CMTCostingFormData>;
@@ -245,9 +245,10 @@ export default class SampleCosting extends React.Component<
       },
     });
   };
-  onChangeTrims = (action: actionType, value?: TrimsCostingFormData | undefined, values?: TrimsCostingFormData[] | undefined) => 
+  onChangeTrims = ( value?: TrimsCost | undefined) => 
   {
-    this.setState({...this.state,trimsCosting:values})
+    console.log(value)
+    this.setState({...this.state,trimsCosting:value})
   }
 
   constructor(props: SampleCostingProps) {
@@ -257,7 +258,7 @@ export default class SampleCosting extends React.Component<
       costingData: defaultCostingData,
       showEditor: false,
       imageLoading: false,
-      trimsCosting: [],
+      trimsCosting: {total:0,trimsData:[]},
       showTrimsEditor: false,
       showCmtEditor: false,
       cmtCosting: [],
@@ -403,7 +404,7 @@ export default class SampleCosting extends React.Component<
             {/* Summary Pages */}
             <Row gutter={10}>
               <Col md={6}>
-                <CostingSummary/>
+                <CostingSummary accessories={this.state.trimsCosting?.total}/>
               </Col>
 
               <Col md={6}>
@@ -748,7 +749,7 @@ export default class SampleCosting extends React.Component<
                 <div
                   style={{ padding: "10px", width: "100%", height: "50px" }}
                 ></div>
-                <TrimsCosting data={this.state.trimsCosting} onChange={this.onChangeTrims} />
+                <TrimsCosting data={this.state.trimsCosting?.trimsData} onChange={this.onChangeTrims} />
               </Col>
             </Row>
             <Row gutter={10}>

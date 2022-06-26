@@ -5,7 +5,10 @@ import TrimsPlan from '../../TrimsPlan';
 import TrimsCosting from './TrimsCosting';
 import { ModalEditorProps } from './../interface/ModalEditorProps';
 
-
+function round(value:number) 
+{
+  return Math.round((value+Number.EPSILON)*100)/100
+}
 
 
  export interface TrimsCostingFormData
@@ -18,6 +21,7 @@ import { ModalEditorProps } from './../interface/ModalEditorProps';
     trimsUom?:string|number,
     trimsCount:number,
     trimsPrice:number
+    trimCost:number
     
  }
 
@@ -30,7 +34,8 @@ import { ModalEditorProps } from './../interface/ModalEditorProps';
   {
     id : -1,
     trimsCount: 0,
-    trimsPrice:0
+    trimsPrice:0,
+    trimCost:0
   }
   }
   }
@@ -72,8 +77,9 @@ setConfig = (props:ModalEditorProps<TrimsCostingFormData>) =>
            const  frmData:TrimsCostingFormData = {...this.#congigData.value,...value}  ;
            
             frmData.key = value.comboName + value.componentName +value.cmtName 
+            frmData.trimCost = round(frmData.trimsPrice/frmData.trimsCount)
             form.resetFields();
-            this.#congigData.onSave(!this.#congigData.value ? {id:-1,trimsCount:0,trimsPrice:0}:this.#congigData.value,frmData);
+            this.#congigData.onSave(!this.#congigData.value ? {id:-1,trimsCount:0,trimsPrice:0,trimCost:0}:this.#congigData.value,frmData);
             form.submit()
           }
         )

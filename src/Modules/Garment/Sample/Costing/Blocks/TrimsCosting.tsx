@@ -5,25 +5,30 @@ import { CMTCostingFormData } from './CMTCostingEditor';
 import TrimsCostingEditor, { TrimsCostingFormData } from './TrimsCostingEditor';
 
 
-interface TrimsCostState 
+export interface TrimsCost
 {
-   trimsData : Array<TrimsCostingFormData>
+   trimsData : Array<TrimsCostingFormData>,
+   total:number
 }
+
+
 export type actionType = 'add'|'update'|'delete'
 type trimData  = TrimsCostingFormData | undefined
 interface  TrimsCostProps
 {
     data?:Array<TrimsCostingFormData>,
-    onChange?:(action:actionType ,value?:TrimsCostingFormData,values?:Array<TrimsCostingFormData>) => void
+    onChange?:(value?:TrimsCost) => void
 }
-export default class TrimsCosting extends React.Component<TrimsCostProps,TrimsCostState>  {
+export default class TrimsCosting extends React.Component<TrimsCostProps,TrimsCost>  {
+  
 
     constructor(props:TrimsCostProps)
     {
         super(props)
        
         this.state = { 
-            trimsData : this.props.data? this.props.data : []
+            trimsData : this.props.data? this.props.data : [],
+            total:0
         }
     }
 
@@ -35,7 +40,8 @@ addTrims = (prevValue:TrimsCostingFormData,value: TrimsCostingFormData) =>
     {
       id:-1,
       trimsCount:0,
-      trimsPrice:0
+      trimsPrice:0,
+      trimCost:0
      }
  ;
      Object.assign(val,value) ;
@@ -55,32 +61,39 @@ addTrims = (prevValue:TrimsCostingFormData,value: TrimsCostingFormData) =>
 
       val.id = cmtData.length;
       cmtData.push(val);
-      this.setState({...this.state,trimsData:cmtData});
-      this.triggerChanges('add',val,this.state.trimsData);
+      this.calculateValue(cmtData)
     }
     else
     {
      
      cmtData.splice(val.id,1,val)
-     this.triggerChanges('update',val,this.state.trimsData);
+    
+
     }
 
    
-  
   }
+  var total:number = 0;
+
+  cmtData.forEach(element => {
+    
+      total = total + element.trimCost;
+     
+  });
+  
+  this.triggerChanges({total:total,trimsData:cmtData})
+
   }
   
-  triggerChanges = (action:actionType,value?:TrimsCostingFormData,values? :Array<TrimsCostingFormData>) =>
+  triggerChanges = (value:TrimsCost)  =>
   {
 
-    if(this.props.onChange) this.props.onChange(action,value,values);
+    this.setState({...this.state,...value})
+    if(this.props.onChange) this.props.onChange(this.state);
+  
   }
 
-  updateData = (data:Array<TrimsCostingFormData>) =>
-  {
-    this.setState({...this.state,trimsData:data});
-
-  }
+  
 
   deleteTrims = (key:any) =>
   {
@@ -91,8 +104,7 @@ addTrims = (prevValue:TrimsCostingFormData,value: TrimsCostingFormData) =>
       {
         const data = this.state.trimsData.find( val => val.key === key) ;
         const trimsData = this.state.trimsData.filter(d => d.key != key);
-        this.setState({...this.state,trimsData:trimsData});
-        this.triggerChanges('delete',data,this.state.trimsData);
+        this.calculateValue(trimsData)
       }
     })
   
