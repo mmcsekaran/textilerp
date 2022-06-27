@@ -122,11 +122,12 @@ export default class CostingSummary extends Component<
       
         return ({
           ...prevState,
+            data:{...prevState.data,
             accessories:nextProps.accessories,
             cmt:nextProps.cmt,
             transport:nextProps.transport,
             emplishment:nextProps.emplishment
-          
+            }
         })
       
 

@@ -15,7 +15,7 @@ exchangeRate:number,
 rateOfPcsUSD:number,
 noofpcs:number,
 rateOfPackUSD:number,
-buyerTarget:number,
+buyerTarget:profitPercentData,
 percentages:Array<profitPercentData>,
 costingSummary:CostingSummaryData
 }
@@ -45,7 +45,15 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
             rateOfPackUSD:0,
             noofpcs:0,
             rateOfPcsUSD:0,
-            buyerTarget:0,
+            buyerTarget:{
+              percentage:5,
+              marginPerPCS:0,
+              pcsRateFC:0,
+              pcsRateINR:0,
+              packRateFC:0,
+              packRateINR:0,
+              isTarget:false
+          },
             costingSummary:this.props.costingSummary,
             
             percentages:[
@@ -139,8 +147,7 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
             percent.pcsRateFC = percent.pcsRateINR / data.exchangeRate;
             percent.packRateFC = percent.pcsRateFC * data.noofpcs
             percent.packRateINR = percent.pcsRateINR * data.noofpcs
-            if(percent.isTarget) data.buyerTarget = percent.packRateFC ;
-
+  
             percentages.splice(index,1,percent);
 
         })
@@ -168,7 +175,7 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
                     <tbody>
                       <tr>
                         <td colSpan={2}>
-                            <Form.Item  name={'exchangeRate'} noStyle>
+                            <Form.Item initialValue={1} name={'exchangeRate'} noStyle>
                                  <Input></Input>
                             </Form.Item>
                          
@@ -179,7 +186,7 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
                         </Typography.Text>
                         </td>
                         <td>
-                            <Form.Item noStyle name={"noofpcs"} >
+                            <Form.Item initialValue={1} noStyle name={"noofpcs"} >
                                 <Input></Input>
                             </Form.Item>
                          
@@ -201,17 +208,17 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
                       <tr>
                         <th colSpan={2}>
                         <Typography.Text strong style={{ color: "white" }}>
-                            {this.state.costingSummary.total.toFixed(2)}
+                            {(this.state.costingSummary.total/this.state.exchangeRate).toFixed(2)}
                         </Typography.Text>
                         </th>
                         <th colSpan={2}>
                         <Typography.Text strong style={{ color: "white" }}>
-                            {this.state.buyerTarget.toFixed(2)}
+                            {this.state.buyerTarget.packRateFC.toFixed(2)}
                         </Typography.Text>
                         </th>
                         <th colSpan={2}>
                         <Typography.Text strong style={{ color: "white" }}>
-                            {(this.state.costingSummary.total - this.state.buyerTarget).toFixed(2)}
+                            {(this.state.costingSummary.total - this.state.buyerTarget.packRateFC).toFixed(2)}
                         </Typography.Text>
                         </th>
                       </tr>
@@ -236,8 +243,8 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
                                     <th colSpan={2}>{percent.packRateFC.toFixed(2)}</th>
                                     <th><a style={{color :'gold'}} onClick ={()=>
                                     {
-                                      
-                                    }} href='#'>Set Target</a></th>
+                                      this.setBuyerTarget(percent);
+                                    }} >Set Target</a></th>
                                   </tr>
                                 )
                             }
@@ -252,6 +259,10 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
         
       </div>
     )
+  }
+  setBuyerTarget = (percent: profitPercentData) => {
+    
+      this.setState({buyerTarget:percent})
   }
 
   public static getDerivedStateFromProps(nextProps:profitSummaryProps, prevState:profitSummaryType)
