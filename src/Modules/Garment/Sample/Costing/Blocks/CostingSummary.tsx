@@ -6,12 +6,13 @@ interface CostingSummaryProps {
   defaultValue?: CostingSummaryData ;
   accessories?:number,
   cmt?:number,
-  transport?:number
+  transport:number,
+  emplishment?:number
   onChange?: (value: CostingSummaryData ) => void | undefined;
 }
-interface CostingSummaryData {
-  digitalPrint: number;
-  embroidery: number;
+export interface CostingSummaryData {
+  
+  emplishment: number;
   testing: number;
   accessories: number;
   cmt: number;
@@ -36,54 +37,34 @@ export default class CostingSummary extends Component<
   CostingSummaryProps,
   SampleCostingSummaryState
 > {
+
   onValueChange: ((changedValues: any, values: any) => void)  = (
     e , v
   ) => {
    
    
-    
-      const digitalPrint = v.digitalPrint ? parseFloat(v.digitalPrint) : 0;
-      const embroidery = v.embroidery ? parseFloat(v.embroidery) : 0;
-      const testing = v.testing ? parseFloat(v.testing) : 0;
-      const acc =  this.state.data.accessories ? this.state.data.accessories : 0 ;
-      const cmt = this.state.data.cmt ? this.state.data.cmt : 0 ;
-      const transport = this.state.data.transport ? this.state.data.transport : 0 ;
-     const garmentCost  = (digitalPrint+embroidery+testing+acc+cmt+transport);
-     const gmtRejPer = v.gmtRejectionPercent ? parseFloat(v.gmtRejectionPercent) : 0 ;
-     const adminPer = v.adminOHPercent ? parseFloat(v.adminOHPercent) : 0 ;
-     const profitPer= v.profitPercent ?  parseFloat(v.profitPercent): 0 ;
-     const commissionPer = v.commissionPercent ?  parseFloat(v.commissionPercent) :0 ;
 
-      const gmtRejection = (garmentCost * (gmtRejPer/100));
-      const adminOH = ((garmentCost+gmtRejection)*(adminPer/100));
-      const profit  = ((garmentCost+gmtRejection+adminOH) * (profitPer/100));
-      const commission  = ((garmentCost+gmtRejection+adminOH+profit) * (commissionPer/100));
-      const total  = (garmentCost+gmtRejection+adminOH+profit+commission) ;
-    
+     const data = this.state.data ;
+        
+     data.testing = parseFloat(v.testing);
+     data.garmentCost = data.emplishment + data.testing + data.accessories+data.transport
+     data.gmtRejectionPercent = parseFloat(v.gmtRejectionPercent);
+     data.gmtRejection = data.garmentCost * (data.gmtRejectionPercent *(1/100))
+     data.adminOHPercent = parseFloat(v.adminOHPercent);
+     data.adminOH = (data.garmentCost+data.gmtRejection) * (data.adminOHPercent*(1/100));
+     data.profitPercent = parseFloat(v.profitPercent);
+     data.profit = (data.garmentCost+data.gmtRejection+data.adminOH) * (data.profitPercent * (1/100));
+     data.commissionPercent = parseFloat(v.commissionPercent);
+     data.commission = (data.garmentCost+data.gmtRejection+data.adminOH+data.profit) * (data.commissionPercent * (1/100));
+     data.total = (data.garmentCost+data.gmtRejection+data.adminOH+data.profit+data.commission);
 
+      console.log(data)
      
-    this.setState({ ...this.state, data: 
-    {
-      digitalPrint:digitalPrint,
-      embroidery:embroidery,
-      testing:testing,
-      garmentCost:garmentCost,
-      gmtRejectionPercent:gmtRejPer,
-      gmtRejection:gmtRejection,
-      adminOHPercent:adminPer,
-      adminOH:adminOH,
-      profitPercent:profitPer,
-      profit:profit,
-      commissionPercent:commission,
-      commission:commission,
-      total:total,
-      accessories:acc,
-      cmt:cmt,
-      transport:transport
-    } }); 
+    this.setState({ ...this.state,data:{...data}}); 
 
     if(this.props.onChange) this.props.onChange(this.state.data)
 
+    
   };
 
   public static defaultProps = {
@@ -114,12 +95,12 @@ export default class CostingSummary extends Component<
 
    
       this.state = { data:{
-        digitalPrint: 0,
-        embroidery: 0,
+        
+        emplishment: props.emplishment ? props.emplishment :0 ,
         testing: 0,
         accessories: this.props.accessories ? this.props.accessories : 0,
-        cmt: 0,
-        transport: 0,
+        cmt: this.props.cmt ? this.props.cmt : 0,
+        transport: this.props.transport ? this.props.transport : 0,
         garmentCost: 0,
         gmtRejection: 0,
         adminOH: 0,
@@ -129,9 +110,10 @@ export default class CostingSummary extends Component<
         adminOHPercent: 0,
         profitPercent: 0,
         commissionPercent: 0,
-        total: 0,
+        total: 0
       }  };
     
+      console.log(this.state)
   }
 
   public static getDerivedStateFromProps(nextProps:CostingSummaryProps, prevState:SampleCostingSummaryState)
@@ -139,11 +121,12 @@ export default class CostingSummary extends Component<
     console.log(nextProps)
       
         return ({
-          data:{...prevState,
+          ...prevState,
             accessories:nextProps.accessories,
             cmt:nextProps.cmt,
-            trasnport:nextProps.transport
-          }
+            transport:nextProps.transport,
+            emplishment:nextProps.emplishment
+          
         })
       
 
@@ -151,6 +134,7 @@ export default class CostingSummary extends Component<
   }
 
   render() {
+    console.log(this.state);
     return (
       <div>
         <div className='summary-costing'>
@@ -164,29 +148,14 @@ export default class CostingSummary extends Component<
                 <th style={{ width: "120px" }}>Cost</th>
               </tr>
 
+             
               <tr>
-                <th>Digital Print</th>
+                <th>Emplishement</th>
                 <td></td>
-                <td>
-                  <Form.Item
-                    noStyle
-                    name='digitalPrint'
-                    initialValue={this.state.data.digitalPrint}
-                   >
-                    <Input></Input>
-                  </Form.Item>
-                </td>
-              </tr>
-              <tr>
-                <th>Emproidery</th>
-                <td></td>
-                <td>
-                  <Form.Item
-                    noStyle
-                    name='embroidery'
-                    initialValue={this.state.data?.embroidery}>
-                    <Input></Input>
-                  </Form.Item>
+                <td style={{ padding: "5px", textAlign: "right" }}>
+                <Typography.Text strong style={{ color: "white" }}>
+                    {this.state.data?.emplishment.toFixed(2)}
+                  </Typography.Text>
                 </td>
               </tr>
               <tr>
@@ -206,7 +175,7 @@ export default class CostingSummary extends Component<
                 <td></td>
                 <td style={{ padding: "5px", textAlign: "right" }}>
                   <Typography.Text strong style={{ color: "white" }}>
-                    {this.state.data?.accessories}
+                    {this.state.data?.accessories.toFixed(2)}
                   </Typography.Text>
                 </td>
               </tr>
@@ -224,19 +193,16 @@ export default class CostingSummary extends Component<
                 <td></td>
                 <td style={{ padding: "5px", textAlign: "right" }}>
                   <Typography.Text strong style={{ color: "white" }}>
-                    {this.state.data?.transport?.toFixed(2)}
+                    {
+                      this.state.data?.transport?.toFixed(2)
+                    }
                   </Typography.Text>
                 </td>
               </tr>
               <tr>
                 <th>Garment Cost</th>
                 <td>
-                  <Form.Item
-                    noStyle
-                    name='garmentCost'
-                    initialValue={this.state.data?.gmtRejection}>
-                    <Input></Input>
-                  </Form.Item>
+                
                 </td>
                 <td style={{ padding: "5px", textAlign: "right" }}>
                   <Typography.Text strong style={{ color: "white" }}>
@@ -250,7 +216,7 @@ export default class CostingSummary extends Component<
                   <Form.Item
                     noStyle
                     name='gmtRejectionPercent'
-                    initialValue={this.state.data?.gmtRejection}>
+                    initialValue={this.state.data?.gmtRejectionPercent}>
                     <Input></Input>
                   </Form.Item>
                 </td>
@@ -282,7 +248,7 @@ export default class CostingSummary extends Component<
                   <Form.Item
                     noStyle
                     name='profitPercent'
-                    initialValue={this.state.data?.profit}>
+                    initialValue={this.state.data?.profitPercent}>
                     <Input></Input>
                   </Form.Item>
                 </td>
@@ -298,7 +264,7 @@ export default class CostingSummary extends Component<
                   <Form.Item
                     noStyle
                     name='commissionPercent'
-                    initialValue={this.state.data?.commission}>
+                    initialValue={this.state.data?.commissionPercent}>
                     <Input></Input>
                   </Form.Item>
                 </td>

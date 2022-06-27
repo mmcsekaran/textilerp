@@ -47,8 +47,10 @@ import {
 } from "./Costing/Blocks/EmplishmentEditor";
 import { ModalEditor } from "./Costing/component/Editor";
 import TrimsCosting, { actionType, TrimsCost } from "./Costing/Blocks/TrimsCosting";
-import CostingSummary from "./Costing/Blocks/CostingSummary";
+import CostingSummary, { CostingSummaryData } from "./Costing/Blocks/CostingSummary";
 import CMTCosting, { CMTCost } from "./Costing/Blocks/CMTCosting";
+import Emplishment, { EmplishmentType } from "./Costing/Blocks/Emplishment";
+import ProfitSummary from "./Costing/Blocks/ProfitSummary";
 
 export interface SampleCostingProps {
   costingNo: number;
@@ -140,7 +142,8 @@ interface SampleCostingState {
   showCmtEditor: boolean;
   cmtCosting: CMTCost | undefined;
   showEmpEditor: { visible: boolean; value?: EmplishmentCostingFormData };
-  empCosting: Array<EmplishmentCostingFormData>;
+  empCosting: EmplishmentType ;
+  costingSummary:CostingSummaryData
 }
 
 interface CostingFabricData {
@@ -166,51 +169,7 @@ export default class SampleCosting extends React.Component<
 > {
  
   private printCosting: React.RefObject<ReactElement>;
-  addEmplishment = (
-    oldvalue: EmplishmentCostingFormData,
-    value: EmplishmentCostingFormData
-  ) => {
-    const empData = [...this.state.empCosting];
-    console.log(empData);
-    let val: EmplishmentCostingFormData = {
-      id: -1,
-      key: "",
-      comboName: "",
-      componentName: "",
-      portion: "",
-      emplishment: "",
-      empRate: 0,
-    };
-    Object.assign(val, value);
-    const dupKey = this.state.empCosting.findIndex(
-      (p) => p.key === val.key && val.id === -1
-    );
-
-    console.log(dupKey);
-
-    if (dupKey > -1) {
-      message.error("Error");
-    } else {
-      if (val.id === -1) {
-        val.id = empData.length;
-        empData.push(val);
-      } else {
-        empData.splice(val.id, 1, val);
-      }
-      this.setState({ empCosting: empData });
-    }
-  };
-  removeEmplishment = (key: React.Key) => {
-    Modal.confirm({
-      title: "Delete Emplishment",
-      centered: true,
-      onOk: () => {
-        const cmtData = this.state.empCosting.filter((d) => d.key != key);
-
-        this.setState({ empCosting: cmtData });
-      },
-    });
-  };
+ 
   onChangeTrims = ( value?: TrimsCost | undefined) => 
   {
     console.log(value)
@@ -221,11 +180,33 @@ export default class SampleCosting extends React.Component<
     console.log("CMT Changer = ",value)
     this.setState({...this.state,cmtCosting:value})
   }
+  onUpdateEmplishment = (value: EmplishmentType) =>
+  {
+    this.setState({...this.state,empCosting:value})
+  }
 
   constructor(props: SampleCostingProps) {
     super(props);
     this.printCosting = React.createRef();
     this.state = {
+      costingSummary:
+      {
+        emplishment: 0,
+        testing: 0,
+        accessories: 0,
+        cmt: 0,
+        transport: 0,
+        garmentCost: 0,
+        gmtRejection: 0,
+        adminOH: 0,
+        profit: 0,
+        commission: 0,
+        gmtRejectionPercent: 0,
+        adminOHPercent: 0,
+        profitPercent: 0,
+        commissionPercent: 0,
+        total: 0,
+      },
       costingData: defaultCostingData,
       showEditor: false,
       imageLoading: false,
@@ -234,7 +215,7 @@ export default class SampleCosting extends React.Component<
       showCmtEditor: false,
       cmtCosting: {subTotal:0,total:0,profit:0,cmtData:[]},
       showEmpEditor: { visible: false },
-      empCosting: [],
+      empCosting: {total:0,data:[]},
     };
   }
 
@@ -363,238 +344,15 @@ export default class SampleCosting extends React.Component<
             {/* Summary Pages */}
             <Row gutter={10}>
               <Col md={6}>
-                <CostingSummary accessories={this.state.trimsCosting?.total} cmt = {this.state.cmtCosting?.total}/>
+                <CostingSummary accessories={this.state.trimsCosting?.total} cmt = {this.state.cmtCosting?.total} emplishment = {this.state.empCosting.total} transport ={10} onChange = {(value) =>
+                {
+                  this.setState({costingSummary:value})
+                }}/>
               </Col>
 
-              <Col md={6}>
-                <div className="summary-costing">
-                  <table className="summary-costing">
-                    <tr>
-                      <th style={{ width: "80px" }}>Summary</th>
-                      <th style={{ width: "80px" }}></th>
-                      <th style={{ width: "120px" }}>Cost</th>
-                    </tr>
-
-                    <tr>
-                      <th>Digital Print</th>
-                      <td></td>
-                      <td>
-                        <Input></Input>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Emproidery</th>
-                      <td></td>
-                      <td>
-                        <Input></Input>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Testing</th>
-                      <td></td>
-                      <td>
-                        <Input></Input>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Accessories</th>
-                      <td></td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>CMT</th>
-                      <td></td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Transport</th>
-                      <td></td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Garment Cost</th>
-                      <td>
-                        <Input></Input>
-                      </td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>GMT Rejection</th>
-                      <td>
-                        <Input></Input>
-                      </td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Admin & OHS</th>{" "}
-                      <td>
-                        <Input></Input>
-                      </td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Profit</th>{" "}
-                      <td>
-                        <Input></Input>
-                      </td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th>Commission</th>{" "}
-                      <td>
-                        <Input></Input>
-                      </td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th>Total</th>
-                      <td></td>
-                      <td style={{ padding: "5px", textAlign: "right" }}>
-                        <Typography.Text strong style={{ color: "white" }}>
-                          0.00
-                        </Typography.Text>
-                      </td>
-                    </tr>
-                  </table>
-                </div>
-              </Col>
+             
               <Col md={12}>
-                <div className="profit-summary">
-                  <table className="profit-summary">
-                    <thead>
-                      <tr>
-                        <th colSpan={2}>Exchange Rate</th>
-                        <th colSpan={2}>Per PCS</th>
-                        <th>PCS/PK</th>
-                        <th colSpan={2}>Pack</th>
-                      </tr>{" "}
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td colSpan={2}>
-                          <Input></Input>
-                        </td>
-                        <td colSpan={2}>
-                          <Input></Input>
-                        </td>
-                        <td>
-                          <Input></Input>
-                        </td>
-                        <td colSpan={2}>
-                          <Input></Input>
-                        </td>
-                      </tr>
-                      <tr>
-                        <th rowSpan={2} colSpan={2}>
-                          Buyer Quote
-                        </th>
-                        <th colSpan={2}>Offered</th>
-                        <th colSpan={2}>Target</th>
-                        <th colSpan={2}>Differece</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>
-                          <Input></Input>
-                        </th>
-                        <th colSpan={2}>
-                          <Input></Input>
-                        </th>
-                        <th colSpan={2}>
-                          <Input></Input>
-                        </th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>Percentage</th>
-                        <th>Margin/PC</th>
-                        <th>INR/PC</th>
-                        <th>USD/PC</th>
-                        <th colSpan={2}>USD/Pack</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>5%</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th colSpan={2}>0</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>10%</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th colSpan={2}>0</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>15%</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th colSpan={2}>0</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>20%</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th colSpan={2}>0</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>25%</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th colSpan={2}>0</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>30%</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th colSpan={2}>0</th>
-                      </tr>
-                      <tr>
-                        <th colSpan={2}>35%</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th>0</th>
-                        <th colSpan={2}>0</th>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+               <ProfitSummary costingSummary={this.state.costingSummary} />
               </Col>
             </Row>
             <Row>
@@ -722,109 +480,7 @@ export default class SampleCosting extends React.Component<
                 <div
                   style={{ padding: "10px", width: "100%", height: "50px" }}
                 ></div>
-                <Table
-                  pagination={false}
-                  title={() => (
-                    <>
-                      <Typography.Text strong style={{ fontSize: "14pt" }}>
-                        Emplishments
-                      </Typography.Text>
-                      <Button
-                        onClick={() => {
-                          // this.setState({showEmpEditor:{visible:true,value:undefined}})
-
-                          showEditor({
-                            visible: true,
-                            onCancel: () => {},
-                            onSave: this.addEmplishment,
-                          });
-                        }}
-                        type="primary"
-                        style={{ float: "right" }}
-                      >
-                        Add
-                      </Button>
-                    </>
-                  )}
-                  columns={[
-                    {
-                      title: "S.No",
-                      width: 50,
-                      align: "center",
-                      render(value, record, index) {
-                        return <>{index + 1}</>;
-                      },
-                    },
-                    {
-                      title: "Combo",
-                      width: 120,
-                      align: "left",
-                      dataIndex: "comboName",
-                    },
-                    {
-                      title: "Component",
-                      width: 120,
-                      align: "left",
-                      dataIndex: "componentName",
-                    },
-                    {
-                      title: "Portion",
-                      width: 120,
-                      align: "left",
-                      dataIndex: "portion",
-                    },
-                    {
-                      title: "Emplishments",
-                      align: "left",
-                      dataIndex: "emplishment",
-                      render: (value, record, index) => {
-                        return (
-                          <Button
-                            type="link"
-                            onClick={() => {
-                              showEditor({
-                                visible: true,
-                                onCancel: () => {},
-                                onSave: this.addEmplishment,
-                                value: record,
-                              });
-                            }}
-                          >
-                            {value}
-                          </Button>
-                        );
-                      },
-                    },
-                    {
-                      title: "Rate",
-                      width: 80,
-                      align: "left",
-                      dataIndex: "empRate",
-                    },
-                    {
-                      title: "",
-                      width: 80,
-                      align: "center",
-                      dataIndex: "action",
-                      render: (value, record, index) => {
-                        return (
-                          <>
-                            <Button
-                              onClick={() => {
-                                this.removeEmplishment(record.key);
-                              }}
-                              type="text"
-                              block
-                              icon={<DeleteOutlined />}
-                            ></Button>
-                          </>
-                        );
-                      },
-                    },
-                  ]}
-                  dataSource={this.state.empCosting}
-                  footer={() => <>Name</>}
-                ></Table>
+                  <Emplishment onChange={this.onUpdateEmplishment} />
               </Col>
             </Row>
             <Row gutter={10} style={{ marginTop: "10px" }}>
@@ -860,12 +516,7 @@ export default class SampleCosting extends React.Component<
             }}
           ></SampleCostingEditorModal>
 
-          <EmplishmentCostingEditor
-            value={this.state.showEmpEditor.value}
-            visible={this.state.showEmpEditor.visible}
-            onCancel={() => this.showEmpEditor(false)}
-            onSave={this.addEmplishment}
-          />
+         
         </Form.Provider>
       </div>
     );

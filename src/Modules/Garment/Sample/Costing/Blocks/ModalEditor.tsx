@@ -1,10 +1,24 @@
 import { Modal } from 'antd'
-import React, { Component } from 'react'
+import React, { Component, ReactNode } from 'react'
 
-export default class ModalEditor extends Component {
+type ModalEditorProps =
+{
+  title?:string,
+  children?:ReactNode | ReactNode[],
+  show:boolean
+
+}
+
+export default class ModalEditor extends React.Component<ModalEditorProps> {
   render() {
     return (
-      <div>ModalEditor</div>
+     <Modal
+        visible = {this.props.show}
+        destroyOnClose
+        title = {this.props.title}
+     >
+      {this.props.children}
+     </Modal>
     )
   }
 }

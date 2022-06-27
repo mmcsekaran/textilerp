@@ -74,7 +74,7 @@ import { ModalEditorProps } from '../interface/ModalEditorProps';
           }
         },
           content:React.cloneElement(props.content,{getForm:setForm,onSubmit:onSubmit}),
-          okButtonProps:{htmlType:'submit'}
+       
         }
         ,
         
