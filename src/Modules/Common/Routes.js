@@ -37,6 +37,7 @@ import Uommaster from '../Master/Accessories/Uommaster'
 import Styleitem from '../Master/Styleitem'
 import Approvalpassword from '../Master/Setup/Approvalpassword'
 import Digitalsignature from '../Master/Setup/Digitalsignature'
+import OrderEntry from './../Garment/Merchant/Order/OrderEntry';
 export default function AppRouters() {
   return (
         <Routes>
@@ -91,6 +92,10 @@ export default function AppRouters() {
               </Route>
                 <Route path='sample/' element= {<Outlet></Outlet>}>
                     <Route path = '/garment/sample/techpack' element = {<SampleConsting ></SampleConsting>} />
+                    
+              </Route>
+              <Route path='order/' element= {<Outlet></Outlet>}>
+                    <Route path = '/garment/order/new' element = {<OrderEntry ></OrderEntry>} />
                     
               </Route>
             </Route>

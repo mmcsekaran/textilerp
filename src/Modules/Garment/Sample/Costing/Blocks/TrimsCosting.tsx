@@ -42,7 +42,7 @@ export default class TrimsCosting extends React.Component<TrimsCostProps, TrimsC
     }
   }
 
-  addTrims = (prevValue: TrimsCostingFormData, value: TrimsCostingFormData) => {
+  addTrims = (prevValue?: TrimsCostingFormData, value?: TrimsCostingFormData) => {
     const cmtData = [...this.state.trimsData]
     console.log(cmtData)
     let val: TrimsCostingFormData =

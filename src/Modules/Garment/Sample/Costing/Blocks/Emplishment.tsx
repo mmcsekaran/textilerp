@@ -19,8 +19,8 @@ export default class Emplishment extends Component<EmplishmentProps,EmplishmentT
 
   //#region finction
   addEmplishment = (
-    oldvalue: EmplishmentCostingFormData,
-    value: EmplishmentCostingFormData
+    oldvalue?: EmplishmentCostingFormData,
+    value?: EmplishmentCostingFormData
   ) => {
     const empData = [...this.state.data];
     console.log(empData);

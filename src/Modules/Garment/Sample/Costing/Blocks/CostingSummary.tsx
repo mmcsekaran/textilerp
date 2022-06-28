@@ -3,7 +3,7 @@ import React, { ChangeEventHandler, Component } from "react";
 import Data from "../../../../Master/Data";
 
 interface CostingSummaryProps {
-  defaultValue?: CostingSummaryData ;
+  value?: CostingSummaryData ;
   accessories?:number,
   cmt?:number,
   transport:number,
