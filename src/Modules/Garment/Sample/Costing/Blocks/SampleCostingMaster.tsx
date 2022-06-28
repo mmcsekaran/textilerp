@@ -125,7 +125,7 @@ export default class SampleCostingMaster extends Component {
                 </Row>
               </Col>
             </Row>
-            {/* Summary Pages */}
+            {/* Summary Pages*/ }
             <Row gutter={10}>
               <Col md={8}>
                 <CostingSummary accessories={this.state.trimsCosting?.total} cmt = {this.state.cmtCosting?.total} emplishment = {this.state.empCosting.total} transport ={10} onChange = {(value) =>

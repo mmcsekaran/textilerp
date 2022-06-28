@@ -37,6 +37,7 @@ import Uommaster from '../Master/Accessories/Uommaster'
 import Styleitem from '../Master/Styleitem'
 import Approvalpassword from '../Master/Setup/Approvalpassword'
 import Digitalsignature from '../Master/Setup/Digitalsignature'
+import Allowancesetup from '../Master/Setup/Allowancesetup'
 export default function AppRouters() {
   return (
         <Routes>
@@ -59,6 +60,7 @@ export default function AppRouters() {
                   <Route path='/master/setup/approvalmaster' element = { <Approvalmaster></Approvalmaster>} />
                   <Route path='/master/setup/approvalpassword' element = { <Approvalpassword></Approvalpassword> } />
                   <Route path='/master/setup/digitalsignature' element = { <Digitalsignature></Digitalsignature>} />
+                  <Route path='/master/setup/allowancesetup' element = { <Allowancesetup></Allowancesetup> } />
                   <Route path='/master/yarn/yarncount' element = { <Yarncount></Yarncount>} />
                   <Route path='/master/yarn/countmaster' element = { <Countmaster></Countmaster>} />
                   <Route path='/master/yarn/yarntype' element = { <Yarntype></Yarntype>} />

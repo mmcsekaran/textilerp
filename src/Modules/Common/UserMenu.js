@@ -67,6 +67,7 @@ export default function UserMenu() {
                     <Menu.Item><Link to='/master/setup/approvalmaster'>Approvalmaster</Link></Menu.Item>
                     <Menu.Item><Link to='/master/setup/approvalpassword'>Approvalpassword</Link></Menu.Item>
                     <Menu.Item><Link to="/master/setup/digitalsignature">Digitalsignature</Link></Menu.Item>
+                    <Menu.Item><Link to='/master/setup/allowancesetup'>Allowance Setup</Link></Menu.Item>
                 </Menu.SubMenu>
                 
                 <Menu.SubMenu title={"Material"}>

@@ -88,7 +88,6 @@ export default function Digitalsignature () {
                             label='Signature'
                             >
                                 <Upload
-                                listType="picture-card"
                                 fileList={fileList}
                                 onPreview={handlePreview}
                                 onChange={handleChange}
