@@ -4,7 +4,7 @@ import ComingSoon from '../../Pages/ErrorPage/ComingSoon'
 import Unautherize from '../../Pages/ErrorPage/Unautherize'
 
 import UserRole from '../User/UserRole'
-import AdminSetup from'../Master/AdminSetup'
+import AdminSetup from'../Master/Setup/AdminSetup'
 import Yarncount from '../Master/Yarn/Yarncount'
 import Countmaster from '../Master/Yarn/Countmaster'
 import Yarntype from '../Master/Yarn/Yarntype'
@@ -26,15 +26,17 @@ import Processgroup from '../Master/Processgroup'
 import Departmentmaster from '../Master/Departmentmaster'
 import { Content } from 'antd/lib/layout/layout'
 import Contentmaster from '../Master/Fabric/Contentmaster'
-import Accessories from '../Master/Accessories'
-import Buyeraccdesc from '../Master/Buyeraccdesc'
+import Accessories from '../Master/Accessories/Accessories'
+import Buyeraccdesc from '../Master/Accessories/Buyeraccdesc'
 import Designmaster from '../Master/Designmaster'
-import Sizemaster from '../Master/Sizemaster'
-import Approvalmaster from '../Master/Approvalmaster'
+import Sizemaster from '../Master/Accessories/Sizemaster'
+import Approvalmaster from '../Master/Setup/Approvalmaster'
 import Styleno from '../Master/Styleno'
 import Portionmaster from '../Master/Portionmaster'
-import Uommaster from '../Master/Uommaster'
+import Uommaster from '../Master/Accessories/Uommaster'
 import Styleitem from '../Master/Styleitem'
+import Approvalpassword from '../Master/Setup/Approvalpassword'
+import Digitalsignature from '../Master/Setup/Digitalsignature'
 export default function AppRouters() {
   return (
         <Routes>
@@ -54,7 +56,9 @@ export default function AppRouters() {
               <Route path='/master/buyermaster' element = { <Buyermaster></Buyermaster>} />
               <Route path='/master/processmaster' element = { <Processmaster></Processmaster>} />
                   <Route path='/master/setup/adminsetup' element = { <AdminSetup></AdminSetup> }/>
-                  <Route path='/master/approvalmaster' element = { <Approvalmaster></Approvalmaster>} />
+                  <Route path='/master/setup/approvalmaster' element = { <Approvalmaster></Approvalmaster>} />
+                  <Route path='/master/setup/approvalpassword' element = { <Approvalpassword></Approvalpassword> } />
+                  <Route path='/master/setup/digitalsignature' element = { <Digitalsignature></Digitalsignature>} />
                   <Route path='/master/yarn/yarncount' element = { <Yarncount></Yarncount>} />
                   <Route path='/master/yarn/countmaster' element = { <Countmaster></Countmaster>} />
                   <Route path='/master/yarn/yarntype' element = { <Yarntype></Yarntype>} />
@@ -67,10 +71,10 @@ export default function AppRouters() {
                   <Route path='/master/city' element = { <Citylist></Citylist>} />
                   <Route path='/master/processgroup' element = { <Processgroup></Processgroup>} />
                   <Route path='/master/departmentmaster' element = { <Departmentmaster></Departmentmaster>} />
-                  <Route path='/master/accessories' element = { <Accessories></Accessories>} />
-                  <Route path='/master/buyeraccdesc' element = { <Buyeraccdesc></Buyeraccdesc>} />
-                  <Route path='/master/uommaster' element = { <Uommaster></Uommaster>} />
-                  <Route path='/master/sizemaster' element = { <Sizemaster></Sizemaster>} />
+                  <Route path='/master/accessories/accessories' element = { <Accessories></Accessories>} />
+                  <Route path='/master/accessories/buyeraccdesc' element = { <Buyeraccdesc></Buyeraccdesc>} />
+                  <Route path='/master/accessories/uommaster' element = { <Uommaster></Uommaster>} />
+                  <Route path='/master/accessories/sizemaster' element = { <Sizemaster></Sizemaster>} />
                   <Route path ='/master/*' element = {<Unautherize></Unautherize>} />
                   <Route path='/master/*' element = {<Unautherize></Unautherize>} />
                   <Route path='/master/styleno' element = {<Styleno></Styleno>} />

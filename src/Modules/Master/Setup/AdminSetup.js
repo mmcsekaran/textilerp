@@ -77,7 +77,6 @@ export default class
                 </div>
               </Col>
             </Row>
-
           </div>
         </div>
       </div>
