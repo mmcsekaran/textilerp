@@ -1,6 +1,6 @@
 import { PlusCircleOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { Button, Col, Form, FormInstance, Input, Modal, Row, Select, Typography } from 'antd';
-import React, { useState } from 'react'
+import React, { Component, ReactElement, useState } from 'react'
 import TrimsPlan from '../../TrimsPlan';
 import { ModalEditorProps } from '../interface/ModalEditorProps';
 
@@ -28,60 +28,120 @@ import { ModalEditorProps } from '../interface/ModalEditorProps';
 
  }
 
- export const showCMTCostingEditor = ( props:ModalEditorProps<CMTCostingFormData>= {visible:true,onCancel:()=>{},onSave:()=>{},value:DEFAULT_VALUE})  =>
+ export const ModalEditor:{open:(props:EditorProps<CMTCostingFormData>)=> void} =
  {
-
-    const {
-      visible = true,
-      value = DEFAULT_VALUE
-    } = props
-  var form:FormInstance<any>
-   const getForm = (frm:FormInstance<any>)=>
-   {
-      form = frm ;
-   } 
+  open :() => 
+  {
     
-   Modal.confirm(
-    {
-      visible:props.visible,
-      centered:true,
-      closable:true,
-      icon:null,
-      title:'Emplishment',
-      width:"600px",
-      onOk:() =>
-      {
-        form.validateFields().then(
-          value =>
-          {
-           const  frmData:CMTCostingFormData = props.value ? props.value : DEFAULT_VALUE ;
-            frmData.comboName = value.comboName ;
-            frmData.componentName = value.componentName;
-            frmData.cmtName = value.cmtName ;
-            frmData.cmtRate = value.cmtRate;
-           
-            
-            frmData.key = value.comboName + value.componentName +value.cmtName 
-            form.resetFields();
-            props.onSave(props.value ? props.value : DEFAULT_VALUE,frmData);
-            form.submit()
-          }
-        )
-        
-      },
-      content:<CMTCostingEditor value={props.value} onChange={getForm}></CMTCostingEditor>
-    }
-   )
+  },
+
  }
 
- export const CMTCostingEditor: React.FC<{value?:CMTCostingFormData,onChange?:(form:FormInstance<any>) => void}> = (props) => {
+ ModalEditor.open = (props:EditorProps<CMTCostingFormData>)  =>
+{
+  var form:FormInstance<any> 
+  var visible:boolean  = true;
+  const setForm:(value:FormInstance<any>) => void =(value:FormInstance<any>) =>
+  {
+    form = value
+  }
+ const onSubmit = (value:any) =>
+  {
+    console.log(value)
+    modal.destroy();
+  }
+ const modal = Modal.confirm(
+        {
+          centered:true,
+          closable:true,
+          icon:null,
+          title:'CMT Details',
+          width:"600px",
+          onOk:() =>
+          {
+            if(form)
+            {
+            form.validateFields().then
+            (
+              value => 
+              {
+                if(props.onOk)  props.onOk(value) 
+                console.log(value)
+              }
+            )
+           
+            
+          }
+        },
+          content:React.cloneElement(props.content,{getForm:setForm,onSubmit:onSubmit}),
+       
+        }
+        ,
+        
+       )
+     }
+
+
+
+//  showCMTCostingEditor.open = ( props:ModalEditorProps<CMTCostingFormData>= {visible:true,onCancel:()=>{},onSave:()=>{},value:DEFAULT_VALUE})  =>
+//  {
+
+
+//     const {
+//       visible = true,
+//       value = DEFAULT_VALUE
+//     } = props
+//     var form:FormInstance<any>
+//    const getForm = (frm:FormInstance<any>)=>
+//    {
+//       form = frm ;
+//    } 
+    
+//    Modal.confirm(
+//     {
+//       visible:props.visible,
+//       centered:true,
+//       closable:true,
+//       icon:null,
+//       title:'CMT Details',
+//       width:"600px",
+//       onOk:() =>
+//       {
+//         form.validateFields().then(
+//           value =>
+//           {
+//            const  frmData:CMTCostingFormData = props.value ? props.value : DEFAULT_VALUE ;
+//             frmData.comboName = value.comboName ;
+//             frmData.componentName = value.componentName;
+//             frmData.cmtName = value.cmtName ;
+//             frmData.cmtRate = value.cmtRate;
+           
+            
+//             frmData.key = value.comboName + value.componentName +value.cmtName 
+//             form.resetFields();
+//             props.onSave(props.value ? props.value : DEFAULT_VALUE,frmData);
+//             form.submit()
+//           }
+//         )
+        
+//       },
+//       content:<CMTCostingEditorComponent value={props.value} onChange={getForm}></CMTCostingEditorComponent>
+//     }
+//    )
+//  }
+
+ export const CMTCostingEditorComponent: React.FC<{value?:CMTCostingFormData,getForm?:(form:FormInstance<any>) => void,onSubmit?:(value:any) => void}> = (props) => {
 
   const [myform] = Form.useForm();
 
- if(props.onChange)
-      props.onChange(myform);
+ if(props.getForm)
+      props.getForm(myform);
   return (<Form layout="vertical" 
-
+    onFinish={(value) =>
+    {
+      console.log(value)
+      if(props.onSubmit) props.onSubmit(value)
+    }}
   form={myform}>
    
       <Row gutter={10} justify='space-between'>
@@ -125,9 +185,35 @@ import { ModalEditorProps } from '../interface/ModalEditorProps';
       </Row>
           
            
-      
+      <Button style={{float:'right'}} htmlType='submit' >Submit</Button>
 
   </Form>  );
 };
 
+
+interface EditorProps<T>
+{
+  defaultValue?:T
+  onOk?:(value:T) => void,
+  onCancel?: (value:T) => void,
+  content:ReactElement
+}
+
+// class CMTCostingEditorClass<T>
+// {
+//   open =(props:ModalEditorProps<T>) =>
+//   {
+      
+//   }
+
+//   onValueChange = (value:T) =>
+//   {
+
+//   }
+//   private renderModal()
+//   {
+//     return (React.cloneElement(this.props.))
+//   }
+
+// }
 
