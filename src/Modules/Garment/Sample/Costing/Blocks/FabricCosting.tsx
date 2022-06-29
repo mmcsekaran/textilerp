@@ -66,7 +66,7 @@ export default class FabricCosting extends Component<FabricCostingTypeProps,Fabr
   addFabricComponent = (prevValue?: FabricComponent | undefined, newValue?: FabricComponent | undefined) => 
   {
     
-    const data = this.state.data ;
+    const data = {...this.state.data} ;
 
     console.log(data)
     const components = [...data.fabricComponent]
@@ -81,27 +81,43 @@ export default class FabricCosting extends Component<FabricCostingTypeProps,Fabr
             data.totalCost = data.totalCost + cm.totalProcessRate ;
         })
 
-        data.fabricComponent = [...components];
-this.setState({...this.state,data:data});
+        data.fabricComponent = [...components]
+       
+        console.log("add before set state");
+     
+this.setState({...this.state,data:data},()=>
+{
+  this.forceUpdate()
+  console.log("add set state call back");
+});
+console.log("add after set state");
     if(this.props.onChange)
     {
         this.props.onChange(data);
     }
-console.log(data);
+console.log("add Finished");
     
   };
 
   
 
+ shouldComponentUpdate(_:any,nextstate:any)
+ {
+    if(this.state !== nextstate) return true;
+    return false;
+ }
+
   render() {
+    console.log("Render",this.state.data)
     return (
       <div>
-        <Table
+        {this.state.data.fabricComponent.map(e => <>{e.cad}</>)}
+        <Table<FabricComponent>
                   pagination={false}
                   title={() => (
                     <>
                       <Typography.Text strong style={{ fontSize: "14pt" }}>
-                        Fabric Details
+                        {this.state.data.fabricComponent.length}
                       </Typography.Text>
                       <Button
                         onClick={() => {

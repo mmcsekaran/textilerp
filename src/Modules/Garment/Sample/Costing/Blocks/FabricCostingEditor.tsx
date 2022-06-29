@@ -69,7 +69,7 @@ if(getRef)
 {
     getRef(
         {
-            finish:() => {
+            finish:(callBack) => {
                  let formData: FabricComponent = {
                               totalProcessLoss:0,
                               componentCost:0,
@@ -91,7 +91,7 @@ if(getRef)
                   
                         
                             form.resetFields();
-                            return formData ;
+                            callBack(formData) ;
             })
             
            return formData ;
@@ -297,7 +297,7 @@ if(getRef)
 
   type EditorChildRef<T> =
   {
-    finish:() => T
+    finish:(callBack:(value:T) => void) => void
   }
 
   export const showFabricEditor = (props:ModalEditorProps<FabricComponent> )  =>
@@ -316,10 +316,14 @@ if(getRef)
       width:"600px",
       onOk:() =>
       {
-       
-        const data  = childRef.finish()
-        props.onSave(props.value,data)
-        
+         childRef.finish(
+          value =>
+          {
+            const data = value ;
+            props.onSave(props.value,data) 
+          }
+         )
+      
       },
       content:<SampleCostingEditorModal getRef = {(ref) =>
     {
