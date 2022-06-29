@@ -16,6 +16,7 @@ export interface SampleCostingFormData {
     totalProcessLoss: number;
     totalProcessRate: number;
     processTemplate?: string;
+    cadCost:number
   }
   
   interface SampleCostingEditorProps {
@@ -80,15 +81,21 @@ if(getRef)
                 form.validateFields().then((res) => {
                            
                   
-                            formData.componentName = res.component;
+                            formData.componentName = res.componentName;
                             formData.panelName = res.panelName;
-                            formData.cad = res.cad;
+                            formData.cad = parseFloat(res.cad);
                             formData.fabric = res.fabric;
                             formData.totalProcessLoss = processLoss;
                             formData.totalProcessRate = processRate;
                             formData.processList = [...res.processList]
-                            formData.processTemplate = processTemplate;
-                  
+                            formData.processList.forEach(e => 
+                              {
+                                formData.processTemplate += e.processName ? e.processName.toString().substring(0,2):''
+                                formData.totalProcessRate += e.processRate ;
+                                formData.totalProcessLoss += e.processLoss ;
+                              })
+                            
+                            formData.componentCost  = formData.totalProcessRate * (formData.cad/1000)
                         
                             form.resetFields();
                             callBack(formData) ;
