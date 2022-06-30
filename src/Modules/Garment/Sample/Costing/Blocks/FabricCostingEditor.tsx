@@ -1,6 +1,6 @@
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Form, FormInstance, Input, Modal, Row, Select, Typography } from "antd";
-import React, { useState } from "react";
+import React, { RefObject, useImperativeHandle, useState } from "react";
 import { ModalEditorProps } from "../interface/ModalEditorProps";
 import { FabricComponent, FabricProcess } from "./FabricCosting";
 
@@ -22,13 +22,9 @@ export interface SampleCostingFormData {
   interface SampleCostingEditorProps {
     value?: FabricComponent;
     onChange?: (value?: FabricComponent) => void;
-    getRef?:(ref:EditorChildRef<FabricComponent>) => void;
+    ref?:RefObject<EditorChildRef<FabricComponent>>;
   }
-const SampleCostingEditorModal: React.FC<SampleCostingEditorProps> = ({
-    value,
-    onChange,
-    getRef
-  }) => {
+const SampleCostingEditorModal = React.forwardRef((props:SampleCostingEditorProps,ref)  => {
     const [form] = Form.useForm();
     const [processLoss, setProcessLoss] = useState(0);
     const [processRate, setProcessRate] = useState(0);
@@ -66,47 +62,46 @@ const SampleCostingEditorModal: React.FC<SampleCostingEditorProps> = ({
 
 
     };
-if(getRef)
-{
-    getRef(
-        {
-            finish:(callBack) => {
-                 let formData: FabricComponent = {
-                              totalProcessLoss:0,
-                              componentCost:0,
-                              totalProcessRate: 0,
-                              cad: 0,
-                              key:''
-                            };
-                form.validateFields().then((res) => {
-                           
-                  
-                            formData.componentName = res.componentName;
-                            formData.panelName = res.panelName;
-                            formData.cad = parseFloat(res.cad);
-                            formData.fabric = res.fabric;
-                            formData.totalProcessLoss = processLoss;
-                            formData.totalProcessRate = processRate;
-                            formData.processList = [...res.processList]
-                            formData.processList.forEach(e => 
-                              {
-                                formData.processTemplate += e.processName ? e.processName.toString().substring(0,2):''
-                                formData.totalProcessRate += e.processRate ;
-                                formData.totalProcessLoss += e.processLoss ;
-                              })
-                            
-                            formData.componentCost  = formData.totalProcessRate * (formData.cad/1000)
-                        
-                            form.resetFields();
-                            callBack(formData) ;
-            })
-            
-           return formData ;
-        }
-    }
+
+    useImperativeHandle(ref,() =>(
+      {
+        finish:(callBack: (value: FabricComponent) => void) => {
+          let formData: FabricComponent = {
+                       totalProcessLoss:0,
+                       componentCost:0,
+                       totalProcessRate: 0,
+                       cad: 0,
+                       key:''
+                     };
+         form.validateFields().then((res) => {
+                    
+           
+                     formData.componentName = res.componentName;
+                     formData.panelName = res.panelName;
+                     formData.cad = parseFloat(res.cad);
+                     formData.fabric = res.fabric;
+                     formData.totalProcessLoss = processLoss;
+                     formData.totalProcessRate = processRate;
+                     formData.processList = [...res.processList]
+                     formData.processList.forEach(e => 
+                       {
+                         formData.processTemplate += e.processName ? e.processName.toString().substring(0,2):''
+                         formData.totalProcessRate += e.processRate ;
+                         formData.totalProcessLoss += e.processLoss ;
+                       })
+                     
+                     formData.componentCost  = formData.totalProcessRate * (formData.cad/1000)
+                 
+                     form.resetFields();
+                     callBack(formData) ;
+     })
+     
+    
+ }
+      }),[]);
          
-    )
-}
+
+
 
     return (
     //   <Modal
@@ -150,10 +145,10 @@ if(getRef)
     //       });
     //     }}
     //   >
-        <Form layout="vertical" onValuesChange={valueChange} form={form}>
+        <Form  layout="vertical" onValuesChange={valueChange} form={form}>
           <Row gutter={10}>
             <Col md={8}>
-              <Form.Item label="Component" name={"componentName"}>
+              <Form.Item  label="Component" name={"componentName"}>
                 <Select>
                   <Select.Option value={"top"}>Top</Select.Option>
                   <Select.Option value={"pant"}>Pant</Select.Option>
@@ -299,18 +294,19 @@ if(getRef)
         </Form>
     //   </Modal>
     );
-  };
+  }
+  )
 
 
   type EditorChildRef<T> =
   {
     finish:(callBack:(value:T) => void) => void
-  }
+  } | undefined
 
   export const showFabricEditor = (props:ModalEditorProps<FabricComponent> )  =>
  {
 
-  var childRef:EditorChildRef<FabricComponent>;
+  var childRef = React.createRef<EditorChildRef<FabricComponent>>();
   
     
    Modal.confirm(
@@ -323,19 +319,17 @@ if(getRef)
       width:"600px",
       onOk:() =>
       {
-         childRef.finish(
+        console.log(childRef.current)
+        if(childRef) { childRef.current?.finish(
           value =>
           {
             const data = value ;
             props.onSave(props.value,data) 
           }
          )
-      
+        }
       },
-      content:<SampleCostingEditorModal getRef = {(ref) =>
-    {
-        childRef = ref;   
-    }} value={props.value}  
+      content:<SampleCostingEditorModal ref = {childRef} 
       
      ></SampleCostingEditorModal>
     }
