@@ -1,6 +1,8 @@
 import { PlusCircleOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Form, FormInstance, Input, Modal, Row, Select, Typography } from "antd";
+import Search from "antd/lib/transfer/search";
 import React, { RefObject, useImperativeHandle, useState } from "react";
+import { SearchSelect } from "../../../../Common/SearchSelect";
 import { ModalEditorProps } from "../interface/ModalEditorProps";
 import { FabricComponent, FabricProcess } from "./FabricCosting";
 
@@ -179,15 +181,8 @@ const SampleCostingEditorModal = React.forwardRef((props:SampleCostingEditorProp
           <Row>
             <Col md={24}>
               <Form.Item label="Fabric" labelCol={{ span: 3 }} name={"fabric"}>
-                <Select>
-                  <Select.Option value={"top"}>Top</Select.Option>
-                  <Select.Option value={"pant"}>Pant</Select.Option>
-                  <Select.Option value={"shorts"}>Shorts</Select.Option>
-                  <Select.Option value={"headband"}>Head Band</Select.Option>
-                  <Select.Option value={"eyepatch"}>Eye Patch</Select.Option>
-                </Select>
-              </Form.Item>
-            </Col>
+               <SearchSelect timeOut={1000}  fetchOptions={fetchFabric} showSearch  />
+               </Form.Item>            </Col>
           </Row>
   
           <Form.List name={"processList"}>
@@ -334,4 +329,33 @@ const SampleCostingEditorModal = React.forwardRef((props:SampleCostingEditorProp
      ></SampleCostingEditorModal>
     }
    )
+ }
+
+  async function fetchFabric (username:string) 
+ {
+   await setTimeout(() => {
+    return  [
+      {
+        label:"name",
+        value:1
+      },
+      {
+        label:"name1",
+        value:12
+      },
+      {
+        label:"n2ame",
+        value:13
+      },
+      {
+        label:"n3ame",
+        value:14
+      },
+      {
+        label:"n4ame",
+        value:15
+      },
+    ]
+  },500) ;
+    return []
  }
