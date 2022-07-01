@@ -17,16 +17,19 @@ export default class Processmaster extends Component {
                                 layout='horizontal'
                                 >
                                     <Form.Item
+                                    name={'process group'}
                                     label='Process Group'
                                     >
                                         <Select />
                                     </Form.Item>
                                     <Form.Item
+                                    name={'process name'}
                                     label='Process Name'
                                     >
                                         <Select />
                                     </Form.Item>
                                     <Form.Item
+                                    name={'bill qty'}
                                     label='Bill Qty'
                                     >
                                         <Radio.Group>
@@ -39,6 +42,7 @@ export default class Processmaster extends Component {
                                         <Space>
                                         <Col>
                                           <Form.Item
+                                          name={'sequence no'}
                                           label='Sequence No'
                                           >
                                               <Input />
@@ -46,6 +50,7 @@ export default class Processmaster extends Component {
                                         </Col>
                                         <Col>
                                         <Form.Item
+                                        name={'lot req'}
                                         label='Lot Req'
                                         >
                                             <Radio.Group>
@@ -57,11 +62,13 @@ export default class Processmaster extends Component {
                                         </Space>
                                     </Row>
                                     <Form.Item
+                                    name={'tax group'}
                                     label='Tax Group'
                                     >
                                         <Select />
                                     </Form.Item>
                                     <Form.Item
+                                    name={'sales tax group'}
                                     label='Sales Tax Group'
                                     >
                                         <Select />
@@ -72,11 +79,13 @@ export default class Processmaster extends Component {
                                     
                                         <Checkbox>Operation</Checkbox>                                   
                                     <Form.Item
+                                    name={'garment process'}
                                     label='Garment Process'
                                     >
                                         <Select />
                                     </Form.Item>   
                                       <Form.Item
+                                        name={'cost type'}
                                         label='Cost Type'
                                         >
                                             <Radio.Group>
@@ -93,6 +102,7 @@ export default class Processmaster extends Component {
                                         <Row>
                                             <Col span={12}>
                                             <Form.Item
+                                            name={'based on'}
                                             label='Based On'
                                             >
                                                 <Select />
@@ -101,6 +111,7 @@ export default class Processmaster extends Component {
 
                                             <Col span={5}>
                                             <Form.Item
+                                            name={'in'}
                                             label='In'
                                             >
                                                 <Select />
@@ -109,11 +120,13 @@ export default class Processmaster extends Component {
                                         </Row>
 
                                         <Form.Item
+                                        name={'hsn code/sac code'}
                                         label='HSN Code/SAC Code'
                                         >
                                             <Select />
                                         </Form.Item>
                                         <Form.Item
+                                        name={'costing group'}
                                         label='Costing Group '
                                         >
                                             <Select />

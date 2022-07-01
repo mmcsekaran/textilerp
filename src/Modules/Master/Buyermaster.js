@@ -26,6 +26,7 @@ export default class
                                     <Row>
                                         <Col span={18}>
                                             <Form.Item
+                                            name={'buyer name'}
                                             label='Buyer Name'
                                             >
                                                 <Input />
@@ -33,6 +34,7 @@ export default class
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item
+                                            name={'order prefix'}
                                             label='Order prefix'
                                             >
                                                 <Input />
@@ -40,6 +42,7 @@ export default class
                                         </Col>
                                         <Col span={12}>                                   
                                             <Form.Item
+                                            name={'buyer code'}
                                             label='Buyer Code'
                                             >
                                                 <Input />
@@ -47,6 +50,7 @@ export default class
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item
+                                            name={'address'}
                                             label='Address'
                                             >
                                                 <TextArea  />
@@ -54,6 +58,7 @@ export default class
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item
+                                            name={'city'}
                                             label='City'
                                             >
                                                 <Input />
@@ -61,6 +66,7 @@ export default class
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item
+                                            name={'country'}
                                             label='Country'
                                             >
                                                 <Input />
@@ -68,6 +74,7 @@ export default class
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item
+                                            name={'ship allow'}
                                             label='Ship Allow'
                                             >
                                                 <Input />
@@ -76,6 +83,7 @@ export default class
                                         
                                         <Col span={12}>
                                             <Form.Item
+                                            name={'currency'}
                                             label='Currency'
                                             >
                                                 <Select />
@@ -83,6 +91,7 @@ export default class
                                         </Col>
                                         <Col span={12}>
                                             <Form.Item
+                                            name={'tax type'}
                                             label='Tax Type'
                                             >
                                                 <Input />

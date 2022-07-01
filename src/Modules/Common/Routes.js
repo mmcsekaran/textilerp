@@ -38,6 +38,11 @@ import Styleitem from '../Master/Styleitem'
 import Approvalpassword from '../Master/Setup/Approvalpassword'
 import Digitalsignature from '../Master/Setup/Digitalsignature'
 import Allowancesetup from '../Master/Setup/Allowancesetup'
+import Hsncode from '../Master/Setup/Hsncode'
+import Taxtype from '../Master/Finance/Taxtype'
+import Taxgroup from '../Master/Finance/Taxgroup'
+import Addition from '../Master/Finance/Addition'
+
 export default function AppRouters() {
   return (
         <Routes>
@@ -61,6 +66,7 @@ export default function AppRouters() {
                   <Route path='/master/setup/approvalpassword' element = { <Approvalpassword></Approvalpassword> } />
                   <Route path='/master/setup/digitalsignature' element = { <Digitalsignature></Digitalsignature>} />
                   <Route path='/master/setup/allowancesetup' element = { <Allowancesetup></Allowancesetup> } />
+                  <Route path='/master/setup/hsncode' element = { <Hsncode></Hsncode> } />
                   <Route path='/master/yarn/yarncount' element = { <Yarncount></Yarncount>} />
                   <Route path='/master/yarn/countmaster' element = { <Countmaster></Countmaster>} />
                   <Route path='/master/yarn/yarntype' element = { <Yarntype></Yarntype>} />
@@ -82,7 +88,10 @@ export default function AppRouters() {
                   <Route path='/master/styleno' element = {<Styleno></Styleno>} />
                   <Route path='/master/styleitem' element = {<Styleitem></Styleitem>} />
                   <Route path='/master/portionmaster' element = {<Portionmaster></Portionmaster>} />
-              </Route>
+                  <Route path='/master/finance/taxtype' element = { <Taxtype></Taxtype> } />
+                  <Route path='/master/finance/taxgroup' element = { <Taxgroup></Taxgroup>} />
+                  <Route path='/master/finance/addition' element = { <Addition></Addition> } />
+                  </Route>
                 
             
             

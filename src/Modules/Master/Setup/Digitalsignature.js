@@ -80,11 +80,13 @@ export default function Digitalsignature () {
                         }}
                         >
                             <Form.Item
+                            name={'username'}
                             label='User Name'
                             >
                                 <Select />
                             </Form.Item>
                             <Form.Item
+                            name={'signature'}
                             label='Signature'
                             >
                                 <Upload
@@ -106,6 +108,7 @@ export default function Digitalsignature () {
                                 </Modal>
                             </Form.Item>
                             <Form.Item
+                            name={'employee name'}
                             label='Employee Name'
                             >
                                 <Select />

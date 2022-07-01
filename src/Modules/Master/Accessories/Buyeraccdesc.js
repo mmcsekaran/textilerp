@@ -22,6 +22,7 @@ export default class Buyeraccdesc extends Component {
                           <Row>
                           <Col span={12}>
                           <Form.Item
+                          name={'buyer name'}
                           label='Buyer Name'
                           >
                               <Select />
@@ -29,6 +30,7 @@ export default class Buyeraccdesc extends Component {
                           </Col>
                           <Col span={12}>
                           <Form.Item
+                          name={'acc name'}
                           label='Acc Name'
                           >
                               <Select />
@@ -37,6 +39,7 @@ export default class Buyeraccdesc extends Component {
                           </Row>
                           <Col span={12}>
                           <Form.Item
+                          name={'description'}
                           label='Description'
                           >
                               <Input style={{width:"400px"}} size='large' />
@@ -44,6 +47,7 @@ export default class Buyeraccdesc extends Component {
                           </Col>
                           <Col span={12}>
                           <Form.Item
+                          name={'hsn code'}
                           label='HSN Code'
                           >
                               <Input />

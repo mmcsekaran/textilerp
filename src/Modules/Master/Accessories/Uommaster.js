@@ -79,16 +79,19 @@ export default class Uommaster extends Component {
                         }}
                         >
                             <Form.Item
+                            name={'uom'}
                             label='Uom'
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
+                            name={'uom name'}
                             label='Uom Name'
                             >
                                 <Input />
                             </Form.Item>
                             <Form.Item
+                            name={'pcs'}
                             label='PCS'
                             >
                                 <Input />
