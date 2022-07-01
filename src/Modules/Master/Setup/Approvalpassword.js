@@ -18,11 +18,13 @@ export default class Approvalpassword extends Component {
                         }}
                         >
                             <Form.Item
+                            name={'username'}
                             label='Username'
                             >
                                 <Select />
                             </Form.Item>
                             <Form.Item
+                            name={'password'}
                             label='Password'
                             >
                                 <Input.Password />

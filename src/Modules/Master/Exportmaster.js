@@ -32,6 +32,7 @@ export default class Exportmaster extends Component {
                                 <Row>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'company name'}
                                         label='Company Name'
                                         >
                                             <Input />
@@ -39,6 +40,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'prefix'}
                                         label='prefix'
                                         >
                                             <Input />
@@ -46,6 +48,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>                                   
                                         <Form.Item
+                                        name={'company link'}
                                         label='Company Link'
                                         >
                                             <Select />
@@ -53,6 +56,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'branch link'}
                                         label='Branch Link'
                                         >
                                             <Select />
@@ -60,6 +64,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'gst no'}
                                         label='GST NO'
                                         >
                                             <Input />
@@ -67,6 +72,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'tin no'}
                                         label='TIN NO'
                                         >
                                             <Input />
@@ -74,6 +80,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'cst no'}
                                         label='CST NO'
                                         >
                                             <Input />
@@ -82,6 +89,7 @@ export default class Exportmaster extends Component {
                                         
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'fax'}
                                         label='FAX'
                                         >
                                             <Input />
@@ -89,6 +97,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'e-mail'}
                                         label='E-Mail'
                                         >
                                             <Input />
@@ -96,6 +105,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'cin no'}
                                         label='CIN NO'
                                         >
                                             <Input />
@@ -103,6 +113,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'pan no'}
                                         label='PAN NO'
                                         >
                                             <Input />
@@ -110,6 +121,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>                                   
                                         <Form.Item
+                                        name={'currency'}
                                         label='Currency'
                                         >
                                             <Select />
@@ -117,6 +129,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'ie code'}
                                         label='IE CODE'
                                         >
                                             <Input />
@@ -124,6 +137,7 @@ export default class Exportmaster extends Component {
                                     </Col>                                    
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'aepc no'}
                                         label='AEPC NO'
                                         >
                                             <Input />
@@ -131,6 +145,7 @@ export default class Exportmaster extends Component {
                                     </Col>
                                     <Col span={12}>
                                         <Form.Item
+                                        name={'logistics prefix'}
                                         label='Logistics Prefix'
                                         >
                                             <Input />
@@ -160,6 +175,7 @@ export default class Exportmaster extends Component {
                                                 <Row> 
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'address'}
                                                         label={'Address'}
                                                         >
                                                             <TextArea />
@@ -167,6 +183,7 @@ export default class Exportmaster extends Component {
                                                         </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'city'}
                                                         label={'City'}
                                                         >
                                                             <Select />
@@ -174,6 +191,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'state'}
                                                         label={'State'}
                                                         >
                                                             <Select />
@@ -181,6 +199,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'pincode'}
                                                         label={'PinCode'}
                                                         >
                                                             <Input />
@@ -188,6 +207,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'country'}
                                                         label={'Country'}
                                                         >
                                                             <Select />
@@ -195,6 +215,7 @@ export default class Exportmaster extends Component {
                                                     </Col>                                                                                                                                                                                                     
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'bank name'}
                                                         label='Bank Name'
                                                         >
                                                             <Input />
@@ -202,6 +223,7 @@ export default class Exportmaster extends Component {
                                                     </Col>                                                    
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'a/c no'}
                                                         label='A/C no'
                                                         >
                                                             <Input />
@@ -209,6 +231,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'branch'}
                                                         label="Branch"
                                                         >
                                                             <Input />
@@ -216,6 +239,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'ifsc code'}
                                                         label='IFSC Code'
                                                         >
                                                             <Input />
@@ -223,6 +247,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'rtgs code'}
                                                         label='RTGS Code'
                                                         >
                                                             <Input />
@@ -262,6 +287,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'city'}
                                                         label='City'
                                                         >
                                                             <Select />
@@ -269,6 +295,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'state'}
                                                         label='State'
                                                         >
                                                             <Select />
@@ -276,6 +303,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'pin code'}
                                                         label='Pin Code'
                                                         >
                                                             <Input />
@@ -283,6 +311,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'phone no'}
                                                         label='Phone No'
                                                         >
                                                             <Input />
@@ -290,6 +319,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'bank name'}
                                                         label='Bank Name'
                                                         >
                                                             <Input />
@@ -298,6 +328,7 @@ export default class Exportmaster extends Component {
                                             
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'a/c no'}
                                                         label='A/C no'
                                                         >
                                                             <Input />
@@ -305,6 +336,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'branch'}
                                                         label="Branch"
                                                         >
                                                             <Input />
@@ -312,6 +344,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'ifsc code'}
                                                         label='IFSC Code'
                                                         >
                                                             <Input />
@@ -319,6 +352,7 @@ export default class Exportmaster extends Component {
                                                     </Col>
                                                     <Col span={12}>
                                                         <Form.Item
+                                                        name={'rtgs code'}
                                                         label='RTGS Code'
                                                         >
                                                             <Input />
