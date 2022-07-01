@@ -5,6 +5,7 @@ import React, { RefObject, useImperativeHandle, useState } from "react";
 import { SearchSelect } from "../../../../Common/SearchSelect";
 import { ModalEditorProps } from "../interface/ModalEditorProps";
 import { FabricComponent, FabricProcess } from "./FabricCosting";
+import FabricInput from './../../../../Master/Fabric/FabricInput';
 
 export interface SampleCostingFormData {
     key:string
@@ -181,7 +182,7 @@ const SampleCostingEditorModal = React.forwardRef((props:SampleCostingEditorProp
           <Row>
             <Col md={24}>
               <Form.Item label="Fabric" labelCol={{ span: 3 }} name={"fabric"}>
-               <SearchSelect timeOut={1000}  fetchOptions={fetchFabric} showSearch  />
+               <FabricInput onChange={() =>{}} value = ''></FabricInput>
                </Form.Item>            </Col>
           </Row>
   

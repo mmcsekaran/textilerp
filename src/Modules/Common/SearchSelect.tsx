@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { Select, SelectProps, Spin } from "antd";
 import { OmitProp } from "antd/lib/transfer/ListBody";
-import { ReactNode, useMemo, useRef, useState } from "react";
+import { ReactNode, useCallback, useMemo, useRef, useState } from "react";
 import debounce from 'lodash/debounce';
 import React from "react";
 export interface SearchSelectProps<valueType = any> extends Omit<SelectProps<valueType | valueType[]>, "options" | 'children'>
@@ -18,34 +18,16 @@ export function SearchSelect<ValueType extends {key?:string,label:ReactNode,valu
     const [options,setOptions] = useState<ValueType[]>([]);
     const fetchRef = useRef(0);
 
-    const fetcher = useMemo(() =>
-    {
-        const loadOptions = (value:string) =>
-        {
-            fetchRef.current +1 ;
-            const fetchId = fetchRef.current ;
-            setOptions([]);
-            setFetching(true);
-
-            fetchOptions(value).then(
-                newOptions => 
-                {
-                    if(fetchId !== fetchRef.current)
-                    {
-                        return ;
-                    } ;
-
-                    setOptions(newOptions);
-                    setFetching(false);
-                }
-            );
-
-        };
-
-        return debounce(loadOptions,timeOut) ;
-    },[fetchOptions,timeOut]);
-
-
+    const fetcher = useCallback(
+        debounce((value:any) =>{ 
+           const _options = fetchOptions(value);
+            
+           setOptions(options);
+            
+        },
+        500),[]
+    )
+    
     return (
         <Select
         labelInValue

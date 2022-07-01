@@ -1,5 +1,7 @@
 import { Select } from 'antd'
 import React, { useState } from 'react'
+import  axios  from 'axios';
+import { SearchSelect } from '../../Common/SearchSelect';
 
 export default function FabricInput({value,onChange}) {
 
@@ -8,25 +10,23 @@ export default function FabricInput({value,onChange}) {
 
   const fetchFabric = (value) =>
   {
-    
+      axios.get('https://jsonplaceholder.typicode.com/users').then(
+        res => 
+        {
+           const data = res.data ;
+          return data.map(e => ({label:e.name,value:e,key:e.id}))
+        }
+      )
   }
 
   return (
     
-    <Select  
-    showSearch
-    onSearch={value =>
-    {
-        this.setSearchValue(value);
-    }}
-    placeholder ="Select Fabric"
+      <SearchSelect
+      fetchOptions={fetchFabric}
+      placeholder ="Select Fabric"
+    
+      >
 
-    notFoundContent =""
-    >
-        <Select.Option value = 'A'>A</Select.Option>
-        <Select.Option value = 'B'>B</Select.Option>
-        <Select.Option value = 'C'>C</Select.Option>
-        <Select.Option value = 'D'>D</Select.Option>
-    </Select>
+      </SearchSelect>
   )
 }
