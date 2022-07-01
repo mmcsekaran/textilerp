@@ -7,7 +7,9 @@ import {CostingSummaryData} from './CostingSummary';
 
 export type profitSummaryProps =
 {
-    costingSummary:CostingSummaryData
+    costingSummary:CostingSummaryData,
+    value?:profitSummaryType
+    onChange?:(value:profitSummaryType) => void
 }
 
 export type profitSummaryType = {
@@ -153,8 +155,13 @@ export default class ProfitSummary extends Component<profitSummaryProps,profitSu
         })
 
         data.percentages = percentages ;
-        console.log(data)
+       
         this.setState({...this.state,...data});
+
+        if(this.props.onChange)
+        {
+          this.props.onChange(data)
+        }
 
   }
   render() {

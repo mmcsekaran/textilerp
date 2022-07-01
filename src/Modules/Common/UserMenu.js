@@ -178,6 +178,9 @@ export default function UserMenu() {
                 <Menu.SubMenu title = {"Sample"}>
                 <Menu.Item><Link to = '/garment/sample/techpack'>Tech Sheet</Link></Menu.Item>
                 </Menu.SubMenu>
+                <Menu.SubMenu title = {"Order"}>
+                <Menu.Item><Link to = '/garment/order/new'>New Order</Link></Menu.Item>
+                </Menu.SubMenu>
             </Menu.SubMenu>
         </Menu>
     )
