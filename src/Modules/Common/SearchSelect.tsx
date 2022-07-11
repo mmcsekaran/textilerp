@@ -18,20 +18,40 @@ export function SearchSelect<ValueType extends {key?:string,label:ReactNode,valu
     const [options,setOptions] = useState<ValueType[]>([]);
     const fetchRef = useRef(0);
 
-    const fetcher = useCallback(
-        debounce((value:any) =>{ 
-           const _options = fetchOptions(value);
-            
-           setOptions(options);
-            
-        },
-        500),[]
-    )
+    const debounceFetcher = useMemo(() =>
+    {
+        const loadOption = (value:string)=>
+        {
+            fetchRef.current+= 1 ;
+            const fetchId = fetchRef.current ;
+
+            setOptions([]);
+            setFetching(true);
+
+            fetchOptions(value).then(
+                newOptions => 
+                {
+                    if(fetchId !== fetchRef.current) return;
+                    console.log(newOptions)
+                    setOptions(newOptions);
+                    setFetching(false)
+                }
+            );
+
+
+
+
+        };
+
+        return debounce(loadOption,timeOut) ;
+    },
+    [fetchOptions,timeOut])
+
     
     return (
         <Select
         labelInValue
-        onSearch={fetcher}
+        onSearch={debounceFetcher}
         notFoundContent =  {fetching ? <Spin size ='small'/>: null}
         {...props}
         options ={options}

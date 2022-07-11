@@ -296,7 +296,7 @@ const SampleCostingEditorModal = React.forwardRef((props:SampleCostingEditorProp
 
   type EditorChildRef<T> =
   {
-    finish:(callBack:(value:T) => void) => void
+    finish:(onFinish:(value:T) => void) => void
   } | undefined
 
   export const showFabricEditor = (props:ModalEditorProps<FabricComponent> )  =>
